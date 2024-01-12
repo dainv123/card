@@ -8,7 +8,7 @@ import { FormInputField } from '../FormInputField/FormInputField';
 import { mutations } from '../../graphql/graphql';
 import validators from '../../validators/validators';
 
-const SelectThemeModal = ({ isModalOpen, handleOk, handleCancel }) => {
+const ThemeModal = ({ isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
 
   const [value, setValue] = useState({});
@@ -82,4 +82,4 @@ const SelectThemeModal = ({ isModalOpen, handleOk, handleCancel }) => {
   );
 };
 
-export default SelectThemeModal;
+export default ThemeModal;

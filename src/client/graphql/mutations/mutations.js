@@ -47,22 +47,22 @@ export const CREATE_THEME = gql`
   }
 `;
 
-// export const GET_THEMES = gql`
-//   mutation CreateTheme($name: String!, $path: String!) {
-//     signUp(name: $name, path: $path) {
-//       id,
-//       name,
-//       path
-//     }
-//   }
-// `;
+export const CREATE_CARD = gql`
+  mutation CreateCard($userId: ID!, $themeId: ID!, $config: String!) {
+    createCard(userId: $userId, themeId: $themeId, config: $config) {
+      userId,
+      themeId,
+      config
+    }
+  }
+`;
 
-// export const GET_THEME = gql`
-//   mutation CreateTheme($name: String!, $path: String!) {
-//     signUp(name: $name, path: $path) {
-//       id,
-//       name,
-//       path
-//     }
-//   }
-// `;
+export const UPDATE_CARD = gql`
+  mutation UpdateCard($id: ID!, $config: String!) {
+    updateCard(id: $id, config: $config) {
+      id,
+      config
+    }
+  }
+`;
+

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Card, Table, Tag, Button } from 'antd';
-import SelectThemeModal from '../../components/SelectThemeModal/SelectThemeModal';
-import LoggedLayout from '../../components/Layouts/LoggedLayout';
 import { mutations, queries } from '../../graphql/graphql';
+import ThemeModal from '../../components/ThemeModal/ThemeModal';
+import LoggedLayout from '../../components/Layouts/LoggedLayout';
+import CardModal from '../../components/CardModal/CardModal';
 
 const columns = [
   {
@@ -30,21 +31,24 @@ const columns = [
 ];
 
 const DashboardPage = () => {
-  // const [CreateTheme] = useMutation(mutations.CREATE_THEME);
-  const response = useQuery(queries.GET_THEMES);
+  var response = useQuery(queries.GET_THEMES);
+
   const data = (response && response.data && response.data.themes) || [];
+
+  const getList = () => {}
   // useQuery(queries.GET_THEME, {
   //   variables: { id: "659fa786e775bb42704f2b27" },
   // });
-  
+
+  const [CreateCard] = useMutation(mutations.CREATE_CARD);
   useEffect(() => {
-    // CreateTheme({ variables: { name: "name", path: "#" } }).then(
-    //   res => {
-    //     console.log(123);
-    //   },
-    //   err => {
-    //     console.log(11);
-    //   })
+    CreateCard({ variables: { userId: "657aa2fc81a7fb7be0772f55", themeId: "659fa3cbc4077e48e8c38096", config: "{title: 'hello world'}" } }).then(
+      res => {
+        console.log(123);
+      },
+      err => {
+        console.log(11);
+      })
   }, []);
   
 
@@ -64,8 +68,11 @@ const DashboardPage = () => {
 
   return (
     <LoggedLayout>
-      <Button type="primary" onClick={showModal}>Add</Button>
-      <SelectThemeModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></SelectThemeModal>
+      <Button type="primary" onClick={showModal}>Add/Edit</Button>
+      <ThemeModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></ThemeModal>
+      <Table columns={columns} dataSource={data} rowKey={'id'}></Table>
+      <Button type="primary" onClick={showModal}>Select Theme</Button>
+      <CardModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></CardModal>
       <Table columns={columns} dataSource={data} rowKey={'id'}></Table>
     </LoggedLayout>
   )

@@ -7,7 +7,6 @@ export default {
   Query: {
     themes: (root, args, context, info) => Theme.find({}),
     theme: async (root, args, context, info) => {
-      console.log(123);
       await Joi.validate(args, validators.theme.findTheme);
 
       return Theme.findById(args.id);

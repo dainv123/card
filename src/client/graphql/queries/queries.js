@@ -19,3 +19,25 @@ export const GET_THEMES = gql`
     }
 `;
 
+export const GET_CARD = gql`
+    query GetCard($id: ID!) {
+        card(id: $id) {
+            id
+            userId,
+            themeId,
+            config
+        }
+    }
+`;
+
+export const GET_CARDS = gql`
+    query GetCards {
+        cards {
+            id
+            userId,
+            themeId,
+            config
+        }
+    }
+`;
+
