@@ -1,0 +1,140 @@
+[{
+  "_id": {
+    "$oid": "659fa3cbc4077e48e8c38096"
+  },
+  "name": "name",
+  "path": "#",
+  "createdAt": {
+    "$date": "2024-01-11T08:16:11.551Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-11T08:16:11.551Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "659fa632e775bb42704f2b24"
+  },
+  "name": "name",
+  "path": "#",
+  "createdAt": {
+    "$date": "2024-01-11T08:26:26.500Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-11T08:26:26.500Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "659fa786e775bb42704f2b27"
+  },
+  "name": "name",
+  "path": "#",
+  "createdAt": {
+    "$date": "2024-01-11T08:32:06.693Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-11T08:32:06.693Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "659fc9f00a4dc63590ee4555"
+  },
+  "name": "asd",
+  "path": "dsa",
+  "createdAt": {
+    "$date": "2024-01-11T10:58:56.269Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-11T10:58:56.269Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "659fca090a4dc63590ee4557"
+  },
+  "name": "asd",
+  "path": "dsa",
+  "createdAt": {
+    "$date": "2024-01-11T10:59:21.061Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-11T10:59:21.061Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "659fca200a4dc63590ee455b"
+  },
+  "name": "asdas",
+  "path": "asdas",
+  "createdAt": {
+    "$date": "2024-01-11T10:59:44.650Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-11T10:59:44.650Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "659fca200a4dc63590ee455d"
+  },
+  "name": "asdas",
+  "path": "asdas",
+  "createdAt": {
+    "$date": "2024-01-11T10:59:44.899Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-11T10:59:44.899Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "659fcabe0a4dc63590ee4561"
+  },
+  "name": "adsadsa",
+  "path": "dsadasdsad",
+  "createdAt": {
+    "$date": "2024-01-11T11:02:22.527Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-11T11:02:22.527Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "659fcac30a4dc63590ee4563"
+  },
+  "name": "adsadsa",
+  "path": "dsadasdsad",
+  "createdAt": {
+    "$date": "2024-01-11T11:02:27.671Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-11T11:02:27.671Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65a0bc48cf08d867843ecfef"
+  },
+  "name": "haha",
+  "path": "aa",
+  "createdAt": {
+    "$date": "2024-01-12T04:12:56.999Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-12T04:12:56.999Z"
+  },
+  "__v": 0
+}]
