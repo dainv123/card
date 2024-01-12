@@ -14,7 +14,6 @@ export default {
   },
   Mutation: {
     createCard: async (root, args, context, info) => {
-      console.log(111111111111111111);
       await Joi.validate(args, validators.card.createCard, { abortEarly: false });
 
       const card = await Card.create(args);
