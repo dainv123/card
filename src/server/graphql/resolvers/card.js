@@ -5,16 +5,14 @@ import * as Auth from '../../helpers/auth';
 
 export default {
   Query: {
-    // cards: (root, args, context, info) => Card.find({}),
     cards: async (root, args, context, info) => {
-      const cards = await Card.find({}).populate('themeId'); // Use populate to fetch the associated theme for each card
+      const cards = await Card.find({}).populate('themeId');
 
-      // Map through the cards and transform them to include the theme name
       const cardsWithThemeNames = cards.map(card => ({
         id: card.id,
         userId: card.userId,
         themeId: card.themeId.id,
-        themeName: card.themeId.name, // Include the theme name in the response
+        themeName: card.themeId.name,
         config: card.config,
         createdAt: card.createdAt,
         updatedAt: card.updatedAt

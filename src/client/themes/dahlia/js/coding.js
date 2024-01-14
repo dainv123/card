@@ -50,10 +50,10 @@ function flattenJSON(json) {
           };
         });
 
-      result[nodeObject.id] = {default: options };
+      result[nodeObject.id] = { default: options };
     } else {
       if (nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder) {
-        result[nodeObject.id] = {default: nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder };
+        result[nodeObject.id] = { default: nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder };
       }
 
       if (node.child && node.child.length > 0) {
@@ -95,7 +95,7 @@ function remapAndModify(json, flattened) {
               ]
             });
           });
-        }        
+        }
       } else {
         node.text = flattened[node.id];
       }
@@ -129,18 +129,20 @@ function reloadScript(scriptUrl = "./js/script.min.js") {
 
 function saveEditor() {
   document.getElementById("content").innerHTML = json2html(remapAndModify(input, editor.getValue()));
-  
+
   reloadScript();
 
   window.document.dispatchEvent(new Event("DOMContentLoaded", {
     bubbles: true,
     cancelable: true
-  })); 
+  }));
 }
 
 var input = html2json(document.getElementById("content").innerHTML);
 var inputWithIds = addIds(input);
+
 var properties = flattenJSON(inputWithIds);
+
 var config = {
   use_name_attributes: false,
   theme: 'bootstrap4',
