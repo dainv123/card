@@ -7,92 +7,90 @@ import { mutations, queries } from '../../graphql/graphql';
 import PropTypes from 'prop-types';
 
 const ReaderPage = ({ loggedIn, user, ...rest }) => {
-    const iframeRef = useRef(null);
+  const iframeRef = useRef(null);
 
-    const { id } = rest.match.params;
+  const { id } = rest.match.params;
 
-    if (loggedIn) {
-        const responseCard = useQuery(queries.GET_CARD, {
-            variables: {
-                id,
-                // id: "659fa786e775bb42704f2b27" 
-            },
-        });
+  if (loggedIn) {
+    const responseCard = useQuery(queries.GET_CARD, {
+      variables: {
+        id
+        // id: "659fa786e775bb42704f2b27"
+      }
+    });
 
-        const dataCard = (responseCard && responseCard.data && responseCard.data.card) || {};
-    }
+    const dataCard = (responseCard && responseCard.data && responseCard.data.card) || {};
+  }
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
 
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
 
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
-    return (
+  return (
+    <>
+      {loggedIn && (
         <>
-            {
-                loggedIn && (
-                    <>
-                        <Avatar
-                            onClick={showModal}
-                            size="medium"
-                            icon="setting"
-                            style={{
-                                position: 'fixed',
-                                zIndex: 2,
-                                right: '30px',
-                                top: '30px',
-                            }}
-                        />
-                        {/* <SelectThemeModal
+          <Avatar
+            onClick={showModal}
+            size="medium"
+            icon="setting"
+            style={{
+              position: 'fixed',
+              zIndex: 2,
+              right: '30px',
+              top: '30px'
+            }}
+          />
+          {/* <SelectThemeModal
                             isModalOpen={isModalOpen}
                             handleOk={handleOk}
                             handleCancel={handleCancel}
                         ></SelectThemeModal> */}
-                    </>
-                )
-            }
-            <iframe
-                src="../themes/dahlia/index.html"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                ref={iframeRef}
-                style={{
-                    overflow: 'hidden',
-                    overflowX: 'hidden',
-                    overflowY: 'hidden',
-                    position: 'absolute',
-                    height: '100%',
-                    width: '100%',
-                    top: '0px',
-                    left: '0px',
-                    right: '0px',
-                    bottom: '0px',
-                }}
-            />
         </>
-    )
-}
+      )}
+      <iframe
+        src="../themes/dahlia/index.html"
+        width="100%"
+        height="100%"
+        frameBorder="0"
+        ref={iframeRef}
+        style={{
+          overflow: 'hidden',
+          overflowX: 'hidden',
+          overflowY: 'hidden',
+          position: 'absolute',
+          height: '100%',
+          width: '100%',
+          top: '0px',
+          left: '0px',
+          right: '0px',
+          bottom: '0px'
+        }}
+      />
+    </>
+  );
+};
 
 const mapStateToProps = state => {
-    return {
-        user: state.auth.user,
-        loggedIn: state.auth.loggedIn
-    };
+  return {
+    user: state.auth.user,
+    loggedIn: state.auth.loggedIn
+  };
 };
 
 ReaderPage.propTypes = {
-    loggedIn: PropTypes.bool.isRequired,
-    user: PropTypes.object
+  loggedIn: PropTypes.bool.isRequired,
+  user: PropTypes.object
 };
 
 const ConnectedReaderPage = connect(mapStateToProps)(ReaderPage);

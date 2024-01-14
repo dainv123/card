@@ -13,47 +13,51 @@ function addIds(json) {
   return json;
 }
 
-
 function flattenJSON(json) {
-  let result = {};
+  const result = {};
 
-  const flattenNode = (node) => {
+  const flattenNode = node => {
     const nodeObject = {
       id: node.id,
-      ...(node.text && !!node.text.trim() && {
-        text: node.text
-      }),
-      ...(node.tag == 'img' && !!node.attr.src && {
-        src: node.attr.src
-      }),
+      ...(node.text &&
+        !!node.text.trim() && {
+          text: node.text
+        }),
+      ...(node.tag == 'img' &&
+        !!node.attr.src && {
+          src: node.attr.src
+        }),
       ...(node.tag == 'a' &&
         !!node.attr.href &&
         node.attr.href[0] != '#' && {
-        href: node.attr.href
-      }),
-      ...(node.tag == 'input' && !!node.attr.placeholder && {
-        placeholder: node.attr.placeholder
-      })
+          href: node.attr.href
+        }),
+      ...(node.tag == 'input' &&
+        !!node.attr.placeholder && {
+          placeholder: node.attr.placeholder
+        })
     };
 
-    if (node.tag === "select" && node.child) {
+    if (node.tag === 'select' && node.child) {
       const options = node.child
-        .filter((child) => child.tag === "option")
-        .map((option) => {
+        .filter(child => child.tag === 'option')
+        .map(option => {
           const optionValue = Array.isArray(option.attr.value)
-            ? option.attr.value.join(" ")
-            : option.attr.value || "";
+            ? option.attr.value.join(' ')
+            : option.attr.value || '';
 
           return {
-            text: option.child.find((child) => child.node === "text")?.text.trim() || "",
-            value: optionValue.trim(),
+            text: option.child.find(child => child.node === 'text')?.text.trim() || '',
+            value: optionValue.trim()
           };
         });
 
       result[nodeObject.id] = { default: options };
     } else {
       if (nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder) {
-        result[nodeObject.id] = { default: nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder };
+        result[nodeObject.id] = {
+          default: nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder
+        };
       }
 
       if (node.child && node.child.length > 0) {
@@ -66,7 +70,6 @@ function flattenJSON(json) {
 
   return result;
 }
-
 
 function remapAndModify(json, flattened) {
   const mapValueById = node => {
@@ -82,15 +85,15 @@ function remapAndModify(json, flattened) {
         if (flattened[node.id].length) {
           flattened[node.id].forEach(element => {
             node.child.push({
-              "node": "element",
-              "tag": "option",
-              "attr": {
-                "value": element.value
+              node: 'element',
+              tag: 'option',
+              attr: {
+                value: element.value
               },
-              "child": [
+              child: [
                 {
-                  "node": "text",
-                  "text": element.text
+                  node: 'text',
+                  text: element.text
                 }
               ]
             });
@@ -111,8 +114,7 @@ function remapAndModify(json, flattened) {
   return json;
 }
 
-
-function reloadScript(scriptUrl = "./js/script.min.js") {
+function reloadScript(scriptUrl = './js/script.min.js') {
   var newScript = document.createElement('script');
   newScript.type = 'text/javascript';
   newScript.src = scriptUrl;
@@ -126,19 +128,22 @@ function reloadScript(scriptUrl = "./js/script.min.js") {
   }
 }
 
-
 function saveEditor() {
-  document.getElementById("content").innerHTML = json2html(remapAndModify(input, editor.getValue()));
+  document.getElementById('content').innerHTML = json2html(
+    remapAndModify(input, editor.getValue())
+  );
 
   reloadScript();
 
-  window.document.dispatchEvent(new Event("DOMContentLoaded", {
-    bubbles: true,
-    cancelable: true
-  }));
+  window.document.dispatchEvent(
+    new Event('DOMContentLoaded', {
+      bubbles: true,
+      cancelable: true
+    })
+  );
 }
 
-var input = html2json(document.getElementById("content").innerHTML);
+var input = html2json(document.getElementById('content').innerHTML);
 var inputWithIds = addIds(input);
 
 var properties = flattenJSON(inputWithIds);
@@ -150,9 +155,8 @@ var config = {
   disable_properties: true,
   disable_collapse: true,
   schema: {
-    'properties': properties
+    properties: properties
   }
-}
+};
 
-var editor = new JSONEditor(document.querySelector('#editor'), config)
-
+var editor = new JSONEditor(document.querySelector('#editor'), config);
