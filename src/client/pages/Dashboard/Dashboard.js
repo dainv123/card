@@ -6,76 +6,148 @@ import ThemeModal from '../../components/ThemeModal/ThemeModal';
 import LoggedLayout from '../../components/Layouts/LoggedLayout';
 import CardModal from '../../components/CardModal/CardModal';
 
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: 'Path',
-    dataIndex: 'path',
-    key: 'path',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <>
-        <a>Edit</a>
-        <a>Delete</a>
-      </>
-    ),
-  },
-];
-
 const DashboardPage = () => {
-  var response = useQuery(queries.GET_THEMES);
+  const [DeleteCard] = useMutation(mutations.DELETE_CARD);
 
-  const data = (response && response.data && response.data.themes) || [];
+  const [dataCardPopup, setDataCardPopup] = useState({});
 
-  const getList = () => {}
-  // useQuery(queries.GET_THEME, {
-  //   variables: { id: "659fa786e775bb42704f2b27" },
-  // });
+  const [isOpenCardPopup, setIsOpenCardPopup] = useState(false);
 
-  const [CreateCard] = useMutation(mutations.CREATE_CARD);
-  useEffect(() => {
-    CreateCard({ variables: { userId: "657aa2fc81a7fb7be0772f55", themeId: "659fa3cbc4077e48e8c38096", config: "{title: 'hello world'}" } }).then(
-      res => {
-        console.log(123);
-      },
-      err => {
-        console.log(11);
-      })
-  }, []);
-  
+  const responseCard = useQuery(queries.GET_CARDS);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const dataCard = (responseCard && responseCard.data && responseCard.data.cards) || [];
 
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
+  const onDeleteCard = id => DeleteCard({ variables: { id } });
 
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
+  const onOpenUpdateCardPopup = record => {
+    setDataCardPopup(record);
+    setIsOpenCardPopup(true);
+  };
 
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
+  const showModalCard = () => {
+    setIsOpenCardPopup(true);
+  };
+
+  const handleOkCard = () => {
+    setIsOpenCardPopup(false);
+  };
+
+  const handleCancelCard = () => {
+    setIsOpenCardPopup(false);
+  };
+
+  const columnsCard = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+      render: text => <a>{text}</a>
+    },
+    {
+      title: 'Theme',
+      dataIndex: 'themeName',
+      key: 'themeName'
+    },
+    {
+      title: 'Config',
+      dataIndex: 'config',
+      key: 'config'
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <>
+          <a onClick={() => onOpenUpdateCardPopup(record)}>Edit</a>
+          <a onClick={() => onDeleteCard(record.id)}>Delete</a>
+        </>
+      )
+    }
+  ];
+
+  const [DeleteTheme] = useMutation(mutations.DELETE_THEME);
+
+  const [dataThemePopup, setDataThemePopup] = useState({});
+
+  const [isOpenThemePopup, setIsOpenThemePopup] = useState(false);
+
+  const responseTheme = useQuery(queries.GET_THEMES);
+
+  const dataTheme = (responseTheme && responseTheme.data && responseTheme.data.themes) || [];
+
+  const onDeleteTheme = id => DeleteTheme({ variables: { id } });
+
+  const onOpenUpdateThemePopup = record => {
+    setDataThemePopup(record);
+    setIsOpenThemePopup(true);
+  };
+
+  const showModalTheme = () => {
+    setIsOpenThemePopup(true);
+  };
+
+  const handleOkTheme = () => {
+    setIsOpenThemePopup(false);
+  };
+
+  const handleCancelTheme = () => {
+    setIsOpenThemePopup(false);
+  };
+
+  const columnsTheme = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: text => <a>{text}</a>
+    },
+    {
+      title: 'Path',
+      dataIndex: 'path',
+      key: 'path'
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <>
+          <a onClick={() => onOpenUpdateThemePopup(record)}>Edit</a>
+          <a onClick={() => onDeleteTheme(record.id)}>Delete</a>
+        </>
+      )
+    }
+  ];
 
   return (
     <LoggedLayout>
-      <Button type="primary" onClick={showModal}>Add/Edit</Button>
-      <ThemeModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></ThemeModal>
-      <Table columns={columns} dataSource={data} rowKey={'id'}></Table>
-      <Button type="primary" onClick={showModal}>Select Theme</Button>
-      <CardModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></CardModal>
-      <Table columns={columns} dataSource={data} rowKey={'id'}></Table>
+      <Button type="primary" onClick={showModalTheme}>
+        Add/Edit
+      </Button>
+
+      <ThemeModal
+        data={dataThemePopup}
+        isModalOpen={isOpenThemePopup}
+        handleOk={handleOkTheme}
+        handleCancel={handleCancelTheme}
+      ></ThemeModal>
+
+      <Table columns={columnsTheme} dataSource={dataTheme} rowKey={'id'}></Table>
+
+      <Button type="primary" onClick={showModalCard}>
+        Select Theme
+      </Button>
+
+      <CardModal
+        data={dataCardPopup}
+        themes={dataTheme}
+        isModalOpen={isOpenCardPopup}
+        handleOk={handleOkCard}
+        handleCancel={handleCancelCard}
+      ></CardModal>
+
+      <Table columns={columnsCard} dataSource={dataCard} rowKey={'id'}></Table>
     </LoggedLayout>
-  )
-}
+  );
+};
 
 export default DashboardPage;

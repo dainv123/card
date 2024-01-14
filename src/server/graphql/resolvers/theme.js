@@ -19,6 +19,39 @@ export default {
       const theme = await Theme.create(args);
 
       return theme;
+    },
+
+    updateTheme: async (root, args, context, info) => {
+      const themeToUpdate = await Theme.findById(args.id);
+
+      if (!themeToUpdate) {
+        throw new Error('Theme not found');
+      }
+
+      if (args.name) {
+        themeToUpdate.name = args.name;
+      }
+
+      if (args.path) {
+        themeToUpdate.path = args.path;
+      }
+
+      // Save the updated theme
+      const updatedTheme = await themeToUpdate.save();
+
+      return updatedTheme;
+    },
+
+    deleteTheme: async (root, args, context, info) => {
+      const themeToDelete = await Theme.findById(args.id);
+
+      if (!themeToDelete) {
+        throw new Error('Theme not found');
+      }
+
+      await themeToDelete.remove();
+
+      return { id: args.id };
     }
   }
 };

@@ -8,7 +8,7 @@ import { FormInputField } from '../FormInputField/FormInputField';
 import { mutations } from '../../graphql/graphql';
 import validators from '../../validators/validators';
 
-const ThemeModal = ({ isModalOpen, handleOk, handleCancel }) => {
+const ThemeModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
 
   const [value, setValue] = useState({});
@@ -16,50 +16,94 @@ const ThemeModal = ({ isModalOpen, handleOk, handleCancel }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [CreateTheme] = useMutation(mutations.CREATE_THEME);
+  const [UpdateTheme] = useMutation(mutations.UPDATE_THEME);
 
   const handleSubmitForm = async (values, actions) => {
     const { name, path } = values;
     const { setErrors, setSubmitting } = actions;
-    CreateTheme({ variables: { name, path } }).then(
-      res => {
-        handleOk();
-        setIsOpen(false);
-      },
-      err => {
-        const errors = {};
 
-        err.graphQLErrors.map(x => {
-          if (x.message.includes('name')) {
-            errors.name = x.message.includes('name');
-          }
-          if (x.message.includes('path')) {
-            errors.path = x.message.includes('path');
-          }
-        });
-        setSubmitting(false);
-        setErrors(errors);
-      }
-    );
+    if (value.id) {
+      UpdateTheme({ variables: { id: value.id, name, path } }).then(
+        res => {
+          handleOk();
+          setIsOpen(false);
+        },
+        err => {
+          const errors = {};
+
+          err.graphQLErrors.map(x => {
+            if (x.message.includes('name')) {
+              errors.name = x.message.includes('name');
+            }
+            if (x.message.includes('path')) {
+              errors.path = x.message.includes('path');
+            }
+          });
+          setSubmitting(false);
+          setErrors(errors);
+        }
+      );
+    } else {
+      CreateTheme({ variables: { name, path } }).then(
+        res => {
+          handleOk();
+          setIsOpen(false);
+        },
+        err => {
+          const errors = {};
+
+          err.graphQLErrors.map(x => {
+            if (x.message.includes('name')) {
+              errors.name = x.message.includes('name');
+            }
+            if (x.message.includes('path')) {
+              errors.path = x.message.includes('path');
+            }
+          });
+          setSubmitting(false);
+          setErrors(errors);
+        }
+      );
+    }
   };
 
-  useEffect(() => setIsOpen(isModalOpen), [isModalOpen]);
+  useEffect(() => {
+    if (JSON.stringify(data) != JSON.stringify(value)) {
+      setValue(data);
+    }
+    if (isModalOpen != isOpen) {
+      setIsOpen(isModalOpen);
+    }
+  }, [isModalOpen, data]);
 
   return (
     <Modal
-      title="Create Theme"
+      title="Make Your Theme"
       visible={isOpen}
       footer={[
-        <Button key="back" onClick={handleCancel}>Cancel</Button>,
-        <Button key="submit" type="primary" onClick={() => hiddenInnerSubmitFormRef.current.click()}>Submit</Button>
+        <Button key="back" onClick={handleCancel}>
+          Cancel
+        </Button>,
+        <Button
+          key="submit"
+          type="primary"
+          onClick={() => hiddenInnerSubmitFormRef.current.click()}
+        >
+          Submit
+        </Button>
       ]}
     >
       <Formik
         validateOnBlur={false}
+        initialValues={{ name: data.name || '', path: data.path || '' }}
         validationSchema={validators.theme.createThemeSchema}
         onSubmit={(values, actions) => handleSubmitForm(values, actions)}
+        enableReinitialize
       >
         <Form>
-          <button type="submit" style={{ display: 'none' }} ref={hiddenInnerSubmitFormRef}>Submit</button>
+          <button type="submit" style={{ display: 'none' }} ref={hiddenInnerSubmitFormRef}>
+            Submit
+          </button>
           <Field
             InputType={Input}
             component={FormInputField}

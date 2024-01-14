@@ -54,6 +54,7 @@ export default {
       return !!res.nModified > 0;
     },
     LogIn: async (root, args, context, info) => {
+      console.log(11111111111);
       await Joi.validate(args, validators.user.LogIn, { abortEarly: false });
 
       const user = await Auth.attemptLogIn(args.email, args.password);

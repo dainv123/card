@@ -1,6 +1,10 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
+  type DeleteThemeResponse {
+    message: String
+  }
+
   type Theme {
     id: ID!
     name: String!
@@ -14,5 +18,7 @@ export default gql`
 
   extend type Mutation {
     createTheme(name: String!, path: String!): Theme @auth
+    updateTheme(id: ID!, name: String!, path: String!): Theme @auth
+    deleteTheme(id: ID!): Theme @auth
   }
 `;

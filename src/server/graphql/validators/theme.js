@@ -22,3 +22,13 @@ export const createTheme = Joi.object().keys({
   name,
   path
 });
+
+export const updateTheme = Joi.object().keys({
+  id: Joi.objectId(),
+  name,
+  path
+});
+
+export const deleteTheme = Joi.object().keys({
+  id: Joi.objectId()
+});

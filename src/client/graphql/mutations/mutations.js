@@ -41,8 +41,26 @@ export const VERIFY_LOGGED_IN = gql`
 export const CREATE_THEME = gql`
   mutation CreateTheme($name: String!, $path: String!) {
     createTheme(name: $name, path: $path) {
-      name,
+      name
       path
+    }
+  }
+`;
+
+export const UPDATE_THEME = gql`
+  mutation UpdateTheme($id: ID!, $name: String!, $path: String!) {
+    updateTheme(id: $id, name: $name, path: $path) {
+      id
+      name
+      path
+    }
+  }
+`;
+
+export const DELETE_THEME = gql`
+  mutation DeleteTheme($id: ID!) {
+    deleteTheme(id: $id) {
+      id
     }
   }
 `;
@@ -50,19 +68,26 @@ export const CREATE_THEME = gql`
 export const CREATE_CARD = gql`
   mutation CreateCard($userId: ID!, $themeId: ID!, $config: String!) {
     createCard(userId: $userId, themeId: $themeId, config: $config) {
-      userId,
-      themeId,
+      userId
+      themeId
       config
     }
   }
 `;
 
 export const UPDATE_CARD = gql`
-  mutation UpdateCard($id: ID!, $config: String!) {
-    updateCard(id: $id, config: $config) {
-      id,
+  mutation UpdateCard($id: ID!, $userId: ID!, $themeId: ID!, $config: String!) {
+    updateCard(id: $id, userId: $userId, themeId: $themeId, config: $config) {
+      id
       config
     }
   }
 `;
 
+export const DELETE_CARD = gql`
+  mutation DeleteCard($id: ID!) {
+    deleteCard(id: $id) {
+      id
+    }
+  }
+`;
