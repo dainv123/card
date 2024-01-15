@@ -1,26 +1,29 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Route, Redirect } from 'react-router-dom';
 import { Icon, Avatar } from 'antd';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { mutations, queries } from '../../graphql/graphql';
-import PropTypes from 'prop-types';
 
 const ReaderPage = ({ loggedIn, user, ...rest }) => {
   const iframeRef = useRef(null);
+  
+  const responseCard = useQuery(queries.GET_CARD, {
+    variables: {
+      id: rest.match.params.id || '65a4b3af2f9c623184cac0a9'
+    }
+  });
 
-  const { id } = rest.match.params;
+  const dataCard = responseCard && responseCard.data && responseCard.data.card;
 
-  if (loggedIn) {
-    const responseCard = useQuery(queries.GET_CARD, {
-      variables: {
-        id
-        // id: "659fa786e775bb42704f2b27"
+  useEffect(() => {
+    window.addEventListener('message', (event) => {
+      if (event.data == 'internal-iframe-ready' && iframeRef.current && dataCard) {
+        iframeRef.current.contentWindow.postMessage(dataCard.config);
       }
     });
-
-    const dataCard = (responseCard && responseCard.data && responseCard.data.card) || {};
-  }
+  }, [responseCard, dataCard]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 

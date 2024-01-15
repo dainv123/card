@@ -128,7 +128,24 @@ function reloadScript(scriptUrl = './js/script.min.js') {
   }
 }
 
+function quickView() {
+  document.getElementById('content').innerHTML = json2html(
+    remapAndModify(input, editor.getValue())
+  );
+
+  reloadScript();
+
+  window.document.dispatchEvent(
+    new Event('DOMContentLoaded', {
+      bubbles: true,
+      cancelable: true
+    })
+  );
+}
+
 function saveEditor() {
+  window.parent.postMessage('internal-iframe-update', editor.getValue());
+  
   document.getElementById('content').innerHTML = json2html(
     remapAndModify(input, editor.getValue())
   );
@@ -145,9 +162,7 @@ function saveEditor() {
 
 var input = html2json(document.getElementById('content').innerHTML);
 var inputWithIds = addIds(input);
-
 var properties = flattenJSON(inputWithIds);
-
 var config = {
   use_name_attributes: false,
   theme: 'bootstrap4',
@@ -160,3 +175,24 @@ var config = {
 };
 
 var editor = new JSONEditor(document.querySelector('#editor'), config);
+
+window.addEventListener('message', function(event) {
+  if (event.data && event.data != '{}') {
+    console.log(JSON.parse(event.data));
+    editor.destroy();
+    config = {
+      use_name_attributes: false,
+      theme: 'bootstrap4',
+      disable_edit_json: true,
+      disable_properties: true,
+      disable_collapse: true,
+      schema: {
+        properties: JSON.parse(event.data)
+      }
+    };
+    editor = new JSONEditor(document.querySelector('#editor'), config);
+    editor.on('ready',() => quickView());
+  }
+});
+
+window.parent.postMessage('internal-iframe-ready');
