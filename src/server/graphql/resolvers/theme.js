@@ -10,7 +10,10 @@ export default {
       await Joi.validate(args, validators.theme.findTheme);
 
       return Theme.findById(args.id);
-    }
+    },
+    publicTheme: async (root, args, context, info) => {
+      return Theme.findById(args.id);
+    },
   },
   Mutation: {
     createTheme: async (root, args, context, info) => {

@@ -16,18 +16,6 @@
     <link rel="icon" href="img/favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="icon" href="img/favicon-16x16.png" sizes="16x16" type="image/png" />
     <link rel="icon" href="img/favicon.ico" />
-    <style>
-        .card [data-schemapath] {
-            display: flex;
-        }
-        .card [data-schemapath] .btn-secondary{
-            font-size: 10px;
-            padding: 4px 10px;
-        }
-        .card .form-control[aria-label]{
-            width: 400px;
-        }
-    </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EWZ9LKHWB6"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -40,7 +28,6 @@
         gtag('config', 'G-EWZ9LKHWB6');
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
 <script src="https://cdn.rawgit.com/blowsie/Pure-JavaScript-HTML5-Parser/master/htmlparser.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2json@1.0.2/src/html2json.min.js"></script>
 </head>
@@ -238,7 +225,7 @@
                             </div>
 
                             <div class="d-flex">
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#config-data-modal"
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#how-to-get-there-modal"
                                     class="btn fs-9 ls-1 me-3">
                                     How To Get There
                                 </button>
@@ -768,34 +755,6 @@
 
             <span class="ornament-corner ornament-lg ornament-light"></span>
         </footer>
-    </div>
-
-    <div id="config-data-modal" class="modal fade" tabindex="-1">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content rounded">
-                <div class="modal-header justify-content-center">
-                    <h3 class="modal-title fs-4 font-alt fw-bold text-uppercase">
-                        SETTING
-                    </h3>
-                    <button type="button" class="end-0 fs-3 me-3 position-absolute" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <div id="editor"></div>
-                </div>
-
-                <div class="modal-footer">
-                    <button class="btn fs-9 w-100" data-bs-dismiss="modal" aria-label="Close" onclick="quickView()">
-                        Quick view
-                    </button>
-                    <button class="btn fs-9 w-100" data-bs-dismiss="modal" aria-label="Close" onclick="saveEditor()">
-                        Okay, I save it!
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script src="js/coding.js"></script>

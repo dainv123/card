@@ -76,7 +76,7 @@ export const CREATE_CARD = gql`
 `;
 
 export const UPDATE_CARD = gql`
-  mutation UpdateCard($id: ID!, $userId: ID!, $themeId: ID!, $config: String!) {
+  mutation UpdateCard($id: ID!, $userId: ID, $themeId: ID, $config: String!) {
     updateCard(id: $id, userId: $userId, themeId: $themeId, config: $config) {
       id
       config

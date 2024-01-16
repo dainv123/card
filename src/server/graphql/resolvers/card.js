@@ -8,14 +8,18 @@ export default {
     cards: async (root, args, context, info) => {
       const cards = await Card.find({}).populate('themeId');
 
-      const cardsWithThemeNames = cards.map(card => ({
-        id: card.id,
-        userId: card.userId,
-        themeId: card.themeId.id,
-        themeName: card.themeId.name,
-        config: card.config,
-        createdAt: card.createdAt,
-        updatedAt: card.updatedAt
+      const cardsWithThemeNames = await Promise.all(cards.map(async (card) => {
+        const theme = await Theme.findById(card.themeId.id);
+
+        return {
+          id: card.id,
+          userId: card.userId,
+          themeId: card.themeId.id,
+          themeName: theme ? theme.name : null,
+          config: card.config,
+          createdAt: card.createdAt,
+          updatedAt: card.updatedAt,
+        };
       }));
 
       return cardsWithThemeNames;
@@ -24,7 +28,10 @@ export default {
       await Joi.validate(args, validators.card.findCard);
 
       return Card.findById(args.id);
-    }
+    },
+    publicCard: async (root, args, context, info) => {
+      return Card.findById(args.id);
+    },
   },
   Mutation: {
     createCard: async (root, args, context, info) => {

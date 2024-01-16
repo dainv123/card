@@ -75,11 +75,11 @@ function remapAndModify(json, flattened) {
   const mapValueById = node => {
     if (flattened[node.id]) {
       if (node.tag == 'img') {
-        node.attr.src = flattened[node.id];
+        node.attr.src = flattened[node.id].default || flattened[node.id];
       } else if (node.tag == 'a') {
-        node.attr.href = flattened[node.id];
+        node.attr.href = flattened[node.id].default || flattened[node.id];
       } else if (node.tag == 'input') {
-        node.attr.placeholder = flattened[node.id];
+        node.attr.placeholder = flattened[node.id].default || flattened[node.id];
       } else if (node.tag == 'select') {
         node.child = [];
         if (flattened[node.id].length) {
@@ -100,7 +100,7 @@ function remapAndModify(json, flattened) {
           });
         }
       } else {
-        node.text = flattened[node.id];
+        node.text = flattened[node.id].default || flattened[node.id];
       }
     }
 
@@ -128,9 +128,9 @@ function reloadScript(scriptUrl = './js/script.min.js') {
   }
 }
 
-function quickView() {
+function quickView(config) {
   document.getElementById('content').innerHTML = json2html(
-    remapAndModify(input, editor.getValue())
+    remapAndModify(input, config)
   );
 
   reloadScript();
@@ -143,56 +143,61 @@ function quickView() {
   );
 }
 
-function saveEditor() {
-  window.parent.postMessage('internal-iframe-update', editor.getValue());
+// function saveEditor() {
+//   window.parent.postMessage('internal-iframe-update', editor.getValue());
   
-  document.getElementById('content').innerHTML = json2html(
-    remapAndModify(input, editor.getValue())
-  );
+//   document.getElementById('content').innerHTML = json2html(
+//     remapAndModify(input, editor.getValue())
+//   );
 
-  reloadScript();
+//   reloadScript();
 
-  window.document.dispatchEvent(
-    new Event('DOMContentLoaded', {
-      bubbles: true,
-      cancelable: true
-    })
-  );
-}
+//   window.document.dispatchEvent(
+//     new Event('DOMContentLoaded', {
+//       bubbles: true,
+//       cancelable: true
+//     })
+//   );
+// }
 
-var input = html2json(document.getElementById('content').innerHTML);
+var content = document.getElementById('content').innerHTML;
+var input = html2json(content);
 var inputWithIds = addIds(input);
 var properties = flattenJSON(inputWithIds);
-var config = {
-  use_name_attributes: false,
-  theme: 'bootstrap4',
-  disable_edit_json: true,
-  disable_properties: true,
-  disable_collapse: true,
-  schema: {
-    properties: properties
-  }
-};
 
-var editor = new JSONEditor(document.querySelector('#editor'), config);
+// var config = {
+//   use_name_attributes: false,
+//   theme: 'bootstrap4',
+//   disable_edit_json: true,
+//   disable_properties: true,
+//   disable_collapse: true,
+//   schema: {
+//     properties: properties
+//   }
+// };
+
+// var editor = new JSONEditor(document.querySelector('#editor'), config);
 
 window.addEventListener('message', function(event) {
   if (event.data && event.data != '{}') {
-    console.log(JSON.parse(event.data));
-    editor.destroy();
-    config = {
-      use_name_attributes: false,
-      theme: 'bootstrap4',
-      disable_edit_json: true,
-      disable_properties: true,
-      disable_collapse: true,
-      schema: {
-        properties: JSON.parse(event.data)
-      }
-    };
-    editor = new JSONEditor(document.querySelector('#editor'), config);
-    editor.on('ready',() => quickView());
+    // editor.destroy();
+    // var config = {
+    //   use_name_attributes: false,
+    //   theme: 'bootstrap4',
+    //   disable_edit_json: true,
+    //   disable_properties: true,
+    //   disable_collapse: true,
+    //   schema: {
+    //     properties: JSON.parse(event.data)
+    //   }
+    // };
+    // var editor = new JSONEditor(document.querySelector('#editor'), config);
+    // editor.on('ready',() => quickView());
+    quickView(typeof event.data == 'string' ? JSON.parse(event.data) : event.data);
   }
 });
 
-window.parent.postMessage('internal-iframe-ready');
+window.parent.postMessage({
+  type: 'internal-iframe-ready',
+  data: properties
+});

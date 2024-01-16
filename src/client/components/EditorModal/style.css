@@ -1,0 +1,30 @@
+#editor-modal .card [data-schemapath] {
+    display: flex;
+}
+#editor-modal .card .col-md-12[data-schemapath] > div {
+    flex: 1;
+}
+
+#editor-modal .card .col-md-12[data-schemapath] > div [data-schematype="string"] .form-group,
+#editor-modal .card .col-md-12[data-schemapath] > div [data-schematype="string"] .form-control {
+    width: 100%;
+}
+
+#editor-modal .card [data-schemapath] .btn-secondary{
+    font-size: 10px;
+    padding: 4px 10px;
+}
+#editor-modal .card .form-control[aria-label]{
+    width: 700px;
+}
+
+#editor-modal .card [data-schematype="array"] .form-control[aria-label]{
+    width: 400px;
+}
+
+#editor-modal .card-title label,
+#editor-modal .card [data-schemapath] label {
+    min-width: 35px;
+    text-transform: capitalize;
+    font-weight: 600;
+}

@@ -1,43 +1,90 @@
 import React, { useRef, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { queries, mutations } from '../../graphql/graphql';
 import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
 import { Icon, Avatar } from 'antd';
+import { Route, Redirect } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { mutations, queries } from '../../graphql/graphql';
+import PropTypes from 'prop-types';
+import EditorModal from '../../components/EditorModal/EditorModal';
 
 const ReaderPage = ({ loggedIn, user, ...rest }) => {
   const iframeRef = useRef(null);
-  
-  const responseCard = useQuery(queries.GET_CARD, {
+  const [theme, setTheme] = useState('');
+  const [config, setConfig] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataCard, setDataCard] = useState(null);
+  const [dataTheme, setDataTheme] = useState(null);
+  const [UpdateCard] = useMutation(mutations.UPDATE_CARD);
+  const isGuest = !loggedIn;
+
+  const responseCard = useQuery(isGuest ? queries.GET_PUBLIC_CARD : queries.GET_CARD, {
     variables: {
-      id: rest.match.params.id || '65a4b3af2f9c623184cac0a9'
-    }
+      id: rest.match.params.id
+    },
   });
 
-  const dataCard = responseCard && responseCard.data && responseCard.data.card;
+  useEffect(() => {
+    setDataCard(responseCard.data && (isGuest ? responseCard.data.publicCard : responseCard.data.card));
+  }, [responseCard.data]);
+
+  const responseTheme = useQuery(isGuest ? queries.GET_PUBLIC_THEME : queries.GET_THEME, {
+    variables: {
+      id: dataCard ? dataCard.themeId : null,
+    },
+  });
 
   useEffect(() => {
-    window.addEventListener('message', (event) => {
-      if (event.data == 'internal-iframe-ready' && iframeRef.current && dataCard) {
-        iframeRef.current.contentWindow.postMessage(dataCard.config);
-      }
-    });
-  }, [responseCard, dataCard]);
+    setDataTheme(responseTheme.data && (isGuest ? responseTheme.data.publicTheme : responseTheme.data.theme));
+  }, [responseTheme.data]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    if (dataTheme) {
+      setTheme(`..${dataTheme.path.trim()}/index.html`);
+    }
+  }, [dataTheme]);
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const handleOk = (config) => {
+    handleUpdateCard(config)
+    iframeRef.current.contentWindow.postMessage(config);
+  };
+
+  const handleUpdateCard = (config) => {
+    UpdateCard({ variables: { id: dataCard.id, config: JSON.stringify(config) } }).then(
+      res => {
+        setIsModalOpen(false);
+      },
+      err => {
+        alert('Something went wrong!')
+      }
+    );
+  }
+
+  const handleCallback = (event) => {
+    if (event.data.type === 'internal-iframe-ready' && iframeRef.current) {
+      if (dataCard && dataCard.config && dataCard.config !== '{}') {
+        setConfig(JSON.parse(dataCard.config));
+        iframeRef.current.contentWindow.postMessage(dataCard.config);
+      } else {
+        setConfig(event.data.data);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('message', handleCallback);
+
+    return () => {
+      window.removeEventListener('message', handleCallback);
+    };
+  }, [dataCard]);
 
   return (
     <>
@@ -51,51 +98,48 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
               position: 'fixed',
               zIndex: 2,
               right: '30px',
-              top: '30px'
+              top: '30px',
             }}
           />
-          {/* <SelectThemeModal
-                            isModalOpen={isModalOpen}
-                            handleOk={handleOk}
-                            handleCancel={handleCancel}
-                        ></SelectThemeModal> */}
+          <EditorModal
+            data={config}
+            isModalOpen={isModalOpen}
+            handleOk={handleOk}
+            handleCancel={handleCancel}
+          />
         </>
       )}
-      <iframe
-        src="../themes/dahlia/index.html"
-        width="100%"
-        height="100%"
-        frameBorder="0"
-        ref={iframeRef}
-        style={{
-          overflow: 'hidden',
-          overflowX: 'hidden',
-          overflowY: 'hidden',
-          position: 'absolute',
-          height: '100%',
-          width: '100%',
-          top: '0px',
-          left: '0px',
-          right: '0px',
-          bottom: '0px'
-        }}
-      />
+      {theme
+        ? <iframe
+          src={theme}
+          width="100%"
+          height="100%"
+          frameBorder="0"
+          ref={iframeRef}
+          style={{
+            overflow: 'hidden',
+            overflowX: 'hidden',
+            overflowY: 'hidden',
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+            top: '0px',
+            left: '0px',
+            right: '0px',
+            bottom: '0px',
+          }}
+        />
+        : 'Nothing here'
+      }
     </>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
-    loggedIn: state.auth.loggedIn
+    loggedIn: state.auth.loggedIn,
   };
 };
 
-ReaderPage.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
-  user: PropTypes.object
-};
-
-const ConnectedReaderPage = connect(mapStateToProps)(ReaderPage);
-
-export default ConnectedReaderPage;
+export default connect(mapStateToProps)(ReaderPage);
