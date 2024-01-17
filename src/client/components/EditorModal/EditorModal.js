@@ -1,12 +1,15 @@
+import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button } from 'antd';
 import { JSONEditor } from '@json-editor/json-editor/dist/jsoneditor.js';
 import './style.css'; 
 
 const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
+  const aiRef = useRef(null);
   const editorRef = useRef(null);
   const [editor, setEditor] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [currentNode, setCurrentNode] = useState({ node: null, message: '' });
 
   const onSubmit = () => {
     if (editor) {
@@ -30,6 +33,40 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     handleCancel();
   }
 
+  const onShowAI = (node) => {
+    setCurrentNode({ node, message: '' });
+  }
+
+  const onCloseAI = (node) => {
+    setCurrentNode({ node: null, message: '' });
+  }
+
+  const onChangeAI = () => {
+
+  }
+
+  const onSubmitAI = () => {
+    const apiKey = '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';
+    const apiUrl = 'https://api.openai.com/v1/chat/completions';
+
+    // axios.post(
+    //   apiUrl,
+    //   {
+    //     "model": "gpt-3.5-turbo",
+    //     "messages": [{"role": "user", "content": currentNode.message}],
+    //     "temperature": 0.7
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${apiKey}`,
+    //       'Content-Type': 'application/json',
+    //     },
+    //   }
+    // ).then(res => {
+
+    // })
+  }
+
   useEffect(() => {
     setIsOpen(isModalOpen);
     setTimeout(() => {
@@ -44,6 +81,26 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
         });
 
         setEditor(newEditor);
+
+        newEditor.on('ready',() => {
+          const inputElements = document.querySelectorAll('#editor-modal .card .col-md-12[data-schemapath] > div [data-schematype="string"] .form-control');
+
+          inputElements.forEach(inputElement => {
+            inputElement.addEventListener('focus', (event) => {
+              const sourceRect = event.target.getBoundingClientRect();
+              aiRef.current.style.position = 'fixed';
+              aiRef.current.style.zIndex = '1';
+              aiRef.current.style.left = sourceRect.left + 'px';
+              aiRef.current.style.top = sourceRect.top + 30 + 'px';
+
+              const ariaLabel = event.target.getAttribute('aria-label');
+
+              const extractedValue = ariaLabel.substring(ariaLabel.lastIndexOf('_') + 1);
+
+              onShowAI(extractedValue)
+            });
+          });
+        });
 
         return () => {
           newEditor.destroy();
@@ -67,6 +124,11 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
         <Button key="submit" type="primary" onClick={onSubmit}>Submit</Button>
       ]}
     >
+      <div ref={aiRef}>
+        <span>{currentNode.node}</span>
+        <textarea onChange={onChangeAI}></textarea>
+        <Button onClick={onSubmitAI}>Submit</Button>
+      </div>
       <div id="editor-modal" ref={editorRef}></div>
     </Modal>
   );

@@ -169,7 +169,7 @@ var content = document.getElementById('content').innerHTML;
 var input = html2json(content);
 var inputWithIds = addIds(input);
 var properties = flattenJSON(inputWithIds);
-console.log(properties);
+// console.log(properties);
 
 // var config = {
 //   use_name_attributes: false,
