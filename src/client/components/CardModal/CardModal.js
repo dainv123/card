@@ -26,11 +26,11 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
   const [UpdateCard] = useMutation(mutations.UPDATE_CARD);
 
   const handleSubmitForm = async (values, actions) => {
-    const { themeId, config } = values;
+    const { name, themeId, config } = values;
     const { setErrors, setSubmitting } = actions;
 
     if (value.id) {
-      UpdateCard({ variables: { id: value.id, userId: value.userId, themeId, config } }).then(
+      UpdateCard({ variables: { id: value.id, userId: value.userId, themeId, name, config } }).then(
         res => {
           handleOk();
           setIsOpen(false);
@@ -39,6 +39,9 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
           const errors = {};
 
           err.graphQLErrors.map(x => {
+            if (x.message.includes('name')) {
+              errors.name = x.message.includes('name');
+            }
             if (x.message.includes('themeId')) {
               errors.themeId = x.message.includes('themeId');
             }
@@ -51,7 +54,7 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
         }
       );
     } else {
-      CreateCard({ variables: { userId: user.id, themeId, config } }).then(
+      CreateCard({ variables: { userId: user.id, themeId, name, config } }).then(
         res => {
           handleOk();
           setIsOpen(false);
@@ -60,6 +63,9 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
           const errors = {};
 
           err.graphQLErrors.map(x => {
+            if (x.message.includes('name')) {
+              errors.name = x.message.includes('name');
+            }
             if (x.message.includes('themeId')) {
               errors.themeId = x.message.includes('themeId');
             }
@@ -111,6 +117,7 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
       <Formik
         validateOnBlur={false}
         initialValues={{
+          name: value.name || '',
           userId: value.userId || '',
           themeId: value.themeId || '',
           config: value.config || '{}'
@@ -123,6 +130,15 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
           <button type="submit" style={{ display: 'none' }} ref={hiddenInnerSubmitFormRef}>
             Submit
           </button>
+          {/* <Field
+            InputType={Input}
+            component={FormInputField}
+            prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            name="name"
+            onChange={handleChange} // todo
+            placeholder="Name"
+            hasFeedback
+          /> */}
           <Field
             component={FormSelect}
             onChange={handleChange}

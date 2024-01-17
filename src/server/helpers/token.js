@@ -14,7 +14,8 @@ export const sendEmailWithToken = async (user, action) => {
   });
 
   // No await! If the email is not sent the user simply needs to ask for a new one!
-  sendEmail('example@gmail.com', 'http://google.com');
+  // sendEmail('example@gmail.com', 'http://google.com');
+  sendEmail(user.email, 'http://google.com');
 
   return token;
 };

@@ -3,15 +3,15 @@ import { gql } from 'apollo-server-express';
 export default gql`
   type Card {
     id: ID!
-    userId: String!
-    themeId: String!
+    userId: ID!
+    themeId: ID!
     config: String!
   }
 
   type CardDetail {
     id: ID!
-    userId: String!
-    themeId: String!
+    userId: ID!
+    themeId: ID!
     themeName: String!
     config: String!
   }

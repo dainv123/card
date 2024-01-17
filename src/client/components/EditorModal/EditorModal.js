@@ -15,6 +15,13 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     }
   }
 
+  const onReset = () => {
+    if (editor) {
+      handleOk({});
+      editor.destroy();
+    }
+  }
+
   const onCancel = () => {
     if (editor) {
       editor.destroy()
@@ -55,6 +62,8 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
       bodyStyle={{ overflowY: 'auto', maxHeight: 'calc(100vh - 300px)' }}
       footer={[
         <Button key="back" onClick={onCancel}>Cancel</Button>,
+        <Button key="back">Generate by AI (soon)</Button>,
+        <Button key="back" onClick={onReset}>Reset to default</Button>,
         <Button key="submit" type="primary" onClick={onSubmit}>Submit</Button>
       ]}
     >

@@ -15,26 +15,29 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
   const [dataCard, setDataCard] = useState(null);
   const [dataTheme, setDataTheme] = useState(null);
   const [UpdateCard] = useMutation(mutations.UPDATE_CARD);
-  const isGuest = !loggedIn;
 
-  const responseCard = useQuery(isGuest ? queries.GET_PUBLIC_CARD : queries.GET_CARD, {
+  const responseCard = useQuery(!loggedIn ? queries.GET_PUBLIC_CARD : queries.GET_CARD, {
     variables: {
       id: rest.match.params.id
-    },
+    }
   });
 
   useEffect(() => {
-    setDataCard(responseCard.data && (isGuest ? responseCard.data.publicCard : responseCard.data.card));
+    setDataCard(
+      responseCard.data && (!loggedIn ? responseCard.data.publicCard : responseCard.data.card)
+    );
   }, [responseCard.data]);
 
-  const responseTheme = useQuery(isGuest ? queries.GET_PUBLIC_THEME : queries.GET_THEME, {
+  const responseTheme = useQuery(!loggedIn ? queries.GET_PUBLIC_THEME : queries.GET_THEME, {
     variables: {
-      id: dataCard ? dataCard.themeId : null,
-    },
+      id: dataCard ? dataCard.themeId : null
+    }
   });
 
   useEffect(() => {
-    setDataTheme(responseTheme.data && (isGuest ? responseTheme.data.publicTheme : responseTheme.data.theme));
+    setDataTheme(
+      responseTheme.data && (!loggedIn ? responseTheme.data.publicTheme : responseTheme.data.theme)
+    );
   }, [responseTheme.data]);
 
   useEffect(() => {
@@ -51,27 +54,33 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
     setIsModalOpen(false);
   };
 
-  const handleOk = (config) => {
-    handleUpdateCard(config)
-    iframeRef.current.contentWindow.postMessage(config);
+  const handleOk = config => {
+    handleUpdateCard(config);
+    iframeRef.current.contentWindow.postMessage({
+      type: 'internal-iframe-pass-inside',
+      data: config
+    });
   };
 
-  const handleUpdateCard = (config) => {
+  const handleUpdateCard = config => {
     UpdateCard({ variables: { id: dataCard.id, config: JSON.stringify(config) } }).then(
       res => {
         setIsModalOpen(false);
       },
       err => {
-        alert('Something went wrong!')
+        alert('Something went wrong!');
       }
     );
-  }
+  };
 
-  const handleCallback = (event) => {
+  const handleCallback = event => {
     if (event.data.type === 'internal-iframe-ready' && iframeRef.current) {
       if (dataCard && dataCard.config && dataCard.config !== '{}') {
         setConfig(JSON.parse(dataCard.config));
-        iframeRef.current.contentWindow.postMessage(dataCard.config);
+        iframeRef.current.contentWindow.postMessage({
+          type: 'internal-iframe-pass-inside',
+          data: dataCard.config
+        });
       } else {
         setConfig(event.data.data);
       }
@@ -88,7 +97,7 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
 
   return (
     <>
-      {loggedIn && (
+      {loggedIn && theme && (
         <>
           <Avatar
             onClick={showModal}
@@ -98,7 +107,7 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
               position: 'fixed',
               zIndex: 2,
               right: '30px',
-              top: '30px',
+              top: '30px'
             }}
           />
           <EditorModal
@@ -109,8 +118,8 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
           />
         </>
       )}
-      {theme
-        ? <iframe
+      {theme ? (
+        <iframe
           src={theme}
           width="100%"
           height="100%"
@@ -126,19 +135,20 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
             top: '0px',
             left: '0px',
             right: '0px',
-            bottom: '0px',
+            bottom: '0px'
           }}
         />
-        : 'Nothing here'
-      }
+      ) : (
+        'Nothing here'
+      )}
     </>
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     user: state.auth.user,
-    loggedIn: state.auth.loggedIn,
+    loggedIn: state.auth.loggedIn
   };
 };
 

@@ -38,10 +38,10 @@ const DashboardPage = () => {
 
   const columnsCard = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-      render: text => <a>{text}</a>
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text, record) => <a target='_blank' href={'/reader/' + record.id}>{text}</a>
     },
     {
       title: 'Theme',
@@ -51,7 +51,8 @@ const DashboardPage = () => {
     {
       title: 'Config',
       dataIndex: 'config',
-      key: 'config'
+      key: 'config',
+      render: text => <>{(text || '').length > 100 ? (text || '').substring(0, 100) + '...' : text}</>
     },
     {
       title: 'Action',
@@ -99,7 +100,7 @@ const DashboardPage = () => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: text => <a>{text}</a>
+      render: (text, record) => <a target='_blank' href={record.path}>{text}</a>
     },
     {
       title: 'Path',

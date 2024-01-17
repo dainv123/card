@@ -35,6 +35,9 @@ function flattenJSON(json) {
       ...(node.tag == 'input' &&
         !!node.attr.placeholder && {
           placeholder: node.attr.placeholder
+        }),
+      ...(node.attr && node.attr.style && node.attr.style.length == 2 && node.attr.style[0] == 'background-image:' && {
+          backgroundImage: node.attr.style[1]
         })
     };
 
@@ -54,9 +57,9 @@ function flattenJSON(json) {
 
       result[nodeObject.id] = { default: options };
     } else {
-      if (nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder) {
+      if (nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder || nodeObject.backgroundImage) {
         result[nodeObject.id] = {
-          default: nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder
+          default: nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder || nodeObject.backgroundImage
         };
       }
 
@@ -80,6 +83,8 @@ function remapAndModify(json, flattened) {
         node.attr.href = flattened[node.id].default || flattened[node.id];
       } else if (node.tag == 'input') {
         node.attr.placeholder = flattened[node.id].default || flattened[node.id];
+      } else if (node.attr && node.attr.style && node.attr.style.length == 2 && node.attr.style[0] == 'background-image:') {
+        node.attr.style[1] = flattened[node.id].default || flattened[node.id];
       } else if (node.tag == 'select') {
         node.child = [];
         if (flattened[node.id].length) {
@@ -164,6 +169,7 @@ var content = document.getElementById('content').innerHTML;
 var input = html2json(content);
 var inputWithIds = addIds(input);
 var properties = flattenJSON(inputWithIds);
+console.log(properties);
 
 // var config = {
 //   use_name_attributes: false,
@@ -179,7 +185,7 @@ var properties = flattenJSON(inputWithIds);
 // var editor = new JSONEditor(document.querySelector('#editor'), config);
 
 window.addEventListener('message', function(event) {
-  if (event.data && event.data != '{}') {
+  if (event.data && event.data.data != '{}' && event.data.type === 'internal-iframe-pass-inside') {
     // editor.destroy();
     // var config = {
     //   use_name_attributes: false,
@@ -188,12 +194,12 @@ window.addEventListener('message', function(event) {
     //   disable_properties: true,
     //   disable_collapse: true,
     //   schema: {
-    //     properties: JSON.parse(event.data)
+    //     properties: JSON.parse(event.data.data)
     //   }
     // };
     // var editor = new JSONEditor(document.querySelector('#editor'), config);
     // editor.on('ready',() => quickView());
-    quickView(typeof event.data == 'string' ? JSON.parse(event.data) : event.data);
+    quickView(typeof event.data.data == 'string' ? JSON.parse(event.data.data) : event.data.data);
   }
 });
 
