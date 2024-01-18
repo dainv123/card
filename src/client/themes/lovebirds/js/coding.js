@@ -133,6 +133,19 @@ function reloadScript(scriptUrl = './js/script.min.js') {
   }
 }
 
+function quickView(config) {
+  const json = remapAndModify(input, config)
+  document.getElementById('content').innerHTML = json2html(json);
+  reloadScript("./js/pagetransitions.js");
+  reloadScript("./js/easyResponsiveTabs.js");
+  reloadScript("./js/menu.js");
+  reloadScript("./js/wow.js");
+  reloadScript("./js/jquery.validate.min.js");
+  reloadScript("./js/formValidation.js")
+  reloadScript("./js/function.js");
+  setTimeout(() => initSlick(), 800);
+}
+
 var content = document.getElementById('content').innerHTML;
 var input = html2json(content);
 var inputWithIds = addIds(input);
@@ -148,17 +161,3 @@ window.parent.postMessage({
   type: 'internal-iframe-ready',
   data: properties
 });
-
-function quickView(config) {
-  const json = remapAndModify(input, config);
-  document.getElementById('content').innerHTML = json2html(json);
-
-  window.document.dispatchEvent(
-    new Event('DOMContentLoaded', {
-      bubbles: true,
-      cancelable: true
-    })
-  );
-
-  reloadScript();
-}

@@ -1,59 +1,62 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, Card, Form, Input, Button } from 'antd';
 import { JSONEditor } from '@json-editor/json-editor/dist/jsoneditor.js';
-import './style.css'; 
+import './style.css';
 
 const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
   const aiRef = useRef(null);
   const editorRef = useRef(null);
+  const [top, setTop] = useState('0px');
+  const [left, setLeft] = useState('0px');
+  const [node, setNode] = useState({ id: null, message: '', require: '' });
+  const [isAI, setIsAI] = useState(false);
   const [editor, setEditor] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [currentNode, setCurrentNode] = useState({ node: null, message: '' });
-
-  const onSubmit = () => {
-    if (editor) {
-      handleOk(editor.getValue());
-      editor.destroy();
-    }
-  }
 
   const onReset = () => {
     if (editor) {
       handleOk({});
       editor.destroy();
     }
-  }
+  };
 
   const onCancel = () => {
     if (editor) {
-      editor.destroy()
+      editor.destroy();
     }
 
     handleCancel();
-  }
+  };
 
-  const onShowAI = (node) => {
-    setCurrentNode({ node, message: '' });
-  }
+  const onSubmit = () => {
+    if (editor) {
+      const editorValue = editor.getValue();
 
-  const onCloseAI = (node) => {
-    setCurrentNode({ node: null, message: '' });
-  }
+      for (const [key, value] of Object.entries(editorValue)) {
+        editorValue[key] = { default: value };
+      }
 
-  const onChangeAI = () => {
+      handleOk(editorValue);
 
-  }
+      editor.destroy();
+    }
+  };
 
-  const onSubmitAI = () => {
-    const apiKey = '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';
-    const apiUrl = 'https://api.openai.com/v1/chat/completions';
+  const onChangeAI = (e) => { 
+    setNode({ id: node.id, message: node.message, require: e.target.value });
+  };
 
+  const onSubmitAI = (event) => {
+    event.preventDefault();
+    
+    // const apiKey = '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';
+    // const apiUrl = 'https://api.openai.com/v1/chat/completions';
     // axios.post(
     //   apiUrl,
     //   {
     //     "model": "gpt-3.5-turbo",
-    //     "messages": [{"role": "user", "content": currentNode.message}],
+    //     "messages": [{"role": "user", "content": `"${node.message}" ${node.require}`}],
     //     "temperature": 0.7
     //   },
     //   {
@@ -63,9 +66,15 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     //     },
     //   }
     // ).then(res => {
+    //   const inputString = 'root[node_11]';
+    //   const match = node.id.match(/\[([^[\]]+)\]/);
 
+    //   if (match && match[1]) {
+    //     const extractedContent = match[1];
+    //     editor.setValue({ ...editor.getValue(), [extractedContent]: res.data.choices[0].message.content });
+    //   }
     // })
-  }
+  };
 
   useEffect(() => {
     setIsOpen(isModalOpen);
@@ -77,34 +86,45 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
           disable_edit_json: true,
           disable_properties: true,
           use_name_attributes: false,
-          schema: { properties: data }
+          schema: {
+            properties: data
+          }
         });
 
         setEditor(newEditor);
 
-        newEditor.on('ready',() => {
-          const inputElements = document.querySelectorAll('#editor-modal .card .col-md-12[data-schemapath] > div [data-schematype="string"] .form-control');
+        newEditor.on('ready', () => {
+          const handleClickOutside = event => {
+            const targetSelector =
+              '#editor-modal .card .col-md-12[data-schemapath] > div [data-schematype="string"] .form-control';
 
-          inputElements.forEach(inputElement => {
-            inputElement.addEventListener('focus', (event) => {
+            if (event.target.matches(targetSelector) || event.target.closest(targetSelector)) {
               const sourceRect = event.target.getBoundingClientRect();
-              aiRef.current.style.position = 'fixed';
-              aiRef.current.style.zIndex = '1';
-              aiRef.current.style.left = sourceRect.left + 'px';
-              aiRef.current.style.top = sourceRect.top + 30 + 'px';
-
               const ariaLabel = event.target.getAttribute('aria-label');
+              setNode({ id: ariaLabel, message: event.target.value , require: '' });
+              setTop(sourceRect.top + 30 + 'px');
+              setLeft(sourceRect.left + 'px');
+            }
 
-              const extractedValue = ariaLabel.substring(ariaLabel.lastIndexOf('_') + 1);
+            if (
+              event.target.matches(targetSelector) ||
+              event.target.closest(targetSelector) ||
+              (aiRef.current && aiRef.current.contains(event.target))
+            ) {
+              setIsAI(true);
+            } else {
+              setNode({ id: null, message: '', require: '' });
+              setIsAI(false);
+            }
+          };
 
-              onShowAI(extractedValue)
-            });
-          });
+          document.addEventListener('mousedown', handleClickOutside);
+
+          return () => {
+            newEditor.destroy();
+            document.removeEventListener('mousedown', handleClickOutside);
+          };
         });
-
-        return () => {
-          newEditor.destroy();
-        };
       }
     }, 0);
   }, [data, isModalOpen]);
@@ -112,22 +132,44 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
   return (
     <Modal
       title="Setting"
+      width={'90%'}
       visible={isOpen}
       onCancel={onCancel}
-      width={'90%'}
       style={{ maxWidth: '800px' }}
       bodyStyle={{ overflowY: 'auto', maxHeight: 'calc(100vh - 300px)' }}
       footer={[
-        <Button key="back" onClick={onCancel}>Cancel</Button>,
-        <Button key="back">Generate by AI (soon)</Button>,
-        <Button key="back" onClick={onReset}>Reset to default</Button>,
-        <Button key="submit" type="primary" onClick={onSubmit}>Submit</Button>
+        <Button key="back" onClick={onCancel}>
+          Cancel
+        </Button>,
+        <Button key="danger" type="danger" onClick={onReset}>
+          Reset to default
+        </Button>,
+        <Button key="submit" type="primary" onClick={onSubmit}>
+          Submit
+        </Button>
       ]}
     >
-      <div ref={aiRef}>
-        <span>{currentNode.node}</span>
-        <textarea onChange={onChangeAI}></textarea>
-        <Button onClick={onSubmitAI}>Submit</Button>
+      <div
+        ref={aiRef}
+        style={{ position: 'fixed', zIndex: 1, top, left, display: isAI ? 'block' : 'none' }}
+      >
+        <Card title="AI Form" style={{ width: 300 }}>
+          <Form onSubmit={onSubmitAI}>
+            <Form.Item
+              label={'Enter your requirement ' + node.id + ':'}
+              extra="This field is required for AI processing"
+              name="requirement"
+              rules={[{ required: true, message: 'Please enter your requirement!' }]}
+            >
+              <Input placeholder="Your requirement" onChange={onChangeAI} />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
       </div>
       <div id="editor-modal" ref={editorRef}></div>
     </Modal>

@@ -4,8 +4,7 @@ if (/Edge/.test(navigator.userAgent)) {
    $('.nav > li').css('width','120px');
 }
 */
-$(document).on('ready', function () {
-    'use strict';
+function initSlick() {
     //Vertical icon-menu active script
     $('.horizontal_iconmenu li').on('click', function () {
         $('.page-top').removeClass('display_none');
@@ -67,6 +66,7 @@ $(document).on('ready', function () {
        });
    }
    $(window).load(function () {
+    console.log(2222);
        if ($.find('.gridlayout').length) {
            $('.gridlayout').isotope({
                itemSelector: '.grid-item',
@@ -183,6 +183,9 @@ $(document).on('ready', function () {
     }
     /*-----------------------------------people page slider------------------------*/
 
+    if ($('.the-people-slider').hasClass('slick-initialized') ) {
+        $('.the-people-slider').slick('destroy')
+    }
     $('.the-people-slider').slick({
         // dots: true,
         infinite: true,
@@ -231,6 +234,10 @@ $(document).on('ready', function () {
         ]
     });
 
+    if ($('.ceremony-slider').hasClass('slick-initialized') ) {
+        $('.ceremony-slider').slick('destroy')
+    }
+    console.log(111);
     $('.ceremony-slider').slick({
         dots: false,
         infinite: true,
@@ -282,8 +289,11 @@ $(document).on('ready', function () {
     });
 
     wow.init();
+};
 
-
+$(document).on('ready', function () {
+    'use strict';
+    initSlick();
 });
 
 
