@@ -49,7 +49,7 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
 
   const onSubmitAI = (event) => {
     event.preventDefault();
-    
+    // const key = process.env.EMAIL_PASSWORD;
     // const apiKey = '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';
     // const apiUrl = 'https://api.openai.com/v1/chat/completions';
     // axios.post(
