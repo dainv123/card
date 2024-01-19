@@ -65,8 +65,8 @@ const DashboardPage = () => {
       key: 'action',
       render: (_, record) => (
         <>
-          <a onClick={() => onOpenUpdateCardPopup(record)}>Edit</a>
-          <a onClick={() => onDeleteCard(record.id)}>Delete</a>
+          <Button type="danger" onClick={() => onOpenUpdateCardPopup(record)} style={{ marginRight: '6px' }}>Edit</Button>
+          <Button type="danger" onClick={() => onDeleteCard(record.id)}>Delete</Button>
         </>
       )
     }
@@ -130,8 +130,8 @@ const DashboardPage = () => {
       key: 'action',
       render: (_, record) => (
         <>
-          <a onClick={() => onOpenUpdateThemePopup(record)}>Edit</a>
-          <a onClick={() => onDeleteTheme(record.id)}>Delete</a>
+          <Button type="danger" onClick={() => onOpenUpdateThemePopup(record)} style={{ marginRight: '6px' }}>Edit</Button>
+          <Button type="danger" onClick={() => onDeleteTheme(record.id)}>Delete</Button>
         </>
       )
     }
@@ -182,8 +182,8 @@ const DashboardPage = () => {
       key: 'action',
       render: (_, record) => (
         <>
-          <a onClick={() => onOpenUpdateTagPopup(record)}>Edit</a>
-          <a onClick={() => onDeleteTag(record.id)}>Delete</a>
+          <Button type="danger" onClick={() => onOpenUpdateTagPopup(record)} style={{ marginRight: '6px' }}>Edit</Button>
+          <Button type="danger" onClick={() => onDeleteTag(record.id)}>Delete</Button>
         </>
       )
     }

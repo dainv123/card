@@ -79,6 +79,10 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
   useEffect(() => {
     setIsOpen(isModalOpen);
     setTimeout(() => {
+      if (editor) {
+        editor.destroy();
+      }
+      
       if (isModalOpen && editorRef.current) {
         const newEditor = new JSONEditor(editorRef.current, {
           theme: 'bootstrap4',
