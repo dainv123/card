@@ -80,7 +80,14 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
     }
   };
 
-  const handleChange = themeId => {
+  const handleNameChange = event => {
+    setValue({
+      ...value,
+      name: event.target.value
+    });
+  };
+
+  const handleThemeChange = themeId => {
     setValue({
       ...value,
       themeId,
@@ -130,18 +137,18 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
           <button type="submit" style={{ display: 'none' }} ref={hiddenInnerSubmitFormRef}>
             Submit
           </button>
-          {/* <Field
+          <Field
             InputType={Input}
             component={FormInputField}
             prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
             name="name"
-            onChange={handleChange} // todo
+            onChange={handleNameChange}
             placeholder="Name"
             hasFeedback
-          /> */}
+          />
           <Field
             component={FormSelect}
-            onChange={handleChange}
+            onChange={handleThemeChange}
             name="themeId"
             placeholder="Select Theme"
             style={{ width: '100%' }}

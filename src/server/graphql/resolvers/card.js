@@ -17,6 +17,7 @@ export default {
           themeId: card.themeId.id,
           themeName: theme ? theme.name : null,
           config: card.config,
+          name: card.name || null,
           createdAt: card.createdAt,
           updatedAt: card.updatedAt,
         };
@@ -59,6 +60,10 @@ export default {
 
       if (args.config) {
         cardToUpdate.config = args.config;
+      }
+
+      if (args.name) {
+        cardToUpdate.name = args.name;
       }
 
       // Save the updated card

@@ -37,6 +37,7 @@ export const GET_CARD = gql`
       userId
       themeId
       config
+      name
     }
   }
 `;
@@ -61,6 +62,7 @@ export const GET_CARDS = gql`
       themeId
       themeName
       config
+      name
     }
   }
 `;

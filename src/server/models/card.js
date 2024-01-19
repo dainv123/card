@@ -14,6 +14,7 @@ const cardSchema = new Schema(
       ref: 'Theme',
       required: true
     },
+    name: String,
     config: String
   },
   {
