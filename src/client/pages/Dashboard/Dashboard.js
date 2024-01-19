@@ -6,6 +6,7 @@ import LoggedLayout from '../../components/Layouts/LoggedLayout';
 import ThemeModal from '../../components/ThemeModal/ThemeModal';
 import CardModal from '../../components/CardModal/CardModal';
 import TagModal from '../../components/TagModal/TagModal';
+import _s from './Dashboard.less';
 
 const DashboardPage = () => {
   const [DeleteCard] = useMutation(mutations.DELETE_CARD);
@@ -18,7 +19,10 @@ const DashboardPage = () => {
 
   const dataCard = (responseCard && responseCard.data && responseCard.data.cards) || [];
 
-  const onDeleteCard = id => DeleteCard({ variables: { id } });
+  const onDeleteCard = async id => { 
+    DeleteCard({ variables: { id } });
+    await responseCard.refetch();
+  }
 
   const onOpenUpdateCardPopup = record => {
     setDataCardPopup(record);
@@ -29,8 +33,9 @@ const DashboardPage = () => {
     setIsOpenCardPopup(true);
   };
 
-  const handleOkCard = () => {
+  const handleOkCard = async () => {
     setIsOpenCardPopup(false);
+    await responseCard.refetch();
   };
 
   const handleCancelCard = () => {
@@ -77,7 +82,10 @@ const DashboardPage = () => {
 
   const dataTheme = (responseTheme && responseTheme.data && responseTheme.data.themes) || [];
 
-  const onDeleteTheme = id => DeleteTheme({ variables: { id } });
+  const onDeleteTheme = async id => { 
+    DeleteTheme({ variables: { id } });
+    await responseTheme.refetch();
+  }
 
   const onOpenUpdateThemePopup = record => {
     setDataThemePopup(record);
@@ -88,8 +96,9 @@ const DashboardPage = () => {
     setIsOpenThemePopup(true);
   };
 
-  const handleOkTheme = () => {
+  const handleOkTheme = async () => {
     setIsOpenThemePopup(false);
+    await responseTheme.refetch();
   };
 
   const handleCancelTheme = () => {
@@ -110,8 +119,11 @@ const DashboardPage = () => {
     },
     {
       title: 'Tag(s)',
-      dataIndex: 'tag',
-      key: 'tag'
+      dataIndex: 'tags',
+      key: 'tags',
+      render: (text, record) => <>
+        {record.tags.map(item => <Tag key={item.id} color="blue">{item.name}</Tag>)}
+      </>
     },
     {
       title: 'Action',
@@ -136,7 +148,10 @@ const DashboardPage = () => {
 
   const dataTag = (responseTag && responseTag.data && responseTag.data.tags) || [];
 
-  const onDeleteTag = id => DeleteTag({ variables: { id } });
+  const onDeleteTag = async id => { 
+    DeleteTag({ variables: { id } });
+    await responseTag.refetch();
+  }
 
   const onOpenUpdateTagPopup = record => {
     setDataTagPopup(record);
@@ -147,8 +162,9 @@ const DashboardPage = () => {
     setIsOpenTagPopup(true);
   };
 
-  const handleOkTag = () => {
+  const handleOkTag = async () => {
     setIsOpenTagPopup(false);
+    await responseTag.refetch();
   };
 
   const handleCancelTag = () => {
@@ -176,10 +192,12 @@ const DashboardPage = () => {
   return (
     <LoggedLayout>
       <Layout.Content>
+        <div className={_s.container}>
         <Row>
-          <Button type="primary" onClick={showModalTheme}>add/edit THEME</Button>
+          <Button type="primary" onClick={showModalTheme}>ADD THEME</Button>
           <ThemeModal
             data={dataThemePopup}
+            tags={dataTag}
             isModalOpen={isOpenThemePopup}
             handleOk={handleOkTheme}
             handleCancel={handleCancelTheme}
@@ -189,7 +207,7 @@ const DashboardPage = () => {
           <Table columns={columnsTheme} dataSource={dataTheme} rowKey={'id'}></Table>
         </Row>
         <Row>
-          <Button type="primary" onClick={showModalCard}>add/edit CARD</Button>
+          <Button type="primary" onClick={showModalCard}>ADD CARD</Button>
           <CardModal
             data={dataCardPopup}
             themes={dataTheme}
@@ -202,7 +220,7 @@ const DashboardPage = () => {
           <Table columns={columnsCard} dataSource={dataCard} rowKey={'id'}></Table>
         </Row>
         <Row>
-          <Button type="primary" onClick={showModalTag}>add/edit TAG</Button>
+          <Button type="primary" onClick={showModalTag}>ADD TAG</Button>
           <TagModal
             data={dataTagPopup}
             isModalOpen={isOpenTagPopup}
@@ -213,6 +231,7 @@ const DashboardPage = () => {
         <Row>
           <Table columns={columnsTag} dataSource={dataTag} rowKey={'id'}></Table>
         </Row>
+        </div>
       </Layout.Content>
     </LoggedLayout>
   );

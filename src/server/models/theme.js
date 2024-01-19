@@ -5,7 +5,13 @@ const { Schema, model } = mongoose;
 const themeSchema = new Schema(
   {
     name: String,
-    path: String
+    path: String,
+    tags: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Tag',
+      }
+    ],
   },
   {
     timestamps: true

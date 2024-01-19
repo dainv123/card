@@ -5,6 +5,12 @@ export default gql`
     id: ID!
     name: String!
     path: String!
+    tags: [TagInfo]
+  }
+
+  type TagInfo {
+    id: ID!
+    name: String!
   }
 
   extend type Query {
@@ -14,8 +20,8 @@ export default gql`
   }
 
   extend type Mutation {
-    createTheme(name: String!, path: String!): Theme @auth
-    updateTheme(id: ID!, name: String!, path: String!): Theme @auth
+    createTheme(name: String!, path: String!, tags: [ID]): Theme @auth
+    updateTheme(id: ID!, name: String!, path: String!, tags: [ID]): Theme @auth
     deleteTheme(id: ID!): Theme @auth
   }
 `;

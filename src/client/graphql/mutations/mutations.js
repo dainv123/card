@@ -39,20 +39,17 @@ export const VERIFY_LOGGED_IN = gql`
 `;
 
 export const CREATE_THEME = gql`
-  mutation CreateTheme($name: String!, $path: String!) {
-    createTheme(name: $name, path: $path) {
-      name
-      path
+  mutation CreateTheme($name: String!, $path: String!, $tags: [ID]) {
+    createTheme(name: $name, path: $path, tags: $tags) {
+      id
     }
   }
 `;
 
 export const UPDATE_THEME = gql`
-  mutation UpdateTheme($id: ID!, $name: String!, $path: String!) {
-    updateTheme(id: $id, name: $name, path: $path) {
+  mutation UpdateTheme($id: ID!, $name: String!, $path: String!, $tags: [ID]) {
+    updateTheme(id: $id, name: $name, path: $path, tags: $tags) {
       id
-      name
-      path
     }
   }
 `;

@@ -9,10 +9,11 @@ import { FormInputField } from '../FormInputField/FormInputField';
 import { mutations } from '../../graphql/graphql';
 import validators from '../../validators/validators';
 
-const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel }) => {
-  const { Option } = Select;
-  const { TextArea } = Input;
+const { Option } = Select;
 
+const { TextArea } = Input;
+
+const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel }) => {
   const user = useSelector(state => state.auth.user);
 
   const hiddenInnerSubmitFormRef = useRef(null);
@@ -99,15 +100,22 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
     if (JSON.stringify(data) != JSON.stringify(value)) {
       setValue(data);
     }
+  }, [data]);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setValue({});
+    }
     if (isModalOpen != isOpen) {
       setIsOpen(isModalOpen);
     }
-  }, [isModalOpen, data]);
+  }, [isModalOpen]);
 
   return (
     <Modal
       title="Make Your Card"
       visible={isOpen}
+      onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
           Cancel
@@ -126,7 +134,7 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
         initialValues={{
           name: value.name || '',
           userId: value.userId || '',
-          themeId: value.themeId || '',
+          themeId: value.themeId || (themes.length && themes[0].id) || '',
           config: value.config || '{}'
         }}
         validationSchema={validators.card.createCardSchema}

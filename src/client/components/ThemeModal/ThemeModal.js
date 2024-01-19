@@ -8,7 +8,9 @@ import { FormInputField } from '../FormInputField/FormInputField';
 import { mutations } from '../../graphql/graphql';
 import validators from '../../validators/validators';
 
-const ThemeModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
+const { Option } = Select;
+
+const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
 
   const [value, setValue] = useState({});
@@ -19,11 +21,12 @@ const ThemeModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
   const [UpdateTheme] = useMutation(mutations.UPDATE_THEME);
 
   const handleSubmitForm = async (values, actions) => {
-    const { name, path } = values;
+    const { name, path, tags } = values;
+
     const { setErrors, setSubmitting } = actions;
 
     if (value.id) {
-      UpdateTheme({ variables: { id: value.id, name, path } }).then(
+      UpdateTheme({ variables: { id: value.id, name, path, tags } }).then(
         res => {
           handleOk();
           setIsOpen(false);
@@ -37,6 +40,9 @@ const ThemeModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
             }
             if (x.message.includes('path')) {
               errors.path = x.message.includes('path');
+            }
+            if (x.message.includes('tags')) {
+              errors.tags = x.message.includes('tags');
             }
           });
           setSubmitting(false);
@@ -44,7 +50,7 @@ const ThemeModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
         }
       );
     } else {
-      CreateTheme({ variables: { name, path } }).then(
+      CreateTheme({ variables: { name, path, tags } }).then(
         res => {
           handleOk();
           setIsOpen(false);
@@ -58,6 +64,9 @@ const ThemeModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
             }
             if (x.message.includes('path')) {
               errors.path = x.message.includes('path');
+            }
+            if (x.message.includes('tags')) {
+              errors.tags = x.message.includes('tags');
             }
           });
           setSubmitting(false);
@@ -71,15 +80,22 @@ const ThemeModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     if (JSON.stringify(data) != JSON.stringify(value)) {
       setValue(data);
     }
+  }, [data]);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setValue({});
+    }
     if (isModalOpen != isOpen) {
       setIsOpen(isModalOpen);
     }
-  }, [isModalOpen, data]);
+  }, [isModalOpen]);
 
   return (
     <Modal
       title="Make Your Theme"
       visible={isOpen}
+      onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
           Cancel
@@ -95,8 +111,12 @@ const ThemeModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     >
       <Formik
         validateOnBlur={false}
-        initialValues={{ name: data.name || '', path: data.path || '' }}
-        validationSchema={validators.theme.createThemeSchema}
+        initialValues={{ 
+          name: value.name || '', 
+          path: value.path || '', 
+          tags: (value.tags || []).map(i => i.id) 
+        }}
+        validationSchema={validators.tag.createThemeSchema}
         onSubmit={(values, actions) => handleSubmitForm(values, actions)}
         enableReinitialize
       >
@@ -120,6 +140,17 @@ const ThemeModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
             placeholder="Path"
             hasFeedback
           />
+          <Field
+            component={FormSelect}
+            name="tags"
+            mode="multiple"
+            placeholder="Select Tags"
+            style={{ width: '100%' }}
+          >
+            {tags.map(tag => (
+              <Option key={tag.id} value={tag.id}>{tag.name}</Option>
+            ))}
+          </Field>
         </Form>
       </Formik>
     </Modal>

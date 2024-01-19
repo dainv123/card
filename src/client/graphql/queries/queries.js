@@ -6,6 +6,10 @@ export const GET_THEME = gql`
       id
       name
       path
+      tags {
+        id
+        name
+      }
     }
   }
 `;
@@ -16,6 +20,10 @@ export const GET_PUBLIC_THEME = gql`
       id
       name
       path
+      tags {
+        id
+        name
+      }
     }
   }
 `;
@@ -26,6 +34,10 @@ export const GET_THEMES = gql`
       id
       name
       path
+      tags {
+        id
+        name
+      }
     }
   }
 `;

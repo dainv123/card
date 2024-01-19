@@ -14,19 +14,23 @@ const path = Joi.string()
   .max(255)
   .label('Path');
 
+const tags = Joi.array().items(Joi.string());
+
 export const findTheme = Joi.object().keys({
   id: Joi.objectId()
 });
 
 export const createTheme = Joi.object().keys({
   name,
-  path
+  path,
+  tags
 });
 
 export const updateTheme = Joi.object().keys({
   id: Joi.objectId(),
   name,
-  path
+  path,
+  tags
 });
 
 export const deleteTheme = Joi.object().keys({

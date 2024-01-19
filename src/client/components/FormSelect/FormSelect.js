@@ -2,8 +2,8 @@ import React from 'react';
 import { Form, Select } from 'antd';
 
 export const FormSelect = ({
-  field, // { name, value, onChange, onBlur }
-  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+  field,
+  form: { touched, errors, setFieldValue },
   InputType,
   hasFeedback,
   hideErrorMessage,
@@ -18,9 +18,18 @@ export const FormSelect = ({
     inputStatus = 'success';
   }
 
+  const handleChange = (selectedValues) => {
+    setFieldValue(field.name, selectedValues);
+  };
+
   return (
     <Form.Item help={errorMessage} validateStatus={inputStatus} hasFeedback={hasFeedback}>
-      <Select {...field} {...props}>
+      <Select
+        {...field}
+        {...props}
+        onChange={handleChange}
+        value={field.value}
+      >
         {props.children}
       </Select>
     </Form.Item>

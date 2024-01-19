@@ -1,15 +1,18 @@
 import Joi from 'joi';
+import mongoose from 'mongoose';
 import { Theme } from '../../models/models';
 import validators from '../validators/validators';
 import * as Auth from '../../helpers/auth';
 
 export default {
   Query: {
-    themes: (root, args, context, info) => Theme.find({}),
+    themes: async (root, args, context, info) => {
+      const themes = await Theme.find().populate('tags', 'id name').exec();
+      return themes;
+    },
     theme: async (root, args, context, info) => {
       await Joi.validate(args, validators.theme.findTheme);
-
-      return Theme.findById(args.id);
+      return Theme.findById(args.id).populate('tags', 'id name').exec();
     },
     publicTheme: async (root, args, context, info) => {
       return Theme.findById(args.id);
@@ -19,9 +22,17 @@ export default {
     createTheme: async (root, args, context, info) => {
       await Joi.validate(args, validators.theme.createTheme, { abortEarly: false });
 
-      const theme = await Theme.create(args);
+      const tagIds = args.tags.map(id => mongoose.Types.ObjectId(id));
+  
+      const theme = new Theme({
+        name: args.name,
+        path: args.path,
+        tags: tagIds
+      });
 
-      return theme;
+      const savedTheme = await theme.save();
+
+      return savedTheme;
     },
 
     updateTheme: async (root, args, context, info) => {
@@ -37,6 +48,10 @@ export default {
 
       if (args.path) {
         themeToUpdate.path = args.path;
+      }
+
+      if (args.tags) {
+        themeToUpdate.tags = args.tags;
       }
 
       // Save the updated theme

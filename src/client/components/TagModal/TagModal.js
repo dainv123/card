@@ -16,6 +16,7 @@ const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [CreateTag] = useMutation(mutations.CREATE_TAG);
+
   const [UpdateTag] = useMutation(mutations.UPDATE_TAG);
 
   const handleSubmitForm = async (values, actions) => {
@@ -65,15 +66,22 @@ const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     if (JSON.stringify(data) != JSON.stringify(value)) {
       setValue(data);
     }
+  }, [data]);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setValue({});
+    }
     if (isModalOpen != isOpen) {
       setIsOpen(isModalOpen);
     }
-  }, [isModalOpen, data]);
+  }, [isModalOpen]);
 
   return (
     <Modal
       title="Make Your Tag"
       visible={isOpen}
+      onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
           Cancel
@@ -89,7 +97,7 @@ const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     >
       <Formik
         validateOnBlur={false}
-        initialValues={{ name: data.name || '' }}
+        initialValues={{ name: value.name || '' }}
         validationSchema={validators.tag.createTagSchema}
         onSubmit={(values, actions) => handleSubmitForm(values, actions)}
         enableReinitialize
