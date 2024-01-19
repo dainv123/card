@@ -64,3 +64,22 @@ export const GET_CARDS = gql`
     }
   }
 `;
+
+
+export const GET_TAG = gql`
+  query GetTag($id: ID!) {
+    tag(id: $id) {
+      id
+      name
+    }
+  }
+`;
+
+export const GET_TAGS = gql`
+  query GetTags {
+    tags {
+      id
+      name
+    }
+  }
+`;
