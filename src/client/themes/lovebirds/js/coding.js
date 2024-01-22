@@ -104,7 +104,7 @@ function remapAndModify(json, flattened) {
             });
           });
         }
-      } else {
+      } else if (node.id in flattened) {
         node.text = flattened[node.id].default || flattened[node.id];
       }
     }
