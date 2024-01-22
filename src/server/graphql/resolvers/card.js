@@ -8,20 +8,23 @@ export default {
     cards: async (root, args, context, info) => {
       const cards = await Card.find({}).populate('themeId');
 
-      const cardsWithThemeNames = await Promise.all(cards.map(async (card) => {
-        const theme = (card.themeId && card.themeId.id) ? await Theme.findById(card.themeId.id) : null;
+      const cardsWithThemeNames = await Promise.all(
+        cards.map(async card => {
+          const theme =
+            card.themeId && card.themeId.id ? await Theme.findById(card.themeId.id) : null;
 
-        return {
-          id: card.id,
-          userId: card.userId,
-          themeId: theme ? theme.id : null,
-          themeName: theme ? theme.name : null,
-          config: card.config,
-          name: card.name || null,
-          createdAt: card.createdAt,
-          updatedAt: card.updatedAt,
-        };
-      }));
+          return {
+            id: card.id,
+            userId: card.userId,
+            themeId: theme ? theme.id : null,
+            themeName: theme ? theme.name : null,
+            config: card.config,
+            name: card.name || null,
+            createdAt: card.createdAt,
+            updatedAt: card.updatedAt
+          };
+        })
+      );
 
       return cardsWithThemeNames;
     },
@@ -32,7 +35,7 @@ export default {
     },
     publicCard: async (root, args, context, info) => {
       return Card.findById(args.id);
-    },
+    }
   },
   Mutation: {
     createCard: async (root, args, context, info) => {

@@ -21,24 +21,30 @@ function flattenJSON(json) {
       id: node.id,
       ...(node.text &&
         !!node.text.trim() && {
-        text: node.text
-      }),
+          text: node.text
+        }),
       ...(node.tag == 'img' &&
-        node.attr && node.attr.src && {
-        src: node.attr.src
-      }),
+        node.attr &&
+        node.attr.src && {
+          src: node.attr.src
+        }),
       ...(node.tag == 'a' &&
-        node.attr && node.attr.href &&
+        node.attr &&
+        node.attr.href &&
         node.attr.href[0] != '#' && {
-        href: node.attr.href
-      }),
+          href: node.attr.href
+        }),
       ...(node.tag == 'input' &&
-        node.attr && node.attr.placeholder && {
-        placeholder: node.attr.placeholder
-      }),
-      ...(node.attr && node.attr.style && node.attr.style.length == 2 && node.attr.style[0] == 'background-image:' && {
-        backgroundImage: node.attr.style[1]
-      })
+        node.attr &&
+        node.attr.placeholder && {
+          placeholder: node.attr.placeholder
+        }),
+      ...(node.attr &&
+        node.attr.style &&
+        node.attr.style.length == 2 &&
+        node.attr.style[0] == 'background-image:' && {
+          backgroundImage: node.attr.style[1]
+        })
     };
 
     if (node.tag === 'select' && node.child) {
@@ -57,9 +63,20 @@ function flattenJSON(json) {
 
       result[nodeObject.id] = { default: options };
     } else {
-      if (nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder || nodeObject.backgroundImage) {
+      if (
+        nodeObject.text ||
+        nodeObject.src ||
+        nodeObject.href ||
+        nodeObject.placeholder ||
+        nodeObject.backgroundImage
+      ) {
         result[nodeObject.id] = {
-          default: nodeObject.text || nodeObject.src || nodeObject.href || nodeObject.placeholder || nodeObject.backgroundImage
+          default:
+            nodeObject.text ||
+            nodeObject.src ||
+            nodeObject.href ||
+            nodeObject.placeholder ||
+            nodeObject.backgroundImage
         };
       }
 
@@ -83,7 +100,12 @@ function remapAndModify(json, flattened) {
         node.attr.href = flattened[node.id].default || flattened[node.id];
       } else if (node.tag == 'input' && node.attr) {
         node.attr.placeholder = flattened[node.id].default || flattened[node.id];
-      } else if (node.attr && node.attr.style && node.attr.style.length == 2 && node.attr.style[0] == 'background-image:') {
+      } else if (
+        node.attr &&
+        node.attr.style &&
+        node.attr.style.length == 2 &&
+        node.attr.style[0] == 'background-image:'
+      ) {
         node.attr.style[1] = flattened[node.id].default || flattened[node.id];
       } else if (node.tag == 'select') {
         node.child = [];
@@ -134,15 +156,15 @@ function reloadScript(scriptUrl = './js/script.min.js') {
 }
 
 function quickView(config) {
-  const json = remapAndModify(input, config)
+  const json = remapAndModify(input, config);
   document.getElementById('content').innerHTML = json2html(json);
-  reloadScript("./js/pagetransitions.js");
-  reloadScript("./js/easyResponsiveTabs.js");
-  reloadScript("./js/menu.js");
-  reloadScript("./js/wow.js");
-  reloadScript("./js/jquery.validate.min.js");
-  reloadScript("./js/formValidation.js")
-  reloadScript("./js/function.js");
+  reloadScript('./js/pagetransitions.js');
+  reloadScript('./js/easyResponsiveTabs.js');
+  reloadScript('./js/menu.js');
+  reloadScript('./js/wow.js');
+  reloadScript('./js/jquery.validate.min.js');
+  reloadScript('./js/formValidation.js');
+  reloadScript('./js/function.js');
   setTimeout(() => initSlick(), 800);
 }
 
@@ -151,9 +173,9 @@ var input = html2json(content);
 var inputWithIds = addIds(input);
 var properties = flattenJSON(inputWithIds);
 
-window.addEventListener('message', function (event) {
+window.addEventListener('message', function(event) {
   if (event.data && event.data.data != '{}' && event.data.type === 'internal-iframe-pass-inside') {
-    quickView(typeof event.data.data == 'string' ? JSON.parse(event.data.data) : event.data.data);
+    quickView(typeof event.data.data === 'string' ? JSON.parse(event.data.data) : event.data.data);
   }
 });
 

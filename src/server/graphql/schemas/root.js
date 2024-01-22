@@ -6,7 +6,7 @@ class HasRoleDirective extends SchemaDirectiveVisitor {
     const { resolve = defaultFieldResolver } = field;
     const allowedRoles = this.args.roles;
 
-    field.resolve = async function (...args) {
+    field.resolve = async function(...args) {
       const [, , context] = args;
 
       if (!context.user) {
