@@ -55,8 +55,6 @@ export const verifyForgotPasswordChange = async (verifiedToken, newPassword) => 
 
   const user = await User.findOne({ _id: verifiedToken.user });
 
-  console.log(user);
-
   if (!user || (await user.matchesPassword(newPassword))) {
     throw new AuthenticationError(message);
   }

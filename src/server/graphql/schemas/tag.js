@@ -8,8 +8,8 @@ export default gql`
 
   extend type Query {
     publicTag(id: ID!): Tag @guest
-    tag(id: ID!): Tag @auth @hasRole(role: USER)
-    tags: [Tag!]! @auth @hasRole(role: USER)
+    tag(id: ID!): Tag @auth @hasRole(role: ADMIN)
+    tags: [Tag!]! @auth @hasRole(role: ADMIN)
   }
 
   extend type Mutation {

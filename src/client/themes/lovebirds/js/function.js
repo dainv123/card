@@ -52,42 +52,41 @@ function initSlick() {
         }, 200);
     });
 
-     // JavaScript Document
-   var today = new Date();
-   var target = new Date('09/09/2017 13:00:00'); //Enter Target date & time - MM/DD/YYYY hh:mm:ss
-   var startdate = new Date('04/1/2016'); //Enter Timer start date or Today's date - MM/DD/YYYY
-   if ($.find('.countdown').length) {
-       $('.countdown').final_countdown({
-           'start': startdate.getTime() / 1000,
-           'end': target.getTime() / 1000,
-           'now': today.getTime() / 1000
-       }, function () {
-           // Finish Callback
-       });
-   }
-   $(window).load(function () {
-    console.log(2222);
-       if ($.find('.gridlayout').length) {
-           $('.gridlayout').isotope({
-               itemSelector: '.grid-item',
-               masonry: {
-                   columnWidth: '.grid-item'
-               }
-           });
-       }
-   });
+    // JavaScript Document
+    var today = new Date();
+    var target = new Date('09/09/2017 13:00:00'); //Enter Target date & time - MM/DD/YYYY hh:mm:ss
+    var startdate = new Date('04/1/2016'); //Enter Timer start date or Today's date - MM/DD/YYYY
+    if ($.find('.countdown').length) {
+        $('.countdown').final_countdown({
+            'start': startdate.getTime() / 1000,
+            'end': target.getTime() / 1000,
+            'now': today.getTime() / 1000
+        }, function () {
+            // Finish Callback
+        });
+    }
+    $(window).load(function () {
+        if ($.find('.gridlayout').length) {
+            $('.gridlayout').isotope({
+                itemSelector: '.grid-item',
+                masonry: {
+                    columnWidth: '.grid-item'
+                }
+            });
+        }
+    });
 
-   /*Timer for wedding page*/
-   if ($.find('#example').length) {
-       $('#example').countdown({
-           date: '09/09/2017 13:00:00', //Enter Target date & time - MM/DD/YYYY hh:mm:ss
-           offset: +5.5,
-           day: 'Day',
-           days: 'Days'
-       }, function () {
-       });
-	}
-	
+    /*Timer for wedding page*/
+    if ($.find('#example').length) {
+        $('#example').countdown({
+            date: '09/09/2017 13:00:00', //Enter Target date & time - MM/DD/YYYY hh:mm:ss
+            offset: +5.5,
+            day: 'Day',
+            days: 'Days'
+        }, function () {
+        });
+    }
+
     $('.hamburger').on('click', function () {
         if ($('.navbar-fixed-top').css('right') == '-100px') {
             $('.navbar-fixed-top').animate({ right: '0px' }, 'slow');
@@ -103,10 +102,8 @@ function initSlick() {
             if (evt.target.class == 'hamburger') {
                 return;
             }
-            if ($(evt.target).closest('.hamburger').length)
-            { return; }
-            else
-            {
+            if ($(evt.target).closest('.hamburger').length) { return; }
+            else {
                 if ($('.navbar-fixed-top').css('overflow-y') == 'scroll') {
                     $('.navbar-fixed-top').animate({ right: '-100px' }, 'slow');
                 }
@@ -183,7 +180,7 @@ function initSlick() {
     }
     /*-----------------------------------people page slider------------------------*/
 
-    if ($('.the-people-slider').hasClass('slick-initialized') ) {
+    if ($('.the-people-slider').hasClass('slick-initialized')) {
         $('.the-people-slider').slick('destroy')
     }
     $('.the-people-slider').slick({
@@ -195,49 +192,48 @@ function initSlick() {
         dots: false,
         autoplay: true,
         responsive: [
-  {
-      breakpoint: 981,
-      settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          arrows: false
-      }
-  },
+            {
+                breakpoint: 981,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false
+                }
+            },
 
-   {
-       breakpoint: 769,
-       settings: {
-           slidesToShow: 1,
-           slidesToScroll: 1,
-           arrows: false
-       }
-   },
-    {
-        breakpoint: 640,
-        settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            arrows: false
-        }
-    },
-   {
-       breakpoint: 361,
-       settings: {
-           slidesToShow: 1,
-           slidesToScroll: 1,
-           arrows: false
-       }
-   }
-   // You can unslick at a given breakpoint now by adding:
-   // settings: 'unslick'
-   // instead of a settings object
+            {
+                breakpoint: 769,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false
+                }
+            },
+            {
+                breakpoint: 640,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false
+                }
+            },
+            {
+                breakpoint: 361,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false
+                }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: 'unslick'
+            // instead of a settings object
         ]
     });
 
-    if ($('.ceremony-slider').hasClass('slick-initialized') ) {
+    if ($('.ceremony-slider').hasClass('slick-initialized')) {
         $('.ceremony-slider').slick('destroy')
     }
-    console.log(111);
     $('.ceremony-slider').slick({
         dots: false,
         infinite: true,
@@ -247,35 +243,35 @@ function initSlick() {
         slidesToScroll: 1,
         arrows: false,
         responsive: [
-          {
-              breakpoint: 1025,
-              settings: {
-                  slidesToShow: 1,
-                  slidesToScroll: 1,
-                  infinite: true,
-                  dots: false,
-                  arrows: false
-              }
-          },
-          {
-              breakpoint: 769,
-              settings: {
-                  arrows: false,
-                  slidesToShow: 1,
-                  slidesToScroll: 1
-              }
-          },
-          {
-              breakpoint: 481,
-              settings: {
-                  slidesToShow: 1,
-                  slidesToScroll: 1,
-                  arrows: false
-              }
-          }
-          // You can unslick at a given breakpoint now by adding:
-          // settings: 'unslick'
-          // instead of a settings object
+            {
+                breakpoint: 1025,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: false,
+                    arrows: false
+                }
+            },
+            {
+                breakpoint: 769,
+                settings: {
+                    arrows: false,
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 481,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false
+                }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: 'unslick'
+            // instead of a settings object
         ]
     });
 

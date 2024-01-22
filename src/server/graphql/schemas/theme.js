@@ -15,8 +15,8 @@ export default gql`
 
   extend type Query {
     publicTheme(id: ID!): Theme @guest
-    theme(id: ID!): Theme @auth @hasRole(role: USER)
-    themes: [Theme!]! @auth @hasRole(role: USER)
+    theme(id: ID!): Theme @auth @hasRole(role: ADMIN)
+    themes: [Theme!]! @auth @hasRole(role: ADMIN)
   }
 
   extend type Mutation {

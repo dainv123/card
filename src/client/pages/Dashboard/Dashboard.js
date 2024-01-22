@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Layout, Row, Card, Table, Tag, Button } from 'antd';
 import { mutations, queries } from '../../graphql/graphql';
@@ -9,6 +10,10 @@ import TagModal from '../../components/TagModal/TagModal';
 import _s from './Dashboard.less';
 
 const DashboardPage = () => {
+  const user = useSelector(state => state.auth.user);
+
+  const isRoleAdmin = user.role === "ADMIN";
+
   const [DeleteCard] = useMutation(mutations.DELETE_CARD);
 
   const [dataCardPopup, setDataCardPopup] = useState({});
@@ -19,7 +24,7 @@ const DashboardPage = () => {
 
   const dataCard = (responseCard && responseCard.data && responseCard.data.cards) || [];
 
-  const onDeleteCard = async id => { 
+  const onDeleteCard = async id => {
     DeleteCard({ variables: { id } });
     await responseCard.refetch();
   }
@@ -82,7 +87,7 @@ const DashboardPage = () => {
 
   const dataTheme = (responseTheme && responseTheme.data && responseTheme.data.themes) || [];
 
-  const onDeleteTheme = async id => { 
+  const onDeleteTheme = async id => {
     DeleteTheme({ variables: { id } });
     await responseTheme.refetch();
   }
@@ -137,7 +142,7 @@ const DashboardPage = () => {
     }
   ];
 
-  
+
   const [DeleteTag] = useMutation(mutations.DELETE_TAG);
 
   const [dataTagPopup, setDataTagPopup] = useState({});
@@ -148,7 +153,7 @@ const DashboardPage = () => {
 
   const dataTag = (responseTag && responseTag.data && responseTag.data.tags) || [];
 
-  const onDeleteTag = async id => { 
+  const onDeleteTag = async id => {
     DeleteTag({ variables: { id } });
     await responseTag.refetch();
   }
@@ -193,44 +198,50 @@ const DashboardPage = () => {
     <LoggedLayout>
       <Layout.Content>
         <div className={_s.container}>
-        <Row>
-          <Button type="primary" onClick={showModalTheme}>ADD THEME</Button>
-          <ThemeModal
-            data={dataThemePopup}
-            tags={dataTag}
-            isModalOpen={isOpenThemePopup}
-            handleOk={handleOkTheme}
-            handleCancel={handleCancelTheme}
-          ></ThemeModal>
-        </Row>
-        <Row>
-          <Table columns={columnsTheme} dataSource={dataTheme} rowKey={'id'}></Table>
-        </Row>
-        <Row>
-          <Button type="primary" onClick={showModalCard}>ADD CARD</Button>
-          <CardModal
-            data={dataCardPopup}
-            themes={dataTheme}
-            isModalOpen={isOpenCardPopup}
-            handleOk={handleOkCard}
-            handleCancel={handleCancelCard}
-          ></CardModal>
-        </Row>
-        <Row>
-          <Table columns={columnsCard} dataSource={dataCard} rowKey={'id'}></Table>
-        </Row>
-        <Row>
-          <Button type="primary" onClick={showModalTag}>ADD TAG</Button>
-          <TagModal
-            data={dataTagPopup}
-            isModalOpen={isOpenTagPopup}
-            handleOk={handleOkTag}
-            handleCancel={handleCancelTag}
-          ></TagModal>
-        </Row>
-        <Row>
-          <Table columns={columnsTag} dataSource={dataTag} rowKey={'id'}></Table>
-        </Row>
+          <Row>
+            <Button type="primary" onClick={showModalCard}>ADD CARD</Button>
+            <CardModal
+              data={dataCardPopup}
+              themes={dataTheme}
+              isModalOpen={isOpenCardPopup}
+              handleOk={handleOkCard}
+              handleCancel={handleCancelCard}
+            ></CardModal>
+          </Row>
+          <Row>
+            <Table columns={columnsCard} dataSource={dataCard} rowKey={'id'}></Table>
+          </Row>
+          {
+            isRoleAdmin && (
+              <>
+                <Row>
+                  <Button type="primary" onClick={showModalTheme}>ADD THEME</Button>
+                  <ThemeModal
+                    data={dataThemePopup}
+                    tags={dataTag}
+                    isModalOpen={isOpenThemePopup}
+                    handleOk={handleOkTheme}
+                    handleCancel={handleCancelTheme}
+                  ></ThemeModal>
+                </Row>
+                <Row>
+                  <Table columns={columnsTheme} dataSource={dataTheme} rowKey={'id'}></Table>
+                </Row>
+                <Row>
+                  <Button type="primary" onClick={showModalTag}>ADD TAG</Button>
+                  <TagModal
+                    data={dataTagPopup}
+                    isModalOpen={isOpenTagPopup}
+                    handleOk={handleOkTag}
+                    handleCancel={handleCancelTag}
+                  ></TagModal>
+                </Row>
+                <Row>
+                  <Table columns={columnsTag} dataSource={dataTag} rowKey={'id'}></Table>
+                </Row>
+              </>
+            )
+          }
         </div>
       </Layout.Content>
     </LoggedLayout>

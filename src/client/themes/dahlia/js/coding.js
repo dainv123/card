@@ -21,24 +21,24 @@ function flattenJSON(json) {
       id: node.id,
       ...(node.text &&
         !!node.text.trim() && {
-          text: node.text
-        }),
+        text: node.text
+      }),
       ...(node.tag == 'img' &&
         node.attr && node.attr.src && {
-          src: node.attr.src
-        }),
+        src: node.attr.src
+      }),
       ...(node.tag == 'a' &&
         node.attr && node.attr.href &&
         node.attr.href[0] != '#' && {
-          href: node.attr.href
-        }),
+        href: node.attr.href
+      }),
       ...(node.tag == 'input' &&
         node.attr && node.attr.placeholder && {
-          placeholder: node.attr.placeholder
-        }),
+        placeholder: node.attr.placeholder
+      }),
       ...(node.attr && node.attr.style && node.attr.style.length == 2 && node.attr.style[0] == 'background-image:' && {
-          backgroundImage: node.attr.style[1]
-        })
+        backgroundImage: node.attr.style[1]
+      })
     };
 
     if (node.tag === 'select' && node.child) {
@@ -104,7 +104,7 @@ function remapAndModify(json, flattened) {
             });
           });
         }
-      } else if (node.id in flattened) {
+      } else {
         node.text = flattened[node.id].default || flattened[node.id];
       }
     }
@@ -138,7 +138,7 @@ var input = html2json(content);
 var inputWithIds = addIds(input);
 var properties = flattenJSON(inputWithIds);
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', function (event) {
   if (event.data && event.data.data != '{}' && event.data.type === 'internal-iframe-pass-inside') {
     quickView(typeof event.data.data == 'string' ? JSON.parse(event.data.data) : event.data.data);
   }

@@ -9,12 +9,12 @@ export default {
       const cards = await Card.find({}).populate('themeId');
 
       const cardsWithThemeNames = await Promise.all(cards.map(async (card) => {
-        const theme = await Theme.findById(card.themeId.id);
+        const theme = (card.themeId && card.themeId.id) ? await Theme.findById(card.themeId.id) : null;
 
         return {
           id: card.id,
           userId: card.userId,
-          themeId: card.themeId.id,
+          themeId: theme ? theme.id : null,
           themeName: theme ? theme.name : null,
           config: card.config,
           name: card.name || null,

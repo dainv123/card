@@ -12,16 +12,16 @@ export default gql`
   type CardDetail {
     id: ID!
     userId: ID!
-    themeId: ID!
-    themeName: String!
-    config: String!
+    themeId: ID
+    themeName: String
+    config: String
     name: String
   }
 
   extend type Query {
     publicCard(id: ID!): Card @guest
-    card(id: ID!): Card @auth @hasRole(role: USER)
-    cards: [CardDetail!]! @auth @hasRole(role: USER)
+    card(id: ID!): Card @auth @hasRole
+    cards: [CardDetail!]! @auth @hasRole
   }
 
   extend type Mutation {
