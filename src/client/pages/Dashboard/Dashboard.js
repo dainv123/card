@@ -53,7 +53,7 @@ const DashboardPage = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
-        <a target="_blank" href={'/reader/' + record.id} rel="noreferrer">
+        <a target="_blank" href={'/reader/' + encodeURIComponent(text)} rel="noreferrer">
           {text}
         </a>
       )
@@ -97,7 +97,7 @@ const DashboardPage = () => {
 
   const [isOpenThemePopup, setIsOpenThemePopup] = useState(false);
 
-  const responseTheme = useQuery(queries.GET_THEMES);
+  const responseTheme = isRoleAdmin && useQuery(queries.GET_THEMES);
 
   const dataTheme = (responseTheme && responseTheme.data && responseTheme.data.themes) || [];
 
@@ -180,7 +180,7 @@ const DashboardPage = () => {
 
   const [isOpenTagPopup, setIsOpenTagPopup] = useState(false);
 
-  const responseTag = useQuery(queries.GET_TAGS);
+  const responseTag = isRoleAdmin && useQuery(queries.GET_TAGS);
 
   const dataTag = (responseTag && responseTag.data && responseTag.data.tags) || [];
 

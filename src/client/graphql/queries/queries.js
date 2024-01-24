@@ -43,8 +43,8 @@ export const GET_THEMES = gql`
 `;
 
 export const GET_CARD = gql`
-  query GetCard($id: ID!) {
-    card(id: $id) {
+  query GetCard($id: ID, $name: String) {
+    card(id: $id, name: $name) {
       id
       userId
       themeId
@@ -55,8 +55,8 @@ export const GET_CARD = gql`
 `;
 
 export const GET_PUBLIC_CARD = gql`
-  query GetPublicCard($id: ID!) {
-    publicCard(id: $id) {
+  query GetPublicCard($id: ID, $name: String) {
+    publicCard(id: $id, name: $name) {
       id
       userId
       themeId

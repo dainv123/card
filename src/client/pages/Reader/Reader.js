@@ -18,7 +18,8 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
 
   const responseCard = useQuery(!loggedIn ? queries.GET_PUBLIC_CARD : queries.GET_CARD, {
     variables: {
-      id: rest.match.params.id
+      // id: rest.match.params.id
+      name: decodeURIComponent(rest.match.params.id || '')
     }
   });
 

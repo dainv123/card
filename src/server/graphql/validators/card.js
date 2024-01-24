@@ -4,7 +4,8 @@ import JoiObjectId from 'joi-objectid';
 Joi.objectId = JoiObjectId(Joi);
 
 export const findCard = Joi.object().keys({
-  id: Joi.objectId()
+  id: Joi.objectId().allow(null),
+  name: Joi.string().allow(null),
 });
 
 export const createCard = Joi.object().keys({

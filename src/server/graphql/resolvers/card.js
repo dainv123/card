@@ -2,11 +2,15 @@ import Joi from 'joi';
 import { Card, Theme } from '../../models/models';
 import validators from '../validators/validators';
 import * as Auth from '../../helpers/auth';
+import * as Role from '../../constants/role';
 
 export default {
   Query: {
     cards: async (root, args, context, info) => {
-      const cards = await Card.find({}).populate('themeId');
+      const userIdFilter =
+        context.req.session.userRole === Role.USER ? { userId: context.req.session.userId } : {};
+
+      const cards = await Card.find(userIdFilter).populate('themeId');
 
       const cardsWithThemeNames = await Promise.all(
         cards.map(async card => {
@@ -29,17 +33,53 @@ export default {
       return cardsWithThemeNames;
     },
     card: async (root, args, context, info) => {
-      await Joi.validate(args, validators.card.findCard);
+      const query = {};
+      if (args.id) {
+        query._id = args.id;
+      } else if (args.name) {
+        query.name = args.name;
+      } else {
+        throw new Error('Please provide either id or name for card lookup.');
+      }
 
-      return Card.findById(args.id);
+      const card = await Card.findOne(query);
+
+      if (!card) {
+        throw new Error('Card not found');
+      }
+
+      return card;
     },
     publicCard: async (root, args, context, info) => {
-      return Card.findById(args.id);
+      const query = {};
+      if (args.id) {
+        query._id = args.id;
+      } else if (args.name) {
+        query.name = args.name;
+      } else {
+        throw new Error('Please provide either id or name for card lookup.');
+      }
+
+      const card = await Card.findOne(query);
+
+      if (!card) {
+        throw new Error('Card not found');
+      }
+
+      return card;
     }
   },
   Mutation: {
     createCard: async (root, args, context, info) => {
       await Joi.validate(args, validators.card.createCard, { abortEarly: false });
+
+      if (args.name) {
+        const existingCardWithSameName = await Card.findOne({ name: args.name });
+  
+        if (existingCardWithSameName) {
+          throw new Error('Card with the provided name already exists');
+        }
+      }
 
       const card = await Card.create(args);
 
@@ -66,6 +106,17 @@ export default {
       }
 
       if (args.name) {
+        const existingCardWithSameName = await Card.findOne({
+          name: args.name,
+          _id: { 
+            $ne: args.id 
+          }
+        });
+  
+        if (existingCardWithSameName) {
+          throw new Error('Card with the provided name already exists');
+        }
+
         cardToUpdate.name = args.name;
       }
 

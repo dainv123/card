@@ -9,7 +9,7 @@ export default gql`
     name: String
   }
 
-  type CardDetail {
+  type CardForList {
     id: ID!
     userId: ID!
     themeId: ID
@@ -19,9 +19,9 @@ export default gql`
   }
 
   extend type Query {
-    publicCard(id: ID!): Card @guest
-    card(id: ID!): Card @auth @hasRole
-    cards: [CardDetail!]! @auth @hasRole
+    publicCard(id: ID, name: String): Card @guest
+    card(id: ID, name: String): Card @auth @hasRole
+    cards: [CardForList!]! @auth @hasRole
   }
 
   extend type Mutation {
