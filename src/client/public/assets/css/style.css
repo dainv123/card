@@ -561,15 +561,15 @@ img {
     margin-left: 284px;
 }
 
-.sub-page{
+/* .sub-page{
     display: none;
-}
+} */
 .sub-page .sub-page-inner {
     position: relative;
     height: auto;
     width: 100%;
     min-width: 100%;
-    min-height: 100%;
+    min-height: 100vh;
     padding: 70px;
     background-color: #fff;
 }

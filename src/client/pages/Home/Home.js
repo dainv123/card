@@ -1,34 +1,56 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { queries, mutations } from '../../graphql/graphql';
-import { connect } from 'react-redux';
-import { Icon, Avatar } from 'antd';
-import { Route, Redirect } from 'react-router-dom';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import PropTypes from 'prop-types';
-import EditorModal from '../../components/EditorModal/EditorModal';
+import React, { useEffect } from 'react';
+import { Layout } from 'antd';
+import { NavLink } from 'react-router-dom';
+import UserLayout from '../../components/Layouts/UserLayout';
 
 const HomePage = () => {
+  useEffect(() => {
+    $('.typed').typed({
+      stringsElement: $('.typed-strings'),
+      typeSpeed: 20,
+      backDelay: 500,
+      loop: true,
+      autoplay: true,
+      autoplayTimeout: 500,
+      contentType: 'html',
+      loopCount: true
+    });
+  }, []);
+
   return (
-    <>
-      <iframe
-        src="../themes/daidev/index.html"
-        width="100%"
-        height="100%"
-        frameBorder="0"
-        style={{
-          overflow: 'hidden',
-          overflowX: 'hidden',
-          overflowY: 'hidden',
-          position: 'absolute',
-          height: '100%',
-          width: '100%',
-          top: '0px',
-          left: '0px',
-          right: '0px',
-          bottom: '0px'
-        }}
-      />
-    </>
+    <UserLayout>
+      <Layout.Content>
+        <section id="home" className="sub-page start-page">
+          <div className="sub-page-inner">
+            <div className="mask"></div>
+            <div className="row">
+              <div className="col-sm-12 col-md-12 col-lg-12">
+                <div className="title-block">
+                  <h2>Hello, I'm Dai Nguyen</h2>
+                  <div className="type-wrap">
+                    <div className="typed-strings">
+                      <span>Senior Web Developer</span>
+                      <span>Newbie Mobile Developer</span>
+                      <span>and</span>
+                      <span>Culi in Some Backend Languages</span>
+                    </div>
+                    <span className="typed"></span>
+                  </div>
+                  <div className="home-buttons">
+                    <NavLink to="/login" className="bt-submit">
+                      <i className="lnr lnr-briefcase"></i> Login
+                    </NavLink>
+                    <NavLink to="/contact" className="bt-submit">
+                      <i className="lnr lnr-envelope"></i> Contact Me
+                    </NavLink>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Layout.Content>
+    </UserLayout>
   );
 };
 
