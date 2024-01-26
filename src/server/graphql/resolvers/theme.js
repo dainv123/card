@@ -3,32 +3,56 @@ import mongoose from 'mongoose';
 import { Theme } from '../../models/models';
 import validators from '../validators/validators';
 import * as Auth from '../../helpers/auth';
+import { resolve } from 'path';
+import { createWriteStream  } from 'fs';
+
+const uploadFile = async (file, destinationPath = './uploads') => {
+  const { createReadStream, filename } = await file;
+  const stream = createReadStream();
+  const path = resolve(destinationPath, filename);
+  await stream.pipe(createWriteStream(path));
+  return path;
+};
 
 export default {
   Query: {
     themes: async (root, args, context, info) => {
-      const themes = await Theme.find().populate('tags', 'id name').exec();
+      const themes = await Theme.find()
+        .populate('tags', 'id name')
+        .exec();
       return themes;
     },
     theme: async (root, args, context, info) => {
       await Joi.validate(args, validators.theme.findTheme);
-      return Theme.findById(args.id).populate('tags', 'id name').exec();
+      return Theme.findById(args.id)
+        .populate('tags', 'id name')
+        .exec();
     },
     publicTheme: async (root, args, context, info) => {
       return Theme.findById(args.id);
-    },
+    }
   },
   Mutation: {
     createTheme: async (root, args, context, info) => {
       await Joi.validate(args, validators.theme.createTheme, { abortEarly: false });
 
       const tagIds = args.tags.map(id => mongoose.Types.ObjectId(id));
-  
+
       const theme = new Theme({
         name: args.name,
         path: args.path,
-        tags: tagIds
+        tags: tagIds,
+        // image: args.image
+        //   ? {
+        //       data: Buffer.from(args.image.data, 'base64'),
+        //       contentType: args.image.contentType
+        //     }
+        //   : null
       });
+
+      if (args.image) {
+        theme.image = await uploadFile(args.image);
+      }
 
       const savedTheme = await theme.save();
 
@@ -54,7 +78,13 @@ export default {
         themeToUpdate.tags = args.tags;
       }
 
-      // Save the updated theme
+      if (args.image) {
+        themeToUpdate.image = {
+          data: Buffer.from(args.image.data, 'base64'),
+          contentType: args.image.contentType
+        };
+      }
+
       const updatedTheme = await themeToUpdate.save();
 
       return updatedTheme;
