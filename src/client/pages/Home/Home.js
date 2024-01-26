@@ -30,7 +30,7 @@ const HomePage = () => {
                   <div className="type-wrap">
                     <div className="typed-strings">
                       <span>Senior Web Developer</span>
-                      <span>Newbie Mobile Developer</span>
+                      <span>Also, Mobile Developer</span>
                       <span>and</span>
                       <span>Culi in Some Backend Languages</span>
                     </div>
