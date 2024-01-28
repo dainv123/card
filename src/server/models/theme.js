@@ -12,10 +12,12 @@ const themeSchema = new Schema(
         ref: 'Tag',
       }
     ],
-    image: {
-      data: Buffer,
-      contentType: String,
-    }
+    // image: {
+    //   name: String,
+    //   data: Buffer,
+    //   contentType: String,
+    // }
+    image: String
   },
   {
     timestamps: true

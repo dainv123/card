@@ -3,16 +3,8 @@ import mongoose from 'mongoose';
 import { Theme } from '../../models/models';
 import validators from '../validators/validators';
 import * as Auth from '../../helpers/auth';
-import { resolve } from 'path';
-import { createWriteStream  } from 'fs';
+import { saveImageToFileSystem, deleteImageFromFileSystem } from '../../utils/uploadImage';
 
-const uploadFile = async (file, destinationPath = './uploads') => {
-  const { createReadStream, filename } = await file;
-  const stream = createReadStream();
-  const path = resolve(destinationPath, filename);
-  await stream.pipe(createWriteStream(path));
-  return path;
-};
 
 export default {
   Query: {
@@ -41,17 +33,16 @@ export default {
       const theme = new Theme({
         name: args.name,
         path: args.path,
-        tags: tagIds,
-        // image: args.image
-        //   ? {
-        //       data: Buffer.from(args.image.data, 'base64'),
-        //       contentType: args.image.contentType
-        //     }
-        //   : null
+        tags: tagIds
       });
 
       if (args.image) {
-        theme.image = await uploadFile(args.image);
+        const abc = await args.image;
+
+        console.log(1111, abc);
+
+        const imageLink = await saveImageToFileSystem(args.image);
+        theme.image = imageLink;
       }
 
       const savedTheme = await theme.save();
@@ -79,10 +70,10 @@ export default {
       }
 
       if (args.image) {
-        themeToUpdate.image = {
-          data: Buffer.from(args.image.data, 'base64'),
-          contentType: args.image.contentType
-        };
+        // themeToUpdate.image = {
+        //   data: Buffer.from(args.image.data, 'base64'),
+        //   contentType: args.image.contentType
+        // };
       }
 
       const updatedTheme = await themeToUpdate.save();

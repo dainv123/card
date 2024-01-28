@@ -16,10 +16,7 @@ const path = Joi.string()
 
 const tags = Joi.array().items(Joi.string());
 
-const image = Joi.object({
-  data: Joi.string().required(),
-  contentType: Joi.string().required(),
-});
+const image = Joi.required()
 
 export const findTheme = Joi.object().keys({
   id: Joi.objectId()
@@ -37,7 +34,7 @@ export const updateTheme = Joi.object().keys({
   name,
   path,
   tags,
-  image
+  // image
 });
 
 export const deleteTheme = Joi.object().keys({

@@ -1,15 +1,15 @@
 import express from 'express';
+import path from 'path';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
 import { ApolloServer } from 'apollo-server-express';
-
 import loggerConfig from './config/loggerConfig';
-
 import typeDefs from './graphql/schemas/schemas';
 import resolvers from './graphql/resolvers/resolvers';
 import schemaDirectives from './graphql/directives/directives';
+import { graphqlUploadExpress } from './node_modules/graphql-upload';
 
 const { NODE_ENV, SESSION_NAME, SESSION_SECRET, SESSION_MAX_AGE, MONGO_DB_URI, PORT } = process.env;
 
@@ -20,11 +20,14 @@ mongoose.set('useCreateIndex', true);
 // Set Secure Headers with Helmet
 app.use(helmet());
 app.use(helmet.permittedCrossDomainPolicies());
+app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }));
+app.use(express.json({ limit: '1mb' }));
 
 // Serve React Application
 // if (NODE_ENV !== 'development') {
 app.use(express.static('dist'));
-app.use(function(req, res, next) {
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -59,11 +62,11 @@ const server = new ApolloServer({
     NODE_ENV.trim() !== 'development'
       ? false
       : {
-          settings: {
-            'request.credentials': 'include',
-            'schema.polling.enable': false
-          }
-        },
+        settings: {
+          'request.credentials': 'include',
+          'schema.polling.enable': false
+        }
+      },
   context: ({ req, res }) => ({ req, res })
 });
 
@@ -80,7 +83,7 @@ server.applyMiddleware({
   }
 });
 
-mongoose.connect(MONGO_DB_URI, { 
+mongoose.connect(MONGO_DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });

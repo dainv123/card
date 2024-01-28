@@ -1,27 +1,17 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
-  type Theme {
-    id: ID!
-    name: String!
-    path: String!
-    tags: [TagInfo]
-    image: Image
-  }
-
   type TagInfo {
     id: ID!
     name: String!
   }
 
-  type Image {
-    data: String!
-    contentType: String!
-  }
-
-  input ImageInfo {
-    data: String!
-    contentType: String!
+  type Theme {
+    id: ID!
+    name: String!
+    path: String!
+    tags: [TagInfo]
+    image: String!
   }
 
   extend type Query {
@@ -31,8 +21,8 @@ export default gql`
   }
 
   extend type Mutation {
-    createTheme(name: String!, path: String!, tags: [ID], image: ImageInfo): Theme @auth
-    updateTheme(id: ID!, name: String!, path: String!, tags: [ID], image: ImageInfo): Theme @auth
+    createTheme(name: String!, path: String!, tags: [ID], image: Upload!): Theme @auth
+    updateTheme(id: ID!, name: String!, path: String!, tags: [ID], image: Upload!): Theme @auth
     deleteTheme(id: ID!): Theme @auth
   }
 `;
