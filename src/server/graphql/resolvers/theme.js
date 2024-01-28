@@ -5,7 +5,6 @@ import validators from '../validators/validators';
 import * as Auth from '../../helpers/auth';
 import { saveImageToFileSystem, deleteImageFromFileSystem } from '../../utils/uploadImage';
 
-
 export default {
   Query: {
     themes: async (root, args, context, info) => {

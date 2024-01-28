@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Upload, Icon, message } from 'antd';
 
-export const ImageUpload = ({ value, onChange, maxCount = 1 }) => {
+export const ImageUpload = ({
+  field,
+  form: { touched, errors, setFieldValue },
+  maxCount = 1
+}) => {
   const handleChange = info => {
     if (info.fileList.length > maxCount) {
       message.warning(`You can only upload up to ${maxCount} files.`);
@@ -9,14 +13,22 @@ export const ImageUpload = ({ value, onChange, maxCount = 1 }) => {
     }
 
     if (info.file.status === 'done') {
-      onChange(info.file.response);
+      console.log(info);
+      setFieldValue(field.name, {
+        name: info.fileList[0].name,
+        data: info.fileList[0].thumbUrl,
+        contentType: info.fileList[0].type,
+      });
     }
     if (info.file.status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
 
-  const customRequest = ({ file, onSuccess }) => setTimeout(() => onSuccess(), 0);
+  const customRequest = ({ file, onSuccess }) => {
+    console.log(file);
+    setTimeout(() => onSuccess(), 1000);
+  };
 
   const uploadButton = (
     <div>
@@ -30,7 +42,7 @@ export const ImageUpload = ({ value, onChange, maxCount = 1 }) => {
       onChange={handleChange}
       customRequest={customRequest}
       listType="picture"
-      items={value ? [value] : []}
+      items={field.value ? [field.value] : []}
     >
       {uploadButton}
     </Upload>

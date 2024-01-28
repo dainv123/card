@@ -27,10 +27,10 @@ app.use(express.json({ limit: '1mb' }));
 // if (NODE_ENV !== 'development') {
 app.use(express.static('dist'));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 // }
@@ -62,11 +62,11 @@ const server = new ApolloServer({
     NODE_ENV.trim() !== 'development'
       ? false
       : {
-        settings: {
-          'request.credentials': 'include',
-          'schema.polling.enable': false
-        }
-      },
+          settings: {
+            'request.credentials': 'include',
+            'schema.polling.enable': false
+          }
+        },
   context: ({ req, res }) => ({ req, res })
 });
 

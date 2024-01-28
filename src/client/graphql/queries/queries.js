@@ -10,6 +10,7 @@ export const GET_THEME = gql`
         id
         name
       }
+      image
     }
   }
 `;
@@ -24,10 +25,7 @@ export const GET_PUBLIC_THEME = gql`
         id
         name
       }
-      image {
-        data
-        contentType
-      }
+      image
     }
   }
 `;
@@ -42,10 +40,7 @@ export const GET_THEMES = gql`
         id
         name
       }
-      image {
-        data
-        contentType
-      }
+      image
     }
   }
 `;
