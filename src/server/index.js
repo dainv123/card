@@ -55,6 +55,7 @@ app.use(
 );
 
 const server = new ApolloServer({
+  uploads: false,
   typeDefs,
   resolvers,
   schemaDirectives,
