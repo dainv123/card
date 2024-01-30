@@ -32,17 +32,9 @@ export default {
       const theme = new Theme({
         name: args.name,
         path: args.path,
-        tags: tagIds
+        tags: tagIds,
+        image: args.image
       });
-
-      if (args.image) {
-        const abc = await args.image;
-
-        console.log(1111, abc);
-
-        const imageLink = await saveImageToFileSystem(args.image);
-        theme.image = imageLink;
-      }
 
       const savedTheme = await theme.save();
 
@@ -69,10 +61,7 @@ export default {
       }
 
       if (args.image) {
-        // themeToUpdate.image = {
-        //   data: Buffer.from(args.image.data, 'base64'),
-        //   contentType: args.image.contentType
-        // };
+        themeToUpdate.image = args.image;
       }
 
       const updatedTheme = await themeToUpdate.save();

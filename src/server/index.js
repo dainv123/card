@@ -9,7 +9,8 @@ import loggerConfig from './config/loggerConfig';
 import typeDefs from './graphql/schemas/schemas';
 import resolvers from './graphql/resolvers/resolvers';
 import schemaDirectives from './graphql/directives/directives';
-import { graphqlUploadExpress } from './node_modules/graphql-upload';
+import fileUpload from 'express-fileupload';
+import fs from 'fs';
 
 const { NODE_ENV, SESSION_NAME, SESSION_SECRET, SESSION_MAX_AGE, MONGO_DB_URI, PORT } = process.env;
 
@@ -20,18 +21,48 @@ mongoose.set('useCreateIndex', true);
 // Set Secure Headers with Helmet
 app.use(helmet());
 app.use(helmet.permittedCrossDomainPolicies());
-app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }));
 app.use(express.json({ limit: '1mb' }));
+app.use(fileUpload());
 
 // Serve React Application
 // if (NODE_ENV !== 'development') {
-app.use(express.static('dist'));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
+});
+
+app.use(express.static('dist'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.post('/upload', function (req, res) {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  let file = req.files.file;
+  let filename = '/uploads/' + new Date().getTime() + '-' + file.name;
+  let uploadPath = __dirname + filename;
+
+  file.mv(uploadPath, function (err) {
+    if (err)
+      return res.status(500).send(err);
+
+    res.send({ url: filename });
+  });
+});
+
+app.post('/upload-delete/:filename', function (req, res) {
+  const filename = req.body.filename;
+  const filePath = __dirname + filename;
+
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+
+    res.send('File deleted successfully');
+  });
 });
 // }
 
@@ -55,7 +86,6 @@ app.use(
 );
 
 const server = new ApolloServer({
-  uploads: false,
   typeDefs,
   resolvers,
   schemaDirectives,
@@ -63,11 +93,11 @@ const server = new ApolloServer({
     NODE_ENV.trim() !== 'development'
       ? false
       : {
-          settings: {
-            'request.credentials': 'include',
-            'schema.polling.enable': false
-          }
-        },
+        settings: {
+          'request.credentials': 'include',
+          'schema.polling.enable': false
+        }
+      },
   context: ({ req, res }) => ({ req, res })
 });
 

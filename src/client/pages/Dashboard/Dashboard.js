@@ -141,6 +141,11 @@ const DashboardPage = () => {
       key: 'path'
     },
     {
+      title: 'Image',
+      dataIndex: 'image',
+      key: 'image'
+    },
+    {
       title: 'Tag(s)',
       dataIndex: 'tags',
       key: 'tags',

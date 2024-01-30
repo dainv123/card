@@ -8,6 +8,7 @@ import { ImageUpload } from '../ImageUpload/ImageUpload';
 import { FormInputField } from '../FormInputField/FormInputField';
 import { mutations } from '../../graphql/graphql';
 import validators from '../../validators/validators';
+import axios from 'axios';
 
 const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
@@ -21,8 +22,18 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
 
     const { setErrors, setSubmitting } = actions;
 
+    let imageURL = image;
+
+    if (data.image !== image) {
+      imageURL = await uploadImage(image);
+
+      if (data.image && image) {
+        deleteImage(data.image);
+      }
+    }
+
     if (value.id) {
-      UpdateTheme({ variables: { id: value.id, name, path, tags, image } }).then(
+      UpdateTheme({ variables: { id: value.id, name, path, tags, image: imageURL } }).then(
         res => {
           handleOk();
           setIsOpen(false);
@@ -45,7 +56,7 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
         }
       );
     } else {
-      CreateTheme({ variables: { name, path, tags, image } }).then(
+      CreateTheme({ variables: { name, path, tags, image: imageURL } }).then(
         res => {
           handleOk();
           setIsOpen(false);
@@ -85,9 +96,38 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
     }
   }, [isModalOpen]);
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    console.log(selectedFile);
+  const uploadImage = async (image) => {
+    const formData = new FormData();
+    formData.append('file', image);
+    return await axios.post('http://localhost:8080/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then(response => {
+        console.log('Response:', response.data);
+        return response.data.url;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+
+  const deleteImage = async (imageURL) => {
+    return await axios.post('http://localhost:8080/upload-delete', {
+      data: {
+        filename: imageURL
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        console.log('Response:', response.data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   };
 
   return (
@@ -140,8 +180,8 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
             placeholder="Path"
             hasFeedback
           />
-          <input type="file" onChange={handleFileChange} />
           <Field
+            InputType={Input}
             component={ImageUpload}
             prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
             name="image"
