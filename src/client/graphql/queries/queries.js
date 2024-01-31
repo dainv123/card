@@ -100,3 +100,42 @@ export const GET_TAGS = gql`
     }
   }
 `;
+
+export const GET_BLOG = gql`
+  query GetBlog($id: ID!) {
+    blog(id: $id) {
+      id
+      name
+      trend,
+      introduction,
+      content,
+      image
+    }
+  }
+`;
+
+export const GET_PUBLIC_BLOG = gql`
+  query GetPublicBlog($id: ID!) {
+    publicBlog(id: $id) {
+      id,
+      name
+      trend,
+      introduction,
+      content,
+      image
+    }
+  }
+`;
+
+export const GET_BLOGS = gql`
+  query GetBlogs {
+    blogs {
+      id
+      name
+      trend,
+      introduction,
+      content,
+      image
+    }
+  }
+`;
