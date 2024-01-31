@@ -1,7 +1,8 @@
 import ApolloClient from 'apollo-boost';
+import { GRAPHQL_URI } from './constants'
 
 const client = new ApolloClient({
-  uri: 'http://localhost:8080/graphql',
+  uri: GRAPHQL_URI,
   credentials: 'include',
   onError: ({ graphQLErrors, networkError, reponse }) => {
     // if (graphQLErrors) Response.errors = null;

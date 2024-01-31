@@ -1,9 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Layout } from 'antd';
 import { NavLink } from 'react-router-dom';
+import { useQuery } from '@apollo/react-hooks';
 import UserLayout from '../../components/Layouts/UserLayout';
+import { queries } from '../../graphql/graphql';
+import { SERVER_URI } from '../../config/constants';
 
 const ThemePage = () => {
+  const responseTheme = useQuery(queries.GET_THEMES);
+
+  const dataTheme = (responseTheme && responseTheme.data && responseTheme.data.themes) || [];
+
+  const responseTag = useQuery(queries.GET_TAGS);
+
+  const dataTag = (responseTag && responseTag.data && responseTag.data.tags) || [];
+
+  const counter = (dataTheme, tagId) => {
+    return dataTheme.filter(theme => theme.tags.some(tag => tag.id == tagId)).length;
+  }
+
+  const formatCount = (count) => count > 9 ? count : ('0' + count);
+
   return (
     <UserLayout>
       <Layout.Content>
@@ -21,14 +38,16 @@ const ThemePage = () => {
             <div className="section-content">
               <div className="filter-tabs">
                 <button className="fil-cat" data-rel="all">
-                  <span>0</span> All
+                  All
                 </button>
-                <button className="fil-cat" data-rel="website">
-                  <span>08</span> Websites
-                </button>
-                <button className="fil-cat" data-rel="mobile">
-                  <span>03</span> Mobiles
-                </button>
+                {dataTag && dataTag.map(tag => {
+                  const count = counter(dataTheme, tag.id);
+                  return (
+                    !!count && <button className="fil-cat">
+                      <span>{formatCount(count)}</span> {tag.name}
+                    </button>
+                  )
+                })}
               </div>
 
               <div className="portfolio-grid portfolio-trigger" id="portfolio-page">
@@ -37,34 +56,35 @@ const ThemePage = () => {
                   <span className="project-count">9</span>
                 </div>
                 <div className="row">
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 portfolio-item website all">
-                    <div className="portfolio-img">
-                      <img
-                        src="../../public/assets/images/portfolio/portfolio-img-1.jpeg"
-                        className="img-responsive"
-                        alt=""
-                      />
-                    </div>
-                    <div className="portfolio-data">
-                      <h4>
-                        <a href="https://chugai-pharm.jp/auth/">Chugai Pharm</a>
-                      </h4>
-                      <p className="meta">JQuery, Pug, SASS</p>
-                      <div className="portfolio-attr">
-                        <a href="https://chugai-pharm.jp/auth/">
-                          <i className="lnr lnr-link"></i>
-                        </a>
-                        <a
-                          href="images/portfolio/portfolio-img-1.jpeg"
-                          data-rel="lightcase:gal"
-                          title="Image Caption"
-                        >
-                          <i className="lnr lnr-move"></i>
-                        </a>
+                  {dataTheme && dataTheme.map(theme => <>
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 portfolio-item website all">
+                      <div className="portfolio-img">
+                        <img
+                          src={SERVER_URI + theme.image}
+                          className="img-responsive"
+                          alt=""
+                        />
+                      </div>
+                      <div className="portfolio-data">
+                        <h4>
+                          <a href={theme.path}>{theme.name}</a>
+                        </h4>
+                        <div className="portfolio-attr">
+                          <a href={theme.path}>
+                            <i className="lnr lnr-link"></i>
+                          </a>
+                          <a
+                            href={SERVER_URI + theme.image}
+                            data-rel="lightcase:gal"
+                            title={theme.name}
+                          >
+                            <i className="lnr lnr-move"></i>
+                          </a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 portfolio-item website mobile all">
+                  </>)}
+                  {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 portfolio-item website mobile all">
                     <div className="portfolio-img">
                       <img
                         src="../../public/assets/images/portfolio/portfolio-img-2.jpeg"
@@ -273,7 +293,7 @@ const ThemePage = () => {
                         </a>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

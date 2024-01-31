@@ -2111,6 +2111,8 @@ button.owl-dot.active,  button.owl-dot:focus{
 .portfolio-item .portfolio-img > img {
     width: 100%;
     margin-bottom: 0;
+    height: 260px;
+    object-fit: cover;
 }
 
 .portfolio-grid {

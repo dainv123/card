@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Layout } from 'antd';
 import { NavLink } from 'react-router-dom';
 import UserLayout from '../../components/Layouts/UserLayout';
 
 const HomePage = () => {
+  const loggedIn = useSelector(state => state.auth.loggedIn);
+
   useEffect(() => {
     $('.typed').typed({
       stringsElement: $('.typed-strings'),
@@ -37,8 +40,8 @@ const HomePage = () => {
                     <span className="typed"></span>
                   </div>
                   <div className="home-buttons">
-                    <NavLink to="/login" className="bt-submit">
-                      <i className="lnr lnr-briefcase"></i> Login
+                    <NavLink to={loggedIn ? '/admin' : '/login'} className="bt-submit">
+                      <i className="lnr lnr-briefcase"></i> {loggedIn ? 'Go to Admin' : 'Login'}
                     </NavLink>
                     <NavLink to="/contact" className="bt-submit">
                       <i className="lnr lnr-envelope"></i> Contact Me

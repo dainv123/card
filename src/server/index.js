@@ -12,7 +12,7 @@ import schemaDirectives from './graphql/directives/directives';
 import fileUpload from 'express-fileupload';
 import fs from 'fs';
 
-const { NODE_ENV, SESSION_NAME, SESSION_SECRET, SESSION_MAX_AGE, MONGO_DB_URI, PORT } = process.env;
+const { NODE_ENV, SESSION_NAME, SESSION_SECRET, SESSION_MAX_AGE, MONGO_DB_URI, PORT, CLIENT_URI } = process.env;
 
 const app = express();
 
@@ -52,7 +52,7 @@ app.post('/upload', function (req, res) {
   });
 });
 
-app.post('/upload-delete/:filename', function (req, res) {
+app.post('/upload-delete', function (req, res) {
   const filename = req.body.filename;
   const filePath = __dirname + filename;
 
@@ -110,7 +110,7 @@ server.applyMiddleware({
   app,
   cors: {
     credentials: true,
-    origin: 'http://localhost:3000'
+    origin: CLIENT_URI
   }
 });
 

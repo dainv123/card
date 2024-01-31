@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Layout, Row, Card, Table, Tag, Button } from 'antd';
+import { deleteFile } from '../../utils/uploadFile';
 import { mutations, queries } from '../../graphql/graphql';
+import { SERVER_URI } from '../../config/constants';
 import LoggedLayout from '../../components/Layouts/LoggedLayout';
 import ThemeModal from '../../components/ThemeModal/ThemeModal';
 import CardModal from '../../components/CardModal/CardModal';
@@ -53,7 +55,7 @@ const DashboardPage = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
-        <a target="_blank" href={'/reader/' + encodeURIComponent(text)} rel="noreferrer">
+        <a target="_blank" href={'/reader/' + encodeURIComponent(text)}>
           {text}
         </a>
       )
@@ -101,9 +103,10 @@ const DashboardPage = () => {
 
   const dataTheme = (responseTheme && responseTheme.data && responseTheme.data.themes) || [];
 
-  const onDeleteTheme = async id => {
+  const onDeleteTheme = async (id, filename) => {
     DeleteTheme({ variables: { id } });
     await responseTheme.refetch();
+    deleteFile(filename);
   };
 
   const onOpenUpdateThemePopup = record => {
@@ -130,7 +133,7 @@ const DashboardPage = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
-        <a target="_blank" href={record.path} rel="noreferrer">
+        <a target="_blank" href={record.path}>
           {text}
         </a>
       )
@@ -143,7 +146,10 @@ const DashboardPage = () => {
     {
       title: 'Image',
       dataIndex: 'image',
-      key: 'image'
+      key: 'image',
+      render: (text, record) => (
+        <img src={SERVER_URI + record.image} style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
+      )
     },
     {
       title: 'Tag(s)',
@@ -171,7 +177,7 @@ const DashboardPage = () => {
           >
             Edit
           </Button>
-          <Button type="danger" onClick={() => onDeleteTheme(record.id)}>
+          <Button type="danger" onClick={() => onDeleteTheme(record.id, record.image)}>
             Delete
           </Button>
         </>

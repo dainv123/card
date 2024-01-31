@@ -325,22 +325,22 @@ jQuery(document).ready(function () {
     /*======================================
      Portfolio Filter
      ======================================*/
-    $(function () {
-        var selectedClass = "";
-        $(".filter-tabs").find('button:first-child').addClass('active-filter');
-        $(".fil-cat").click(function () {
-            $(".filter-tabs").find('button').removeClass('active-filter');
-            $(this).addClass('active-filter');
-            selectedClass = $(this).attr("data-rel");
-            $("#portfolio-page").fadeTo(100, 0.1);
-            $("#portfolio-page .portfolio-item").not("." + selectedClass).fadeOut().removeClass('portfolio-item');
-            setTimeout(function () {
-                $("." + selectedClass).fadeIn().addClass('portfolio-item');
-                $("#portfolio-page").fadeTo(300, 1);
-            }, 300);
+    // $(function () {
+    //     var selectedClass = "";
+    //     $(".filter-tabs").find('button:first-child').addClass('active-filter');
+    //     $(".fil-cat").click(function () {
+    //         $(".filter-tabs").find('button').removeClass('active-filter');
+    //         $(this).addClass('active-filter');
+    //         selectedClass = $(this).attr("data-rel");
+    //         $("#portfolio-page").fadeTo(100, 0.1);
+    //         $("#portfolio-page .portfolio-item").not("." + selectedClass).fadeOut().removeClass('portfolio-item');
+    //         setTimeout(function () {
+    //             $("." + selectedClass).fadeIn().addClass('portfolio-item');
+    //             $("#portfolio-page").fadeTo(300, 1);
+    //         }, 300);
 
-        });
-    });
+    //     });
+    // });
 
 
     /*======================================

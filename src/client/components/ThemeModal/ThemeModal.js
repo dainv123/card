@@ -3,12 +3,12 @@ import { useMutation } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import { Form, Formik, Field } from 'formik';
 import { Icon, Input, Button, Checkbox, Card, Modal, Select, Upload } from 'antd';
+import validators from '../../validators/validators';
 import { FormSelect } from '../FormSelect/FormSelect';
 import { ImageUpload } from '../ImageUpload/ImageUpload';
 import { FormInputField } from '../FormInputField/FormInputField';
 import { mutations } from '../../graphql/graphql';
-import validators from '../../validators/validators';
-import axios from 'axios';
+import { uploadFile, deleteFile } from '../../utils/uploadFile';
 
 const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
@@ -25,10 +25,10 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
     let imageURL = image;
 
     if (data.image !== image) {
-      imageURL = await uploadImage(image);
+      imageURL = await uploadFile(image);
 
       if (data.image && image) {
-        deleteImage(data.image);
+        deleteFile(data.image);
       }
     }
 
@@ -49,6 +49,9 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
             }
             if (x.message.includes('tags')) {
               errors.tags = x.message.includes('tags');
+            }
+            if (x.message.includes('image')) {
+              errors.image = x.message.includes('image');
             }
           });
           setSubmitting(false);
@@ -73,6 +76,9 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
             if (x.message.includes('tags')) {
               errors.tags = x.message.includes('tags');
             }
+            if (x.message.includes('image')) {
+              errors.image = x.message.includes('image');
+            }
           });
           setSubmitting(false);
           setErrors(errors);
@@ -95,40 +101,6 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
       setIsOpen(isModalOpen);
     }
   }, [isModalOpen]);
-
-  const uploadImage = async (image) => {
-    const formData = new FormData();
-    formData.append('file', image);
-    return await axios.post('http://localhost:8080/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then(response => {
-        console.log('Response:', response.data);
-        return response.data.url;
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  };
-
-  const deleteImage = async (imageURL) => {
-    return await axios.post('http://localhost:8080/upload-delete', {
-      data: {
-        filename: imageURL
-      },
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        console.log('Response:', response.data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  };
 
   return (
     <Modal
