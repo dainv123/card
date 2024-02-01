@@ -116,3 +116,26 @@ export const DELETE_TAG = gql`
     }
   }
 `;
+export const CREATE_BLOG = gql`
+  mutation CreateBlog($name: String!, $trend: String!, $introduction: String!, $content: String!, $image: String!) {
+    createBlog(name: $name, trend: $trend, introduction: $introduction, content: $content, image: $image) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_BLOG = gql`
+  mutation UpdateBlog($id: ID!, $name: String!, $trend: String!, $introduction: String!, $content: String!, $image: String!) {
+    updateBlog(id: $id, name: $name, trend: $trend, introduction: $introduction, content: $content, image: $image) {
+      id
+    }
+  }
+`;
+
+export const DELETE_BLOG = gql`
+  mutation DeleteBlog($id: ID!) {
+    deleteBlog(id: $id) {
+      id
+    }
+  }
+`;

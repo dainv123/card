@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import { Theme } from '../../models/models';
 import validators from '../validators/validators';
 import * as Auth from '../../helpers/auth';
-import { saveImageToFileSystem, deleteImageFromFileSystem } from '../../utils/uploadImage';
 
 export default {
   Query: {

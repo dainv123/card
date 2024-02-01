@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Button, Upload, Icon, message } from 'antd';
-import { SERVER_URI } from '../../config/constants';
+import { SERVER_URI } from '../../constants/endpoint';
 
 export const ImageUpload = ({
   field,

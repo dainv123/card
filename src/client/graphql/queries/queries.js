@@ -109,7 +109,8 @@ export const GET_BLOG = gql`
       trend,
       introduction,
       content,
-      image
+      image,
+      updatedAt
     }
   }
 `;
@@ -122,7 +123,8 @@ export const GET_PUBLIC_BLOG = gql`
       trend,
       introduction,
       content,
-      image
+      image,
+      updatedAt
     }
   }
 `;
@@ -135,7 +137,8 @@ export const GET_BLOGS = gql`
       trend,
       introduction,
       content,
-      image
+      image,
+      updatedAt
     }
   }
 `;

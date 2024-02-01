@@ -1,5 +1,5 @@
 import ApolloClient from 'apollo-boost';
-import { GRAPHQL_URI } from './constants'
+import { GRAPHQL_URI } from '../constants/endpoint';
 
 const client = new ApolloClient({
   uri: GRAPHQL_URI,

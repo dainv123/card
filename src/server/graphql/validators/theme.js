@@ -33,8 +33,8 @@ export const updateTheme = Joi.object().keys({
   id: Joi.objectId(),
   name,
   path,
-  tags
-  // image
+  tags,
+  image
 });
 
 export const deleteTheme = Joi.object().keys({

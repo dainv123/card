@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { UPLOAD_URI, UPLOAD_DELETE_URI } from '../config/constants';
+import { UPLOAD_URI, UPLOAD_DELETE_URI } from '../constants/endpoint';
 
 export const uploadFile = async file => {
   const formData = new FormData();

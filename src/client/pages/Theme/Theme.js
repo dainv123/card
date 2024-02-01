@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
 import { Layout } from 'antd';
 import { NavLink } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
 import UserLayout from '../../components/Layouts/UserLayout';
+import { useQuery } from '@apollo/react-hooks';
 import { queries } from '../../graphql/graphql';
-import { SERVER_URI } from '../../config/constants';
+import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
 
 const ThemePage = () => {
   const responseTheme = useQuery(queries.GET_THEMES);

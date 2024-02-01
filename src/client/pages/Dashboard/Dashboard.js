@@ -4,10 +4,11 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Layout, Row, Card, Table, Tag, Button } from 'antd';
 import { deleteFile } from '../../utils/uploadFile';
 import { mutations, queries } from '../../graphql/graphql';
-import { SERVER_URI } from '../../config/constants';
+import { SERVER_URI } from '../../constants/endpoint';
 import LoggedLayout from '../../components/Layouts/LoggedLayout';
 import ThemeModal from '../../components/ThemeModal/ThemeModal';
 import CardModal from '../../components/CardModal/CardModal';
+import BlogModal from '../../components/BlogModal/BlogModal'; 
 import TagModal from '../../components/TagModal/TagModal';
 import _s from './Dashboard.less';
 
@@ -185,6 +186,94 @@ const DashboardPage = () => {
     }
   ];
 
+  const [DeleteBlog] = useMutation(mutations.DELETE_BLOG);
+
+  const [dataBlogPopup, setDataBlogPopup] = useState({});
+
+  const [isOpenBlogPopup, setIsOpenBlogPopup] = useState(false);
+
+  const responseBlog = isRoleAdmin && useQuery(queries.GET_BLOGS);
+
+  const dataBlog = (responseBlog && responseBlog.data && responseBlog.data.blogs) || [];
+
+  const onDeleteBlog = async (id, filename) => {
+    DeleteBlog({ variables: { id } });
+    await responseBlog.refetch();
+    deleteFile(filename);
+  };
+
+  const onOpenUpdateBlogPopup = record => {
+    setDataBlogPopup(record);
+    setIsOpenBlogPopup(true);
+  };
+
+  const showModalBlog = () => {
+    setIsOpenBlogPopup(true);
+  };
+
+  const handleOkBlog = async () => {
+    setIsOpenBlogPopup(false);
+    await responseBlog.refetch();
+  };
+
+  const handleCancelBlog = () => {
+    setIsOpenBlogPopup(false);
+  };
+
+  const columnsBlog = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text, record) => (
+        <a target="_blank" href={record.path}>
+          {text}
+        </a>
+      )
+    },
+    {
+      title: 'Trend',
+      dataIndex: 'trend',
+      key: 'trend'
+    },
+    {
+      title: 'Introduction',
+      dataIndex: 'introduction',
+      key: 'introduction'
+    },
+    {
+      title: 'Content',
+      dataIndex: 'content',
+      key: 'content'
+    },
+    {
+      title: 'Image',
+      dataIndex: 'image',
+      key: 'image',
+      render: (text, record) => (
+        <img src={SERVER_URI + record.image} style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
+      )
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <>
+          <Button
+            type="danger"
+            onClick={() => onOpenUpdateBlogPopup(record)}
+            style={{ marginRight: '6px' }}
+          >
+            Edit
+          </Button>
+          <Button type="danger" onClick={() => onDeleteBlog(record.id, record.image)}>
+            Delete
+          </Button>
+        </>
+      )
+    }
+  ];
+
   const [DeleteTag] = useMutation(mutations.DELETE_TAG);
 
   const [dataTagPopup, setDataTagPopup] = useState({});
@@ -280,6 +369,22 @@ const DashboardPage = () => {
               <Row>
                 <Table columns={columnsTheme} dataSource={dataTheme} rowKey={'id'}></Table>
               </Row>
+              
+              <Row>
+                <Button type="primary" onClick={showModalBlog}>
+                  ADD BLOG
+                </Button>
+                <BlogModal
+                  data={dataBlogPopup}
+                  isModalOpen={isOpenBlogPopup}
+                  handleOk={handleOkBlog}
+                  handleCancel={handleCancelBlog}
+                ></BlogModal>
+              </Row>
+              <Row>
+                <Table columns={columnsBlog} dataSource={dataBlog} rowKey={'id'}></Table>
+              </Row>
+
               <Row>
                 <Button type="primary" onClick={showModalTag}>
                   ADD TAG

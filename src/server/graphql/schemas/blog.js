@@ -1,0 +1,25 @@
+import { gql } from 'apollo-server-express';
+
+export default gql`
+  type Blog {
+    id: ID!
+    name: String!
+    trend: String,
+    introduction: String,
+    content: String,
+    image: String,
+    updatedAt: String
+  }
+
+  extend type Query {
+    publicBlog(id: ID!): Blog @guest
+    blog(id: ID!): Blog @auth @hasRole
+    blogs: [Blog!]! @auth @hasRole
+  }
+
+  extend type Mutation {
+    createBlog(name: String!, trend: String!, introduction: String!, content: String!, image: String!): Blog @auth
+    updateBlog(id: ID!, name: String!, trend: String!, introduction: String!, content: String!, image: String!): Blog @auth
+    deleteBlog(id: ID!): Blog @auth
+  }
+`;
