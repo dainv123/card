@@ -11,6 +11,7 @@ import HomePage from './pages/Home/Home';
 import AboutMePage from './pages/AboutMe/AboutMe';
 import ThemePage from './pages/Theme/Theme';
 import BlogPage from './pages/Blog/Blog';
+import BlogDetailPage from './pages/Blog/BlogDetail';
 import ContactPage from './pages/Contact/Contact';
 import ReaderPage from './pages/Reader/Reader';
 import DashboardPage from './pages/Dashboard/Dashboard';
@@ -28,6 +29,7 @@ const App = props => {
           <Route exact path="/about-me" component={AboutMePage} />
           <Route exact path="/theme" component={ThemePage} />
           <Route exact path="/blog" component={BlogPage} />
+          <Route exact path="/blog/:id" component={BlogDetailPage} />
           <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/reader/:id?" component={ReaderPage} />
           <Route component={PageNotFound} />

@@ -102,8 +102,8 @@ export const GET_TAGS = gql`
 `;
 
 export const GET_BLOG = gql`
-  query GetBlog($id: ID!) {
-    blog(id: $id) {
+  query GetBlog($id: ID, $name: String) {
+    blog(id: $id, name: $name) {
       id
       name
       trend,
@@ -116,8 +116,8 @@ export const GET_BLOG = gql`
 `;
 
 export const GET_PUBLIC_BLOG = gql`
-  query GetPublicBlog($id: ID!) {
-    publicBlog(id: $id) {
+  query GetPublicBlog($id: ID, $name: String) {
+    publicBlog(id: $id, name: $name) {
       id,
       name
       trend,

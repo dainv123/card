@@ -11,6 +11,7 @@ import actions from '../../store/actions/actions';
 import _s from './Layouts.less';
 
 const { SubMenu } = Menu;
+
 const { Header, Footer, Content } = Layout;
 
 const UserLayout = React.memo(props => {
@@ -33,31 +34,16 @@ const UserLayout = React.memo(props => {
 
   return (
     <Layout className="layout" style={{ minHeight: '100vh' }}>
-      {/* <div id="preloader">
-          <div id="preloader-circle">
-              <span></span>
-              <span></span>
-          </div>
-      </div> */}
       <div className="wrapper-page">
         <header className="header">
           <div className="header-content">
             <div className="profile-picture-block">
               <div className="my-photo">
-                <img src="public/assets/images/avatar.jpg" className="img-fluid" alt="image" />
+                <img src="http://localhost:3000/public/assets/images/avatar.jpg" className="img-fluid" alt="image" />
               </div>
             </div>
             <div className="site-title-block">
               <div className="site-title">Dai Nguyen</div>
-              {/* <div className="type-wrap">
-                <div className="typed-strings">
-                  <span>Senior Web Developer</span>
-                  <span>Newbie Mobile Developer</span>
-                  <span>and</span>
-                  <span>Culi in Some Backend Languages</span>
-                </div>
-                <span className="typed"></span>
-              </div> */}
             </div>
             <div className="site-nav">
               <ul className="header-main-menu" id="header-main-menu">

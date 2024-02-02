@@ -2402,8 +2402,17 @@ button.owl-dot.active,  button.owl-dot:focus{
 .blog-grid-flex .article-img {
     overflow: hidden;
     position: relative;
+    max-height: 140px;
+    object-fit: cover;
+}
+.blog-grid-flex .blog-item-quote .article-img {
+    max-height: 281px;
 }
 
+.blog-grid-flex .blog-item-quote .article-img img {
+    height: 281px;
+    object-fit: cover;
+}
 
 .blog-grid-flex .article-content {
     color: #6b6b6b;

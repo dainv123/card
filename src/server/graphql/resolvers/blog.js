@@ -10,11 +10,40 @@ export default {
       return Blog.find({});
     },
     blog: async (root, args, context, info) => {
-      await Joi.validate(args, validators.blog.findBlog);
-      return Blog.findById(args.id);
+      const query = {};
+      if (args.id) {
+        query._id = args.id;
+      } else if (args.name) {
+        query.name = args.name;
+      } else {
+        throw new Error('Please provide either id or name for blog lookup.');
+      }
+
+      const blog = await Blog.findOne(query);
+
+      if (!blog) {
+        throw new Error('Blog not found');
+      }
+
+      return blog;
     },
     publicBlog: async (root, args, context, info) => {
-      return Blog.findById(args.id);
+      const query = {};
+      if (args.id) {
+        query._id = args.id;
+      } else if (args.name) {
+        query.name = args.name;
+      } else {
+        throw new Error('Please provide either id or name for blog lookup.');
+      }
+
+      const blog = await Blog.findOne(query);
+
+      if (!blog) {
+        throw new Error('Blog not found');
+      }
+
+      return blog;
     }
   },
   Mutation: {
