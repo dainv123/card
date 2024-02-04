@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ReactQuill from 'react-quill';
 import { useMutation } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import { Form, Formik, Field } from 'formik';
@@ -7,6 +8,7 @@ import validators from '../../validators/validators';
 import { FormSelect } from '../FormSelect/FormSelect';
 import { ImageUpload } from '../ImageUpload/ImageUpload';
 import { FormInputField } from '../FormInputField/FormInputField';
+import { QuillInput } from '../QuillInput/QuillInput';
 import { mutations } from '../../graphql/graphql';
 import { uploadFile, deleteFile } from '../../utils/uploadFile';
 
@@ -182,9 +184,8 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
             />
           </div>
           <Field
-            InputType={TextArea}
-            component={FormInputField}
-            prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            InputType={ReactQuill}
+            component={QuillInput}
             name="content"
             placeholder="Content"
             hasFeedback
