@@ -20,7 +20,7 @@ const GuestLayout = props => (
       >
         <Menu.Item key="logo">
           <Link to="/">
-            <img src="/public/images/logo.png" alt="menu" className={_s.logo} />
+            <img src="/public/images/logo2.png" alt="menu" className={_s.logo} />
           </Link>
         </Menu.Item>
         <Menu.Item key="/login" className={_s.login}>

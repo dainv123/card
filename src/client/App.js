@@ -15,6 +15,7 @@ import BlogDetailPage from './pages/Blog/BlogDetail';
 import ContactPage from './pages/Contact/Contact';
 import ReaderPage from './pages/Reader/Reader';
 import DashboardPage from './pages/Dashboard/Dashboard';
+import ProfilePage from './pages/Profile/Profile';
 import PageNotFound from './pages/NotFound/NotFound';
 
 const App = props => {
@@ -23,6 +24,7 @@ const App = props => {
       <CheckIfLoggedIn>
         <Switch>
           <PrivateRoute exact path="/admin" component={DashboardPage} />
+          <PrivateRoute exact path="/admin/profile" component={ProfilePage} />
           <GuestRoute exact path="/login" component={LoginPage} />
           <GuestRoute exact path="/register" component={RegisterPage} />
           <Route exact path="/" component={HomePage} />

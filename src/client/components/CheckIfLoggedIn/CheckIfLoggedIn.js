@@ -1,23 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Spin } from 'antd';
 import { useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { mutations } from '../../graphql/graphql';
 import actions from '../../store/actions/actions';
 
 const CheckIfLoggedIn = props => {
   if (props.firstAuthValidationDone) return props.children;
 
+  const [authCheckDone, setAuthCheckDone] = useState(false);
+
   const [CheckIfLoggedIn, { data, loading, error }] = useMutation(mutations.VERIFY_LOGGED_IN);
 
   useEffect(() => {
-    CheckIfLoggedIn();
+    const fetchData = async () => {
+      try {
+        await CheckIfLoggedIn();
+      } catch (error) {
+        props.setFirstAuthState(false, null);
+      } finally {
+        setAuthCheckDone(true);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  if (loading) {
+  if (!authCheckDone || loading) {
     return <Spin />;
   }
 
@@ -54,9 +65,6 @@ CheckIfLoggedIn.propTypes = {
   setFirstAuthState: PropTypes.func.isRequired
 };
 
-const connectedCheckIfLoggedIn = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CheckIfLoggedIn);
+const connectedCheckIfLoggedIn = connect(mapStateToProps, mapDispatchToProps)(CheckIfLoggedIn);
 
 export default connectedCheckIfLoggedIn;

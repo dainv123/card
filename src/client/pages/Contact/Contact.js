@@ -31,7 +31,7 @@ const ContactPage = () => {
                       type="text"
                       placeholder="Name:"
                       required
-                      autocomplete="off"
+                      autoComplete="off"
                     />
                     <input
                       name="email"
@@ -39,7 +39,7 @@ const ContactPage = () => {
                       type="email"
                       placeholder="Email:"
                       required
-                      autocomplete="off"
+                      autoComplete="off"
                     />
                     <textarea
                       name="comment"

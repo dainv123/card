@@ -54,3 +54,23 @@ export const registerSchema = yup.object().shape({
     .required(requiredMessage('Name')),
   terms: yup.boolean().oneOf([true], 'Must Accept Terms and Conditions')
 });
+
+export const updateSchema = yup.object().shape({
+  email: yup
+    .string(validMessage)
+    .min(3)
+    .max(255, validMessage)
+    .email(validMessage)
+    .required('Please enter your email and password.'),
+  username: yup
+    .string()
+    .min(4, minMessage(4))
+    .max(30, maxMessage(30))
+    .matches(/^[a-zA-Z0-9]*$/, 'Must only contain letters and numbers')
+    .required(requiredMessage('Username')),
+  name: yup
+    .string()
+    .min(4, minMessage(4))
+    .max(255, maxMessage(255))
+    .required(requiredMessage('Name'))
+});

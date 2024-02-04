@@ -10,12 +10,9 @@ export const SIGN_UP = gql`
 
 export const UPDATE_USER = gql`
   mutation UpdateUser($email: String!, $username: String!, $name: String!) {
-    updateUser(email: $email, username: $username, name: $name) {
-      updateUser
-    }
+    updateUser(email: $email, username: $username, name: $name)
   }
 `;
-
 
 export const LOG_IN = gql`
   mutation LogIn($email: String!, $password: String!) {
@@ -126,16 +123,42 @@ export const DELETE_TAG = gql`
   }
 `;
 export const CREATE_BLOG = gql`
-  mutation CreateBlog($name: String!, $trend: String!, $introduction: String!, $content: String!, $image: String!) {
-    createBlog(name: $name, trend: $trend, introduction: $introduction, content: $content, image: $image) {
+  mutation CreateBlog(
+    $name: String!
+    $trend: String!
+    $introduction: String!
+    $content: String!
+    $image: String!
+  ) {
+    createBlog(
+      name: $name
+      trend: $trend
+      introduction: $introduction
+      content: $content
+      image: $image
+    ) {
       id
     }
   }
 `;
 
 export const UPDATE_BLOG = gql`
-  mutation UpdateBlog($id: ID!, $name: String!, $trend: String!, $introduction: String!, $content: String!, $image: String!) {
-    updateBlog(id: $id, name: $name, trend: $trend, introduction: $introduction, content: $content, image: $image) {
+  mutation UpdateBlog(
+    $id: ID!
+    $name: String!
+    $trend: String!
+    $introduction: String!
+    $content: String!
+    $image: String!
+  ) {
+    updateBlog(
+      id: $id
+      name: $name
+      trend: $trend
+      introduction: $introduction
+      content: $content
+      image: $image
+    ) {
       id
     }
   }

@@ -7,15 +7,31 @@ const userSchema = new Schema(
   {
     email: {
       type: String,
-      validate: {
-        validator: email => User.doesntExist({ email }),
-        message: () => 'Email has already been taken.'
-      }
+      validate: [
+        {
+          validator: async function(email) {
+            if (!this.isModified('email')) {
+              return true;
+            }
+
+            const user = await User.findOne({ email });
+            return !user || user._id.equals(this._id);
+          },
+          message: 'Email has already been taken.'
+        }
+      ]
     },
     username: {
       type: String,
       validate: {
-        validator: username => User.doesntExist({ username }),
+        validator: async function(username) {
+          if (!this.isModified('username')) {
+            return true;
+          }
+
+          const user = await User.findOne({ username });
+          return !user || user._id.equals(this._id);
+        },
         message: () => 'Username has already been taken.'
       }
     },

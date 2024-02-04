@@ -43,11 +43,11 @@ const PrivateLayout = props => {
         >
           <Menu.Item key="logo">
             <Link to="/">
-              <img src="/public/images/logo1.png" alt="menu" className={_s.logo} />
+              <img src="/public/images/logo2.png" alt="menu" className={_s.logo} />
             </Link>
           </Menu.Item>
-          <Menu.Item key="/">
-            <Link to="/">Dashboard</Link>
+          <Menu.Item key="/admin">
+            <Link to="/admin">Dashboard</Link>
           </Menu.Item>
           <SubMenu
             title={
@@ -59,7 +59,7 @@ const PrivateLayout = props => {
             style={{ float: 'right' }}
           >
             <Menu.Item key="profile">
-              <Link to="/profile">{userName}</Link>
+              <Link to="/admin/profile">{userName}</Link>
             </Menu.Item>
             <Menu.Item onClick={e => handleLogOut(e)} key="LogOut">
               Sign Out

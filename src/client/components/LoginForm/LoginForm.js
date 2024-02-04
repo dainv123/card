@@ -85,7 +85,7 @@ const LoginForm = props => {
                 />
                 <Form.Item style={{ marginBottom: 'unset' }}>
                   <Checkbox>Remember me</Checkbox>
-                  <a className={_s.loginFormForgot} href="/">
+                  <a className={_s.loginFormForgot} href="/contact">
                     Forgot password
                   </a>
                   <Button
@@ -129,7 +129,4 @@ LoginForm.propTypes = {
   user: PropTypes.object
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
