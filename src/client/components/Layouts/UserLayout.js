@@ -16,20 +16,27 @@ const { Header, Footer, Content } = Layout;
 
 const UserLayout = React.memo(props => {
   useEffect(() => {
-    // $(".typed").typed({
-    //   stringsElement: $('.typed-strings'),
-    //   typeSpeed: 20,
-    //   backDelay: 500,
-    //   loop: true,
-    //   autoplay: true,
-    //   autoplayTimeout: 500,
-    //   contentType: 'html',
-    //   loopCount: true
-    // });
+    /*************************
+     Responsive Menu
+     *************************/
+    $('.responsive-icon').on("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!$(this).hasClass('active')) {
+        $(this).addClass('active');
+        $('.header').animate({ 'margin-left': 285 }, 300);
+      } else {
+        $(this).removeClass('active');
+        $('.header').animate({ 'margin-left': 0 }, 300);
+      }
+      return false;
+    });
 
-    // $('#preloader').fadeOut('slow', function () {
-    //   $(this).remove();
-    // });
+    $('.header a').on("click", function (e) {
+      $('.responsive-icon').removeClass('active');
+      $('.header').animate({ 'margin-left': 0 }, 300);
+
+    });
   }, []);
 
   return (
@@ -78,7 +85,7 @@ const UserLayout = React.memo(props => {
         </header>
         <div className="responsive-header">
           <div className="responsive-header-name">
-            <img className="responsive-logo" src="images/avatar.jpg" alt="" />
+            <img className="responsive-logo" src="http://localhost:3000/public/assets/images/avatar.jpg" alt="" />
             Dai Nguyen
           </div>
           <span className="responsive-icon">

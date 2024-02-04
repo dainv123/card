@@ -2,6 +2,7 @@ import React from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import { COPY_RIGHT } from '../../constants/wording';
 
 import _s from './Layouts.less';
 
@@ -31,7 +32,7 @@ const GuestLayout = props => (
       </Menu>
     </Header>
     <Content className={_s.Content}>{props.children}</Content>
-    <Footer style={{ textAlign: 'center' }}>MER(A)N - FullStack Boilerplate by IgorMCesar</Footer>
+    <Footer style={{ textAlign: 'center' }}>{COPY_RIGHT}</Footer>
   </Layout>
 );
 

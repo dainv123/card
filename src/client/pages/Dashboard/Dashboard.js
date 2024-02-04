@@ -8,7 +8,7 @@ import { SERVER_URI } from '../../constants/endpoint';
 import LoggedLayout from '../../components/Layouts/LoggedLayout';
 import ThemeModal from '../../components/ThemeModal/ThemeModal';
 import CardModal from '../../components/CardModal/CardModal';
-import BlogModal from '../../components/BlogModal/BlogModal'; 
+import BlogModal from '../../components/BlogModal/BlogModal';
 import TagModal from '../../components/TagModal/TagModal';
 import _s from './Dashboard.less';
 
@@ -28,7 +28,7 @@ const DashboardPage = () => {
   const dataCard = (responseCard && responseCard.data && responseCard.data.cards) || [];
 
   const onDeleteCard = async id => {
-    DeleteCard({ variables: { id } });
+    await DeleteCard({ variables: { id } });
     await responseCard.refetch();
   };
 
@@ -105,7 +105,7 @@ const DashboardPage = () => {
   const dataTheme = (responseTheme && responseTheme.data && responseTheme.data.themes) || [];
 
   const onDeleteTheme = async (id, filename) => {
-    DeleteTheme({ variables: { id } });
+    await DeleteTheme({ variables: { id } });
     await responseTheme.refetch();
     deleteFile(filename);
   };
@@ -197,7 +197,7 @@ const DashboardPage = () => {
   const dataBlog = (responseBlog && responseBlog.data && responseBlog.data.blogs) || [];
 
   const onDeleteBlog = async (id, filename) => {
-    DeleteBlog({ variables: { id } });
+    await DeleteBlog({ variables: { id } });
     await responseBlog.refetch();
     deleteFile(filename);
   };
@@ -285,7 +285,7 @@ const DashboardPage = () => {
   const dataTag = (responseTag && responseTag.data && responseTag.data.tags) || [];
 
   const onDeleteTag = async id => {
-    DeleteTag({ variables: { id } });
+    await DeleteTag({ variables: { id } });
     await responseTag.refetch();
   };
 
@@ -369,7 +369,7 @@ const DashboardPage = () => {
               <Row>
                 <Table columns={columnsTheme} dataSource={dataTheme} rowKey={'id'}></Table>
               </Row>
-              
+
               <Row>
                 <Button type="primary" onClick={showModalBlog}>
                   ADD BLOG

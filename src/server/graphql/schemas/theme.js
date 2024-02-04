@@ -17,6 +17,7 @@ export default gql`
   extend type Query {
     publicTheme(id: ID!): Theme @guest
     theme(id: ID!): Theme @auth @hasRole
+    publicThemes: [Theme!]! @guest
     themes: [Theme!]! @auth @hasRole
   }
 

@@ -152,14 +152,16 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
             placeholder="Path"
             hasFeedback
           />
-          <Field
-            InputType={Input}
-            component={ImageUpload}
-            prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            name="image"
-            placeholder="Image"
-            hasFeedback
-          />
+          <div className="ant-row ant-form-item">
+            <Field
+              InputType={Input}
+              component={ImageUpload}
+              prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              name="image"
+              placeholder="Image"
+              hasFeedback
+            />
+          </div>
           <Field
             component={FormSelect}
             name="tags"

@@ -9,6 +9,9 @@ export default {
     blogs: (root, args, context, info) => {
       return Blog.find({});
     },
+    publicBlogs: (root, args, context, info) => {
+      return Blog.find({});
+    },
     blog: async (root, args, context, info) => {
       const query = {};
       if (args.id) {

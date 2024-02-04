@@ -30,6 +30,21 @@ export const GET_PUBLIC_THEME = gql`
   }
 `;
 
+export const GET_PUBLIC_THEMES = gql`
+  query GetPublicThemes {
+    publicThemes {
+      id
+      name
+      path
+      tags {
+        id
+        name
+      }
+      image
+    }
+  }
+`;
+
 export const GET_THEMES = gql`
   query GetThemes {
     themes {
@@ -92,6 +107,15 @@ export const GET_TAG = gql`
   }
 `;
 
+export const GET_PUBLIC_TAGS = gql`
+query GetPublicTags {
+  publicTags {
+    id
+    name
+  }
+}
+`;
+
 export const GET_TAGS = gql`
   query GetTags {
     tags {
@@ -132,6 +156,20 @@ export const GET_PUBLIC_BLOG = gql`
 export const GET_BLOGS = gql`
   query GetBlogs {
     blogs {
+      id
+      name
+      trend,
+      introduction,
+      content,
+      image,
+      updatedAt
+    }
+  }
+`;
+
+export const GET_PUBLIC_BLOGS = gql`
+  query GetPublicBlogs {
+    publicBlogs {
       id
       name
       trend,

@@ -20,7 +20,13 @@ export default {
     },
     publicTheme: async (root, args, context, info) => {
       return Theme.findById(args.id);
-    }
+    },
+    publicThemes: async (root, args, context, info) => {
+      const themes = await Theme.find()
+        .populate('tags', 'id name')
+        .exec();
+      return themes;
+    },
   },
   Mutation: {
     createTheme: async (root, args, context, info) => {

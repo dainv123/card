@@ -7,6 +7,8 @@ export default {
   Query: {
     tags: (root, args, context, info) => Tag.find({}),
 
+    publicTags: (root, args, context, info) => Tag.find({}),
+
     tag: async (root, args, context, info) => {
       await Joi.validate(args, validators.tag.findTag);
       return Tag.findById(args.id);

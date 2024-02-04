@@ -5,17 +5,18 @@ import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { withRouter } from 'react-router';
 import { mutations } from '../../graphql/graphql';
 import actions from '../../store/actions/actions';
-
 import _s from './Layouts.less';
+import { COPY_RIGHT } from '../../constants/wording';
 
 const { SubMenu } = Menu;
 const { Header, Footer, Content } = Layout;
 
 const LoggedLayout = props => {
+  const userName = props.user ? props.user.name : 'Profile';
+
   const [LogOut] = useMutation(mutations.LOG_OUT);
 
   const handleLogOut = e => {
@@ -42,7 +43,7 @@ const LoggedLayout = props => {
         >
           <Menu.Item key="logo">
             <Link to="/">
-              <img src="/public/images/logo.png" alt="menu" className={_s.logo} />
+              <img src="/public/images/logo1.png" alt="menu" className={_s.logo} />
             </Link>
           </Menu.Item>
           <Menu.Item key="/">
@@ -57,7 +58,7 @@ const LoggedLayout = props => {
             }
             style={{ float: 'right' }}
           >
-            <Menu.Item key="profile">Profile</Menu.Item>
+            <Menu.Item key="profile">{userName}</Menu.Item>
             <Menu.Item onClick={e => handleLogOut(e)} key="LogOut">
               Sign Out
             </Menu.Item>
@@ -65,7 +66,7 @@ const LoggedLayout = props => {
         </Menu>
       </Header>
       <Content className={_s.Content}>{props.children}</Content>
-      <Footer style={{ textAlign: 'center' }}>MER(A)N - FullStack Boilerplate by IgorMCesar</Footer>
+      <Footer style={{ textAlign: 'center' }}>{COPY_RIGHT}</Footer>
     </Layout>
   );
 };

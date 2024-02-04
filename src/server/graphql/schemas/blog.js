@@ -14,6 +14,7 @@ export default gql`
   extend type Query {
     publicBlog(id: ID, name: String): Blog @guest
     blog(id: ID, name: String): Blog @auth @hasRole
+    publicBlogs: [Blog!]! @guest
     blogs: [Blog!]! @auth @hasRole
   }
 

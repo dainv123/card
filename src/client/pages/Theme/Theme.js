@@ -5,17 +5,20 @@ import UserLayout from '../../components/Layouts/UserLayout';
 import { useQuery } from '@apollo/react-hooks';
 import { queries } from '../../graphql/graphql';
 import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
+import { useSelector } from 'react-redux';
 
 const ThemePage = () => {
+  const loggedIn = useSelector(state => state.auth.loggedIn);
+
   const [current, setCurrent] = useState('0');
 
-  const responseTheme = useQuery(queries.GET_THEMES);
+  const responseTheme = useQuery(loggedIn ? queries.GET_THEMES : queries.GET_PUBLIC_THEMES);
 
-  const dataTheme = (responseTheme && responseTheme.data && responseTheme.data.themes) || [];
+  const dataTheme = (responseTheme && responseTheme.data && (responseTheme.data.themes || responseTheme.data.publicThemes)) || [];
 
-  const responseTag = useQuery(queries.GET_TAGS);
+  const responseTag = useQuery(loggedIn ? queries.GET_TAGS : queries.GET_PUBLIC_TAGS);
 
-  const dataTag = (responseTag && responseTag.data && responseTag.data.tags) || [];
+  const dataTag = (responseTag && responseTag.data && (responseTag.data.tags || responseTag.data.publicTags)) || [];
 
   const counter = (dataTheme, tagId) => dataTheme.filter(theme => theme.tags.some(tag => tag.id == tagId)).length;
 
@@ -47,7 +50,7 @@ const ThemePage = () => {
                 {dataTag && dataTag.map(tag => {
                   const count = counter(dataTheme, tag.id);
                   return (
-                    !!count && 
+                    !!count &&
                     <button className={current === tag.id ? 'fil-cat active-filter' : 'fil-cat'} onClick={() => setCurrent(tag.id)} key={tag.id}>
                       <span>{formatCount(count)}</span> {tag.name}
                     </button>

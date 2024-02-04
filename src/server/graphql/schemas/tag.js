@@ -9,6 +9,7 @@ export default gql`
   extend type Query {
     publicTag(id: ID!): Tag @guest
     tag(id: ID!): Tag @auth @hasRole(role: ADMIN)
+    publicTags: [Tag!]! @guest
     tags: [Tag!]! @auth @hasRole(role: ADMIN)
   }
 
