@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Layout } from 'antd';
 import { NavLink } from 'react-router-dom';
-import UserLayout from '../../components/Layouts/UserLayout';
+import PublicLayout from '../../components/Layouts/PublicLayout';
 
 const HomePage = () => {
   const loggedIn = useSelector(state => state.auth.loggedIn);
@@ -21,7 +21,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <UserLayout>
+    <PublicLayout>
       <Layout.Content>
         <section id="home" className="sub-page start-page">
           <div className="sub-page-inner">
@@ -53,7 +53,7 @@ const HomePage = () => {
           </div>
         </section>
       </Layout.Content>
-    </UserLayout>
+    </PublicLayout>
   );
 };
 

@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import PropTypes from 'prop-types';
-import UserLayout from '../../components/Layouts/UserLayout';
+import PublicLayout from '../../components/Layouts/PublicLayout';
 import { SERVER_URI } from '../../constants/endpoint';
 
 const BlogDetailPage = ({ loggedIn, user, ...rest }) => {
@@ -23,7 +23,7 @@ const BlogDetailPage = ({ loggedIn, user, ...rest }) => {
   }, [responseBlog.data]);
 
   return (
-    <UserLayout>
+    <PublicLayout>
       <Layout.Content>
         <section id="blog" className="sub-page">
           {dataBlog && (
@@ -68,7 +68,7 @@ const BlogDetailPage = ({ loggedIn, user, ...rest }) => {
           )}
         </section>
       </Layout.Content>
-    </UserLayout>
+    </PublicLayout>
   );
 };
 

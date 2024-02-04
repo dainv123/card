@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Layout } from 'antd';
 import { NavLink } from 'react-router-dom';
-import UserLayout from '../../components/Layouts/UserLayout';
+import PublicLayout from '../../components/Layouts/PublicLayout';
 import { useQuery } from '@apollo/react-hooks';
 import { queries } from '../../graphql/graphql';
 import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
@@ -42,7 +42,7 @@ const ThemePage = () => {
   const themeFilteredCount = useMemo(() => themeFiltered.length, [themeFiltered]);
 
   return (
-    <UserLayout>
+    <PublicLayout>
       <Layout.Content>
         <section id="portfolio" className="sub-page">
           <div className="sub-page-inner">
@@ -123,7 +123,7 @@ const ThemePage = () => {
           </div>
         </section>
       </Layout.Content>
-    </UserLayout>
+    </PublicLayout>
   );
 };
 

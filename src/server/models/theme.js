@@ -12,11 +12,6 @@ const themeSchema = new Schema(
         ref: 'Tag'
       }
     ],
-    // image: {
-    //   name: String,
-    //   data: Buffer,
-    //   contentType: String,
-    // }
     image: String
   },
   {

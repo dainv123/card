@@ -14,12 +14,12 @@ const { SubMenu } = Menu;
 
 const { Header, Footer, Content } = Layout;
 
-const UserLayout = React.memo(props => {
+const PublicLayout = React.memo(props => {
   useEffect(() => {
     /*************************
      Responsive Menu
      *************************/
-    $('.responsive-icon').on('click', function(e) {
+    $('.responsive-icon').on('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
       if (!$(this).hasClass('active')) {
@@ -32,7 +32,7 @@ const UserLayout = React.memo(props => {
       return false;
     });
 
-    $('.header a').on('click', function(e) {
+    $('.header a').on('click', function (e) {
       $('.responsive-icon').removeClass('active');
       $('.header').animate({ 'margin-left': 0 }, 300);
     });
@@ -125,12 +125,12 @@ const mapDispatchToProps = dispatch => {
   );
 };
 
-UserLayout.propTypes = {
+PublicLayout.propTypes = {
   user: PropTypes.object,
   loggedIn: PropTypes.bool.isRequired,
   removeAuthUser: PropTypes.func.isRequired
 };
 
-const connectedUserLayout = connect(mapStateToProps, mapDispatchToProps)(UserLayout);
+const connectedPublicLayout = connect(mapStateToProps, mapDispatchToProps)(PublicLayout);
 
-export default withRouter(connectedUserLayout);
+export default withRouter(connectedPublicLayout);

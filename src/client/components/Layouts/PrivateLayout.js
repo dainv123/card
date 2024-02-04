@@ -14,7 +14,7 @@ import { COPY_RIGHT } from '../../constants/wording';
 const { SubMenu } = Menu;
 const { Header, Footer, Content } = Layout;
 
-const LoggedLayout = props => {
+const PrivateLayout = props => {
   const userName = props.user ? props.user.name : 'Profile';
 
   const [LogOut] = useMutation(mutations.LOG_OUT);
@@ -58,7 +58,9 @@ const LoggedLayout = props => {
             }
             style={{ float: 'right' }}
           >
-            <Menu.Item key="profile">{userName}</Menu.Item>
+            <Menu.Item key="profile">
+              <Link to="/profile">{userName}</Link>
+            </Menu.Item>
             <Menu.Item onClick={e => handleLogOut(e)} key="LogOut">
               Sign Out
             </Menu.Item>
@@ -87,12 +89,12 @@ const mapDispatchToProps = dispatch => {
   );
 };
 
-LoggedLayout.propTypes = {
+PrivateLayout.propTypes = {
   user: PropTypes.object,
   loggedIn: PropTypes.bool.isRequired,
   removeAuthUser: PropTypes.func.isRequired
 };
 
-const connectedLoggedLayout = connect(mapStateToProps, mapDispatchToProps)(LoggedLayout);
+const connectedPrivateLayout = connect(mapStateToProps, mapDispatchToProps)(PrivateLayout);
 
-export default withRouter(connectedLoggedLayout);
+export default withRouter(connectedPrivateLayout);

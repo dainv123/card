@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card } from 'antd';
 import { connect } from 'react-redux';
 
-import LoggedLayout from '../../components/Layouts/LoggedLayout';
+import PrivateLayout from '../../components/Layouts/PrivateLayout';
 import GuestLayout from '../../components/Layouts/GuestLayout';
 
 // import _s from './Dashboard.less';
@@ -11,9 +11,9 @@ import GuestLayout from '../../components/Layouts/GuestLayout';
 const NotFound = props => (
   <>
     {props.loggedIn ? (
-      <LoggedLayout>
+      <PrivateLayout>
         <Card>404 - Page Not Found</Card>
-      </LoggedLayout>
+      </PrivateLayout>
     ) : (
       <GuestLayout>
         <Card>404 - Page Not Found</Card>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Layout } from 'antd';
-import UserLayout from '../../components/Layouts/UserLayout';
+import PublicLayout from '../../components/Layouts/PublicLayout';
 import { useQuery } from '@apollo/react-hooks';
 import { queries } from '../../graphql/graphql';
 import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
@@ -24,7 +24,7 @@ const BlogPage = () => {
   };
 
   return (
-    <UserLayout>
+    <PublicLayout>
       <Layout.Content>
         <section id="blog" className="sub-page">
           <div className="sub-page-inner">
@@ -45,8 +45,8 @@ const BlogPage = () => {
                       index == 0
                         ? 'col-md-4 col-sm-6 blog-item-quote blog-item'
                         : index == 1
-                        ? 'col-md-8 col-sm-6 blog-item'
-                        : 'col-md-4 col-sm-6 blog-item';
+                          ? 'col-md-8 col-sm-6 blog-item'
+                          : 'col-md-4 col-sm-6 blog-item';
 
                     return (
                       <>
@@ -93,7 +93,7 @@ const BlogPage = () => {
           </div>
         </section>
       </Layout.Content>
-    </UserLayout>
+    </PublicLayout>
   );
 };
 

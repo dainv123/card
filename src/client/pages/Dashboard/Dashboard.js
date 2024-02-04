@@ -5,7 +5,7 @@ import { Layout, Row, Card, Table, Tag, Button } from 'antd';
 import { deleteFile } from '../../utils/uploadFile';
 import { mutations, queries } from '../../graphql/graphql';
 import { SERVER_URI } from '../../constants/endpoint';
-import LoggedLayout from '../../components/Layouts/LoggedLayout';
+import PrivateLayout from '../../components/Layouts/PrivateLayout';
 import ThemeModal from '../../components/ThemeModal/ThemeModal';
 import CardModal from '../../components/CardModal/CardModal';
 import BlogModal from '../../components/BlogModal/BlogModal';
@@ -340,7 +340,7 @@ const DashboardPage = () => {
   ];
 
   return (
-    <LoggedLayout>
+    <PrivateLayout>
       <Layout.Content>
         <div className={_s.container}>
           <Row>
@@ -409,7 +409,7 @@ const DashboardPage = () => {
           )}
         </div>
       </Layout.Content>
-    </LoggedLayout>
+    </PrivateLayout>
   );
 };
 

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Layout } from 'antd';
 import { NavLink } from 'react-router-dom';
-import UserLayout from '../../components/Layouts/UserLayout';
+import PublicLayout from '../../components/Layouts/PublicLayout';
 
 const AboutMePage = () => {
   return (
-    <UserLayout>
+    <PublicLayout>
       <Layout.Content>
         <section id="about-me" className="sub-page">
           <div className="sub-page-inner">
@@ -59,7 +59,7 @@ const AboutMePage = () => {
           </div>
         </section>
       </Layout.Content>
-    </UserLayout>
+    </PublicLayout>
   );
 };
 

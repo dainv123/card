@@ -27,6 +27,31 @@ export default {
 
       return user;
     },
+    updateUser: async (root, args, context, info) => {
+      await Joi.validate(args, validators.user.updateUser, { abortEarly: false });
+
+      const userToUpdate = await User.findOne({ _id: context.req.session.userId });
+
+      if (!userToUpdate) {
+        throw new Error('User not found');
+      }
+
+      if (args.name) {
+        userToUpdate.name = args.name;
+      }
+
+      if (args.username) {
+        userToUpdate.username = args.username;
+      }
+
+      if (args.email) {
+        userToUpdate.email = args.email;
+      }
+
+      await userToUpdate.save();
+
+      return true;
+    },
     resendSignUpToken: async (root, args, context, info) => {
       await Joi.validate(args, validators.user.sendUserToken, {
         abortEarly: false

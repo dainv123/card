@@ -8,6 +8,15 @@ export const SIGN_UP = gql`
   }
 `;
 
+export const UPDATE_USER = gql`
+  mutation UpdateUser($email: String!, $username: String!, $name: String!) {
+    updateUser(email: $email, username: $username, name: $name) {
+      updateUser
+    }
+  }
+`;
+
+
 export const LOG_IN = gql`
   mutation LogIn($email: String!, $password: String!) {
     LogIn(email: $email, password: $password) {
