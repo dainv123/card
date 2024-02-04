@@ -4,10 +4,10 @@ export default gql`
   type Blog {
     id: ID!
     name: String!
-    trend: String,
-    introduction: String,
-    content: String,
-    image: String,
+    trend: String
+    introduction: String
+    content: String
+    image: String
     updatedAt: String
   }
 
@@ -19,8 +19,21 @@ export default gql`
   }
 
   extend type Mutation {
-    createBlog(name: String!, trend: String!, introduction: String!, content: String!, image: String!): Blog @auth
-    updateBlog(id: ID!, name: String!, trend: String!, introduction: String!, content: String!, image: String!): Blog @auth
+    createBlog(
+      name: String!
+      trend: String!
+      introduction: String!
+      content: String!
+      image: String!
+    ): Blog @auth
+    updateBlog(
+      id: ID!
+      name: String!
+      trend: String!
+      introduction: String!
+      content: String!
+      image: String!
+    ): Blog @auth
     deleteBlog(id: ID!): Blog @auth
   }
 `;

@@ -93,9 +93,6 @@ LoggedLayout.propTypes = {
   removeAuthUser: PropTypes.func.isRequired
 };
 
-const connectedLoggedLayout = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoggedLayout);
+const connectedLoggedLayout = connect(mapStateToProps, mapDispatchToProps)(LoggedLayout);
 
 export default withRouter(connectedLoggedLayout);

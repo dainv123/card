@@ -170,7 +170,9 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
             style={{ width: '100%' }}
           >
             {tags.map(tag => (
-              <Select.Option key={tag.id} value={tag.id}>{tag.name}</Select.Option>
+              <Select.Option key={tag.id} value={tag.id}>
+                {tag.name}
+              </Select.Option>
             ))}
           </Field>
         </Form>

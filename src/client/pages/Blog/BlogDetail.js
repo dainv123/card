@@ -22,41 +22,50 @@ const BlogDetailPage = ({ loggedIn, user, ...rest }) => {
     );
   }, [responseBlog.data]);
 
-
   return (
     <UserLayout>
       <Layout.Content>
         <section id="blog" className="sub-page">
-          {dataBlog && <div className="sub-page-inner">
-            <div className="section-title">
-              <div className="main-title">
-                <div className="title-main-page">
-                  <h4>{dataBlog.name}</h4>
-                  <p>{dataBlog.introduction}</p>
+          {dataBlog && (
+            <div className="sub-page-inner">
+              <div className="section-title">
+                <div className="main-title">
+                  <div className="title-main-page">
+                    <h4>{dataBlog.name}</h4>
+                    <p>{dataBlog.introduction}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="section-content">
-              <div class="section-content">
-                <div class="row pb-30">
-                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    {dataBlog.intro &&
-                      <span class="about-location">
-                        <i class="lnr lnr-map-marker"></i>
-                        {dataBlog.intro}
-                      </span>
-                    }
-                    <div dangerouslySetInnerHTML={{ __html: dataBlog.content }} />
-                  </div>
-                  <div class="col-xs-6 col-sm-12 col-md-6 col-lg-6">
-                    <div class="box-img">
-                      <img src={dataBlog.image ? SERVER_URI + dataBlog.image : '../public/assets/../../public/assets/images/about.png'} class="img-fluid" alt="image" />
+              <div className="section-content">
+                <div className="section-content">
+                  <div className="row pb-30">
+                    <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                      {dataBlog.intro && (
+                        <span className="about-location">
+                          <i className="lnr lnr-map-marker"></i>
+                          {dataBlog.intro}
+                        </span>
+                      )}
+                      <div dangerouslySetInnerHTML={{ __html: dataBlog.content }} />
+                    </div>
+                    <div className="col-xs-6 col-sm-12 col-md-6 col-lg-6">
+                      <div className="box-img">
+                        <img
+                          src={
+                            dataBlog.image
+                              ? SERVER_URI + dataBlog.image
+                              : '../public/assets/../../public/assets/images/about.png'
+                          }
+                          className="img-fluid"
+                          alt="image"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>}
+          )}
         </section>
       </Layout.Content>
     </UserLayout>

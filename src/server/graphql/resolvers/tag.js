@@ -16,7 +16,7 @@ export default {
 
     publicTag: async (root, args, context, info) => {
       return Tag.findById(args.id);
-    },
+    }
   },
   Mutation: {
     createTag: async (root, args, context, info) => {

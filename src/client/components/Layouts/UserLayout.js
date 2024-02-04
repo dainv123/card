@@ -19,7 +19,7 @@ const UserLayout = React.memo(props => {
     /*************************
      Responsive Menu
      *************************/
-    $('.responsive-icon').on("click", function (e) {
+    $('.responsive-icon').on('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
       if (!$(this).hasClass('active')) {
@@ -32,10 +32,9 @@ const UserLayout = React.memo(props => {
       return false;
     });
 
-    $('.header a').on("click", function (e) {
+    $('.header a').on('click', function(e) {
       $('.responsive-icon').removeClass('active');
       $('.header').animate({ 'margin-left': 0 }, 300);
-
     });
   }, []);
 
@@ -46,7 +45,11 @@ const UserLayout = React.memo(props => {
           <div className="header-content">
             <div className="profile-picture-block">
               <div className="my-photo">
-                <img src="http://localhost:3000/public/assets/images/avatar.jpg" className="img-fluid" alt="image" />
+                <img
+                  src="http://localhost:3000/public/assets/images/avatar.jpg"
+                  className="img-fluid"
+                  alt="image"
+                />
               </div>
             </div>
             <div className="site-title-block">
@@ -85,7 +88,11 @@ const UserLayout = React.memo(props => {
         </header>
         <div className="responsive-header">
           <div className="responsive-header-name">
-            <img className="responsive-logo" src="http://localhost:3000/public/assets/images/avatar.jpg" alt="" />
+            <img
+              className="responsive-logo"
+              src="http://localhost:3000/public/assets/images/avatar.jpg"
+              alt=""
+            />
             Dai Nguyen
           </div>
           <span className="responsive-icon">

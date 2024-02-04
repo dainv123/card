@@ -58,7 +58,7 @@ export default {
         trend: args.trend,
         introduction: args.introduction,
         content: args.content,
-        image: args.image,
+        image: args.image
       });
 
       const savedBlog = await blog.save();

@@ -35,7 +35,9 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     }
 
     if (value.id) {
-      UpdateBlog({ variables: { id: value.id, name, trend, introduction, content, image: imageURL } }).then(
+      UpdateBlog({
+        variables: { id: value.id, name, trend, introduction, content, image: imageURL }
+      }).then(
         res => {
           handleOk();
           setIsOpen(false);

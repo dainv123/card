@@ -26,7 +26,7 @@ export default {
         .populate('tags', 'id name')
         .exec();
       return themes;
-    },
+    }
   },
   Mutation: {
     createTheme: async (root, args, context, info) => {

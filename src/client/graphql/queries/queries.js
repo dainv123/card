@@ -83,7 +83,6 @@ export const GET_PUBLIC_CARD = gql`
   }
 `;
 
-
 export const GET_CARDS = gql`
   query GetCards {
     cards {
@@ -97,7 +96,6 @@ export const GET_CARDS = gql`
   }
 `;
 
-
 export const GET_TAG = gql`
   query GetTag($id: ID!) {
     tag(id: $id) {
@@ -108,12 +106,12 @@ export const GET_TAG = gql`
 `;
 
 export const GET_PUBLIC_TAGS = gql`
-query GetPublicTags {
-  publicTags {
-    id
-    name
+  query GetPublicTags {
+    publicTags {
+      id
+      name
+    }
   }
-}
 `;
 
 export const GET_TAGS = gql`
@@ -130,10 +128,10 @@ export const GET_BLOG = gql`
     blog(id: $id, name: $name) {
       id
       name
-      trend,
-      introduction,
-      content,
-      image,
+      trend
+      introduction
+      content
+      image
       updatedAt
     }
   }
@@ -142,12 +140,12 @@ export const GET_BLOG = gql`
 export const GET_PUBLIC_BLOG = gql`
   query GetPublicBlog($id: ID, $name: String) {
     publicBlog(id: $id, name: $name) {
-      id,
+      id
       name
-      trend,
-      introduction,
-      content,
-      image,
+      trend
+      introduction
+      content
+      image
       updatedAt
     }
   }
@@ -158,10 +156,10 @@ export const GET_BLOGS = gql`
     blogs {
       id
       name
-      trend,
-      introduction,
-      content,
-      image,
+      trend
+      introduction
+      content
+      image
       updatedAt
     }
   }
@@ -172,10 +170,10 @@ export const GET_PUBLIC_BLOGS = gql`
     publicBlogs {
       id
       name
-      trend,
-      introduction,
-      content,
-      image,
+      trend
+      introduction
+      content
+      image
       updatedAt
     }
   }

@@ -56,7 +56,7 @@ const DashboardPage = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
-        <a target="_blank" href={'/reader/' + encodeURIComponent(text)}>
+        <a target="_blank" href={'/reader/' + encodeURIComponent(text)} rel="noreferrer">
           {text}
         </a>
       )
@@ -134,7 +134,7 @@ const DashboardPage = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
-        <a target="_blank" href={record.path}>
+        <a target="_blank" href={record.path} rel="noreferrer">
           {text}
         </a>
       )
@@ -149,7 +149,10 @@ const DashboardPage = () => {
       dataIndex: 'image',
       key: 'image',
       render: (text, record) => (
-        <img src={SERVER_URI + record.image} style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
+        <img
+          src={SERVER_URI + record.image}
+          style={{ width: '80px', height: '80px', objectFit: 'cover' }}
+        />
       )
     },
     {
@@ -226,7 +229,7 @@ const DashboardPage = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
-        <a target="_blank" href={record.path}>
+        <a target="_blank" href={record.path} rel="noreferrer">
           {text}
         </a>
       )
@@ -251,7 +254,10 @@ const DashboardPage = () => {
       dataIndex: 'image',
       key: 'image',
       render: (text, record) => (
-        <img src={SERVER_URI + record.image} style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
+        <img
+          src={SERVER_URI + record.image}
+          style={{ width: '80px', height: '80px', objectFit: 'cover' }}
+        />
       )
     },
     {
