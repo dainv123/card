@@ -148,7 +148,7 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
       width={'90%'}
       visible={isOpen}
       onCancel={onCancel}
-      style={{ maxWidth: '800px' }}
+      style={{ maxWidth: '1200px' }}
       bodyStyle={{ overflowY: 'auto', maxHeight: 'calc(100vh - 300px)' }}
       footer={[
         <Button key="back" onClick={onCancel}>

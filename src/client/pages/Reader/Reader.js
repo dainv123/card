@@ -58,6 +58,11 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
 
   const handleOk = config => {
     handleUpdateCard(config);
+
+    // if (JSON.stringify(config) !== '{}') {
+    //   setConfig(config);
+    // }
+
     iframeRef.current.contentWindow.postMessage({
       type: 'internal-iframe-pass-inside',
       data: config

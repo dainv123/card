@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { Form, Formik, Field } from 'formik';
-import { Icon, Input, Button, Modal, Upload } from 'antd';
+import { Icon, Input, Button, Modal, Upload, Select } from 'antd';
 import { FormSelect } from '../FormSelect/FormSelect';
 import { ImageUpload } from '../ImageUpload/ImageUpload';
 import { FormInputField } from '../FormInputField/FormInputField';
@@ -14,6 +14,8 @@ import {
   IMAGE, 
   MAKE_YOUR_THEME, 
   NAME, 
+  PATH, 
+  SELECT_TAGS, 
   SUBMIT 
 } from '../../constants/wording';
 
