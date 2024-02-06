@@ -12,6 +12,7 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
   const iframeRef = useRef(null);
   const [theme, setTheme] = useState('');
   const [config, setConfig] = useState({});
+  const [configDefault, setConfigDefault] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataCard, setDataCard] = useState(null);
   const [dataTheme, setDataTheme] = useState(null);
@@ -58,11 +59,7 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
 
   const handleOk = config => {
     handleUpdateCard(config);
-
-    // if (JSON.stringify(config) !== '{}') {
-    //   setConfig(config);
-    // }
-
+    setConfig(JSON.stringify(config) === '{}' ? configDefault : config);
     iframeRef.current.contentWindow.postMessage({
       type: 'internal-iframe-pass-inside',
       data: config
@@ -78,6 +75,8 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
 
   const handleCallback = event => {
     if (event.data.type === 'internal-iframe-ready' && iframeRef.current) {
+      setConfigDefault(event.data.data);
+      
       if (dataCard && dataCard.config && dataCard.config !== '{}') {
         setConfig(JSON.parse(dataCard.config));
         iframeRef.current.contentWindow.postMessage({

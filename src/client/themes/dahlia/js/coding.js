@@ -161,8 +161,12 @@ var inputWithIds = addIds(input);
 var properties = flattenJSON(inputWithIds);
 
 window.addEventListener('message', function(event) {
-  if (event.data && event.data.data != '{}' && event.data.type === 'internal-iframe-pass-inside') {
-    quickView(typeof event.data.data === 'string' ? JSON.parse(event.data.data) : event.data.data);
+  if (event.data && event.data.type === 'internal-iframe-pass-inside') {
+    if (JSON.stringify(event.data.data) == '{}' || event.data.data == '{}') {
+      quickView(properties);
+    } else {
+      quickView(typeof event.data.data === 'string' ? JSON.parse(event.data.data) : event.data.data);
+    }
   }
 });
 
