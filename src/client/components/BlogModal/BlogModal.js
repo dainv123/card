@@ -175,7 +175,7 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
           />
           <div className="ant-row ant-form-item">
             <Field
-              InputType={Input}
+              showing={isOpen}
               component={ImageUpload}
               prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
               name="image"

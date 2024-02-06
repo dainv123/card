@@ -154,11 +154,11 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
           />
           <div className="ant-row ant-form-item">
             <Field
-              InputType={Input}
               component={ImageUpload}
               prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
               name="image"
               placeholder="Image"
+              showing={isOpen}
               hasFeedback
             />
           </div>
