@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { mutations } from '../../graphql/graphql';
 import { useMutation } from '@apollo/react-hooks';
+import { useSelector, useDispatch } from 'react-redux';
 import { Form, Formik, Field } from 'formik';
 import { Layout, Icon, Input, Button, Row, Card, message } from 'antd';
-import { mutations } from '../../graphql/graphql';
-// import { SERVER_URI } from '../../constants/endpoint';
-import PrivateLayout from '../../components/Layouts/PrivateLayout';
-import validators from '../../validators/validators';
-import { FormSelect } from '../../components/FormSelect/FormSelect';
-import { FormInputField } from '../../components/FormInputField/FormInputField';
-import { UPDATE_USER_SUCCESSFULLy } from '../../constants/wording';
-import _s from './Profile.less';
 import actions from '../../store/actions/actions';
+import validators from '../../validators/validators';
+import PrivateLayout from '../../components/Layouts/PrivateLayout';
+import { FormInputField } from '../../components/FormInputField/FormInputField';
+import { EDIT, EMAIL, NAME, PROFILE, SAVE, SUBMIT, UNDO, UPDATE_USER_SUCCESSFULLy, USER_NAME } from '../../constants/wording';
+import _s from './Profile.less';
+import { COLOR_BLACK_1 } from '../../constants/common';
 
 const ProfilePage = ({ data = {} }) => {
   const user = useSelector(state => state.auth.user);
@@ -40,14 +39,7 @@ const ProfilePage = ({ data = {} }) => {
     UpdateUser({ variables: { name, username, email } }).then(
       res => {
         setIsEdit(false);
-        dispatch(
-          setAuthUser({
-            ...user,
-            name,
-            username,
-            email
-          })
-        );
+        dispatch(setAuthUser({ ...user, name, username, email }));
         message.info(UPDATE_USER_SUCCESSFULLy);
       },
       err => {
@@ -85,49 +77,50 @@ const ProfilePage = ({ data = {} }) => {
         <div className={_s.container}>
           <Card className={_s.RegisterFormCard}>
             <p style={{ fontWeight: 'bold', fontSize: '1.05rem', textAlign: 'center' }}>
-              <Icon style={{ paddingRight: '5px' }} type="user-add" /> Profile
+              <Icon style={{ paddingRight: '5px' }} type="user-add" /> 
+              {PROFILE}
             </p>
             <Row>
               <Formik
                 ref={formmilkRef}
                 validateOnBlur={false}
-                initialValues={{
-                  name: value.name || '',
-                  username: value.username || '',
-                  email: value.email || ''
-                }}
+                enableReinitialize={true}
                 validationSchema={validators.user.updateSchema}
                 onSubmit={(values, actions) => handleSubmitForm(values, actions)}
-                enableReinitialize={true}
+                initialValues={{
+                  name: value.name || '',
+                  email: value.email || '',
+                  username: value.username || '',
+                }}
               >
                 <Form>
                   <button type="submit" style={{ display: 'none' }} ref={hiddenInnerSubmitFormRef}>
-                    Submit
+                    {SUBMIT}
                   </button>
                   <Field
                     InputType={Input}
                     component={FormInputField}
-                    prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
                     name="name"
-                    placeholder="Name"
+                    placeholder={NAME}
                     disabled={!isEdit}
                     hasFeedback
                   />
                   <Field
                     InputType={Input}
                     component={FormInputField}
-                    prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
                     name="username"
-                    placeholder="User Name"
+                    placeholder={USER_NAME}
                     disabled={!isEdit}
                     hasFeedback
                   />
                   <Field
                     InputType={Input}
                     component={FormInputField}
-                    prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    prefix={<Icon type="mail" style={{ color: COLOR_BLACK_1 }} />}
                     name="email"
-                    placeholder="Email"
+                    placeholder={EMAIL}
                     disabled={!isEdit}
                     hasFeedback
                   />
@@ -138,15 +131,15 @@ const ProfilePage = ({ data = {} }) => {
               {isEdit ? (
                 <>
                   <Button type="primary" onClick={handleUnde} style={{ marginRight: '6px' }}>
-                    Undo
+                    {UNDO}
                   </Button>
                   <Button type="primary" onClick={() => hiddenInnerSubmitFormRef.current.click()}>
-                    Save
+                    {SAVE}
                   </Button>
                 </>
               ) : (
                 <Button type="primary" onClick={() => setIsEdit(true)}>
-                  Edit
+                  {EDIT}
                 </Button>
               )}
             </Row>

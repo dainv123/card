@@ -1,14 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { Link } from 'react-router-dom';
 import { Form, Formik, Field } from 'formik';
-import { Icon, Input, Button, Checkbox, Card, Modal, Select, Upload } from 'antd';
-import validators from '../../validators/validators';
+import { Icon, Input, Button, Modal, Upload } from 'antd';
 import { FormSelect } from '../FormSelect/FormSelect';
 import { ImageUpload } from '../ImageUpload/ImageUpload';
 import { FormInputField } from '../FormInputField/FormInputField';
 import { mutations } from '../../graphql/graphql';
 import { uploadFile, deleteFile } from '../../utils/uploadFile';
+import validators from '../../validators/validators';
+import { COLOR_BLACK_1 } from '../../constants/common';
+import { 
+  CANCEL, 
+  IMAGE, 
+  MAKE_YOUR_THEME, 
+  NAME, 
+  SUBMIT 
+} from '../../constants/wording';
 
 const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
@@ -104,19 +111,19 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
 
   return (
     <Modal
-      title="Make Your Theme"
+      title={MAKE_YOUR_THEME}
       visible={isOpen}
       onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
-          Cancel
+          {CANCEL}
         </Button>,
         <Button
           key="submit"
           type="primary"
           onClick={() => hiddenInnerSubmitFormRef.current.click()}
         >
-          Submit
+          {SUBMIT}
         </Button>
       ]}
     >
@@ -134,30 +141,30 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
       >
         <Form>
           <button type="submit" style={{ display: 'none' }} ref={hiddenInnerSubmitFormRef}>
-            Submit
+            {SUBMIT}
           </button>
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
             name="name"
-            placeholder="Name"
+            placeholder={NAME}
             hasFeedback
           />
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
             name="path"
-            placeholder="Path"
+            placeholder={PATH}
             hasFeedback
           />
           <div className="ant-row ant-form-item">
             <Field
               component={ImageUpload}
-              prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
               name="image"
-              placeholder="Image"
+              placeholder={IMAGE}
               showing={isOpen}
               hasFeedback
             />
@@ -166,7 +173,7 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
             component={FormSelect}
             name="tags"
             mode="multiple"
-            placeholder="Select Tags"
+            placeholder={SELECT_TAGS}
             style={{ width: '100%' }}
           >
             {tags.map(tag => (

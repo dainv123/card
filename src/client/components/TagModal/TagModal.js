@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { Link } from 'react-router-dom';
 import { Form, Formik, Field } from 'formik';
-import { Icon, Input, Button, Checkbox, Card, Modal, Select } from 'antd';
-import { FormSelect } from '../FormSelect/FormSelect';
+import { Icon, Input, Button, Modal } from 'antd';
 import { FormInputField } from '../FormInputField/FormInputField';
 import { mutations } from '../../graphql/graphql';
 import validators from '../../validators/validators';
+import { COLOR_BLACK_1 } from '../../constants/common';
+import { CANCEL, MAKE_YOUR_TAG, NAME, SUBMIT } from '../../constants/wording';
 
 const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
@@ -21,6 +21,7 @@ const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
 
   const handleSubmitForm = async (values, actions) => {
     const { name } = values;
+
     const { setErrors, setSubmitting } = actions;
 
     if (value.id) {
@@ -31,7 +32,6 @@ const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
         },
         err => {
           const errors = {};
-
           err.graphQLErrors.map(x => {
             if (x.message.includes('name')) {
               errors.name = x.message.includes('name');
@@ -49,7 +49,6 @@ const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
         },
         err => {
           const errors = {};
-
           err.graphQLErrors.map(x => {
             if (x.message.includes('name')) {
               errors.name = x.message.includes('name');
@@ -79,19 +78,19 @@ const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
 
   return (
     <Modal
-      title="Make Your Tag"
+      title={MAKE_YOUR_TAG}
       visible={isOpen}
       onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
-          Cancel
+          {CANCEL}
         </Button>,
         <Button
           key="submit"
           type="primary"
           onClick={() => hiddenInnerSubmitFormRef.current.click()}
         >
-          Submit
+          {SUBMIT}
         </Button>
       ]}
     >
@@ -104,14 +103,14 @@ const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
       >
         <Form>
           <button type="submit" style={{ display: 'none' }} ref={hiddenInnerSubmitFormRef}>
-            Submit
+            {SUBMIT}
           </button>
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
             name="name"
-            placeholder="Name"
+            placeholder={NAME}
             hasFeedback
           />
         </Form>

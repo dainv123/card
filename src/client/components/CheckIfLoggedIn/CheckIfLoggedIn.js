@@ -34,12 +34,12 @@ const CheckIfLoggedIn = props => {
 
   if (data) {
     props.setFirstAuthState(true, data.CheckIfLoggedIn);
-    console.log('Did First Auth Validation');
+    // console.log('Did First Auth Validation');
   }
 
   if (error) {
     props.setFirstAuthState(false, null);
-    console.log('Did First Auth Validation');
+    // console.log('Did First Auth Validation');
   }
 
   return props.children;

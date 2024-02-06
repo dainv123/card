@@ -3,14 +3,13 @@ import { useMutation } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import { Formik, Field } from 'formik';
 import { Form, Icon, Input, Button, Checkbox, Card, Avatar } from 'antd';
-
 import { FormInputField } from '../FormInputField/FormInputField';
-
 import validators from '../../validators/validators';
 import { mutations } from '../../graphql/graphql';
-
 import EmailSent from '../EmailSent/EmailSent';
 import _s from './RegisterForm.less';
+import { AGREE_LOGIN, ALREADY_HAVE_ACCOUNT, CONFIRM_PASSWORD, EMAIL, EMAIL_HAS_ALREADY, LOG_IN, NAME, PASSWORD, REGISTER, USERNAME, USERNAME_HAS_ALREADY } from '../../constants/wording';
+import { COLOR_BLACK_1 } from '../../constants/common';
 
 const RegisterForm = props => {
   const [registeredEmail, setRegisteredEmail] = useState();
@@ -19,6 +18,7 @@ const RegisterForm = props => {
 
   const handleSubmitForm = async (values, actions) => {
     const { email, password, name, username } = values;
+    
     const { setErrors, setSubmitting } = actions;
 
     SignUp({ variables: { email, password, name, username } }).then(
@@ -27,13 +27,12 @@ const RegisterForm = props => {
       },
       err => {
         const errors = {};
-
         err.graphQLErrors.map(x => {
           if (x.message.includes('email')) {
-            errors.email = 'Email has already been taken.';
+            errors.email = EMAIL_HAS_ALREADY;
           }
           if (x.message.includes('username')) {
-            errors.username = 'Username has already been taken.';
+            errors.username = USERNAME_HAS_ALREADY;
           }
         });
         setSubmitting(false);
@@ -48,19 +47,19 @@ const RegisterForm = props => {
     return (
       <Card className={_s.RegisterFormCard}>
         <p style={{ fontWeight: 'bold', fontSize: '1.05rem', textAlign: 'center' }}>
-          <Icon style={{ paddingRight: '5px' }} type="user-add" /> Register
+          <Icon style={{ paddingRight: '5px' }} type="user-add" /> {REGISTER}
         </p>
         <Formik
           initialValues={{
-            username: '',
             name: '',
             email: '',
+            username: '',
             password: '',
             confirmPassword: '',
             terms: false
           }}
-          validationSchema={validators.user.registerSchema}
           validateOnBlur={false}
+          validationSchema={validators.user.registerSchema}
           onSubmit={(values, actions) => handleSubmitForm(values, actions)}
           render={formikProps => {
             const { isSubmitting, handleSubmit } = formikProps;
@@ -70,45 +69,45 @@ const RegisterForm = props => {
                 <Field
                   InputType={Input}
                   component={FormInputField}
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  prefix={<Icon type="user" style={{ color: COLOR_BLACK_1LACK_1 }} />}
                   name="username"
-                  placeholder="Username"
+                  placeholder={USERNAME}
                   hasFeedback
                 />
                 <Field
                   InputType={Input}
                   component={FormInputField}
-                  prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
                   name="name"
-                  placeholder="Name"
+                  placeholder={NAME}
                   hasFeedback
                 />
                 <Field
                   InputType={Input}
                   component={FormInputField}
-                  prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  prefix={<Icon type="mail" style={{ color: COLOR_BLACK_1 }} />}
                   name="email"
-                  placeholder="Email"
+                  placeholder={EMAIL}
                   hasFeedback
                 />
                 <Field
                   InputType={Input.Password}
                   component={FormInputField}
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  prefix={<Icon type="lock" style={{ color: COLOR_BLACK_1 }} />}
                   name="password"
-                  placeholder="Password"
+                  placeholder={PASSWORD}
                   hasFeedback
                 />
                 <Field
                   InputType={Input.Password}
                   component={FormInputField}
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  prefix={<Icon type="lock" style={{ color: COLOR_BLACK_1 }} />}
                   name="confirmPassword"
-                  placeholder="Confirm Password"
+                  placeholder={CONFIRM_PASSWORD}
                   hasFeedback
                 />
                 <Field InputType={Checkbox} component={FormInputField} name="terms">
-                  I agree to FAKE Terms of Service
+                  {AGREE_LOGIN}
                 </Field>
 
                 <Form.Item style={{ marginBottom: 'unset' }}>
@@ -118,10 +117,10 @@ const RegisterForm = props => {
                     loading={isSubmitting}
                     className={_s.RegisterFormButton}
                   >
-                    Register
+                    {REGISTER}
                   </Button>
                   <span>
-                    Already have an account? <Link to="/login">Log In</Link>
+                    {ALREADY_HAVE_ACCOUNT} <Link to="/login">{LOG_IN}</Link>
                   </span>
                 </Form.Item>
               </Form>

@@ -1,76 +1,85 @@
 import * as yup from 'yup';
 
-const validMessage = `Please provide a valid email and password`;
+import { 
+  NAME,
+  E_MAIL,
+  USERNAME,
+  PASSWORD,
+  MAX_MESSAGE,
+  MIN_MESSAGE, 
+  REQUIRED_MESSAGE,
+  ENTER_VALID_INFO_MESSAGE,
+  MUST_ACCEPT_TERM_MESSAGE,
+  MUST_AT_LEAST_ONE_MESSAGE,
+  ONLY_NUMBER_LETTER_MESSAGE,
+  MUST_BE_VALID_EMAIL_MESSAGE,
+  PASSWORD_CONFIRMATION_MESSAGE,
+  ENTER_EMAIL_PASSWORD_MESSAGE,
+  PASSWORD_MUST_MATCH_MESSAGE,
+} from '../constants/wording';
 
 export const loginSchema = yup.object().shape({
   email: yup
-    .string(validMessage)
+    .string(ENTER_VALID_INFO_MESSAGE)
     .min(3)
-    .max(255, validMessage)
-    .email(validMessage)
-    .required('Please enter your email and password.'),
+    .max(255, ENTER_VALID_INFO_MESSAGE)
+    .email(ENTER_VALID_INFO_MESSAGE)
+    .required(ENTER_EMAIL_PASSWORD_MESSAGE),
   password: yup
-    .string(validMessage)
-    .min(8, validMessage)
-    .max(50, validMessage)
-    .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/, validMessage)
-    .required('Please enter your email and password.')
+    .string(ENTER_VALID_INFO_MESSAGE)
+    .min(8, ENTER_VALID_INFO_MESSAGE)
+    .max(50, ENTER_VALID_INFO_MESSAGE)
+    .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/, ENTER_VALID_INFO_MESSAGE)
+    .required(ENTER_EMAIL_PASSWORD_MESSAGE)
 });
-
-const requiredMessage = field => `${field} is required`;
-const minMessage = min => `Must have at least ${min} characters`;
-const maxMessage = max => `Cannot have more than ${max} characters`;
 
 export const registerSchema = yup.object().shape({
   email: yup
     .string()
-    .min(3, minMessage(3))
-    .max(255, maxMessage(255))
-    .email('Must be a valid email')
-    .required(requiredMessage('E-mail')),
+    .min(3, MIN_MESSAGE(3))
+    .max(255, MAX_MESSAGE(255))
+    .email(MUST_BE_VALID_EMAIL_MESSAGE)
+    .required(REQUIRED_MESSAGE(E_MAIL)),
   password: yup
     .string()
     .min(8)
-    .max(50, maxMessage(50))
-    .matches(
-      /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/,
-      'Must have at least one letter and one digit.'
-    )
-    .required(requiredMessage('Password')),
+    .max(50, MAX_MESSAGE(50))
+    .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/, MUST_AT_LEAST_ONE_MESSAGE)
+    .required(REQUIRED_MESSAGE(PASSWORD)),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match')
-    .required(requiredMessage('Password confimation')),
+    .oneOf([yup.ref('password'), null], PASSWORD_MUST_MATCH_MESSAGE)
+    .required(REQUIRED_MESSAGE(PASSWORD_CONFIRMATION_MESSAGE)),
   username: yup
     .string()
-    .min(4, minMessage(4))
-    .max(30, maxMessage(30))
-    .matches(/^[a-zA-Z0-9]*$/, 'Must only contain letters and numbers')
-    .required(requiredMessage('Username')),
+    .min(4, MIN_MESSAGE(4))
+    .max(30, MAX_MESSAGE(30))
+    .matches(/^[a-zA-Z0-9]*$/, ONLY_NUMBER_LETTER_MESSAGE)
+    .required(REQUIRED_MESSAGE(USERNAME)),
   name: yup
     .string()
-    .min(4, minMessage(4))
-    .max(255, maxMessage(255))
-    .required(requiredMessage('Name')),
-  terms: yup.boolean().oneOf([true], 'Must Accept Terms and Conditions')
+    .min(4, MIN_MESSAGE(4))
+    .max(255, MAX_MESSAGE(255))
+    .required(REQUIRED_MESSAGE(NAME)),
+  terms: yup.boolean().oneOf([true], MUST_ACCEPT_TERM_MESSAGE)
 });
 
 export const updateSchema = yup.object().shape({
   email: yup
-    .string(validMessage)
+    .string(ENTER_VALID_INFO_MESSAGE)
     .min(3)
-    .max(255, validMessage)
-    .email(validMessage)
-    .required('Please enter your email and password.'),
+    .max(255, ENTER_VALID_INFO_MESSAGE)
+    .email(ENTER_VALID_INFO_MESSAGE)
+    .required(ENTER_EMAIL_PASSWORD_MESSAGE),
   username: yup
     .string()
-    .min(4, minMessage(4))
-    .max(30, maxMessage(30))
-    .matches(/^[a-zA-Z0-9]*$/, 'Must only contain letters and numbers')
-    .required(requiredMessage('Username')),
+    .min(4, MIN_MESSAGE(4))
+    .max(30, MAX_MESSAGE(30))
+    .matches(/^[a-zA-Z0-9]*$/, ONLY_NUMBER_LETTER_MESSAGE)
+    .required(REQUIRED_MESSAGE(USERNAME)),
   name: yup
     .string()
-    .min(4, minMessage(4))
-    .max(255, maxMessage(255))
-    .required(requiredMessage('Name'))
+    .min(4, MIN_MESSAGE(4))
+    .max(255, MAX_MESSAGE(255))
+    .required(REQUIRED_MESSAGE(NAME))
 });

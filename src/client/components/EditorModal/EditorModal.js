@@ -2,6 +2,16 @@ import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Card, Form, Input, Button } from 'antd';
 import { JSONEditor } from '@json-editor/json-editor/dist/jsoneditor.js';
+import { 
+  AI_FORM, 
+  CANCEL, 
+  ENTER_REQUIREMENT, 
+  REQUIRE_PROCESSING_MESSAGE, 
+  REQUIRE_REQUIREMENT_MESSAGE, 
+  RESET_TO_DEFAULT, 
+  SETTING, 
+  SUBMIT,
+} from '../../constants/wording';
 import './style.css';
 
 const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
@@ -99,8 +109,7 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
 
         newEditor.on('ready', () => {
           const handleClickOutside = event => {
-            const targetSelector =
-              '#editor-modal .card .col-md-12[data-schemapath] > div [data-schematype="string"] .form-control';
+            const targetSelector = '#editor-modal .card .col-md-12[data-schemapath] > div [data-schematype="string"] .form-control';
 
             if (event.target.matches(targetSelector) || event.target.closest(targetSelector)) {
               const sourceRect = event.target.getBoundingClientRect();
@@ -135,7 +144,7 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
 
   return (
     <Modal
-      title="Setting"
+      title={SETTING}
       width={'90%'}
       visible={isOpen}
       onCancel={onCancel}
@@ -143,13 +152,13 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
       bodyStyle={{ overflowY: 'auto', maxHeight: 'calc(100vh - 300px)' }}
       footer={[
         <Button key="back" onClick={onCancel}>
-          Cancel
+          {CANCEL}
         </Button>,
         <Button key="danger" type="danger" onClick={onReset}>
-          Reset to default
+          {RESET_TO_DEFAULT}
         </Button>,
         <Button key="submit" type="primary" onClick={onSubmit}>
-          Submit
+          {SUBMIT}
         </Button>
       ]}
     >
@@ -157,19 +166,19 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
         ref={aiRef}
         style={{ position: 'fixed', zIndex: 1, top, left, display: isAI ? 'block' : 'none' }}
       >
-        <Card title="AI Form" style={{ width: 300 }}>
+        <Card title={AI_FORM} style={{ width: 300 }}>
           <Form onSubmit={onSubmitAI}>
             <Form.Item
-              label={'Enter your requirement ' + node.id + ':'}
-              extra="This field is required for AI processing"
+              label={ENTER_REQUIREMENT + ' ' + node.id + ':'}
+              extra={REQUIRE_PROCESSING_MESSAGE}
               name="requirement"
-              rules={[{ required: true, message: 'Please enter your requirement!' }]}
+              rules={[{ required: true, message: REQUIRE_REQUIREMENT_MESSAGE }]}
             >
               <Input placeholder="Your requirement" onChange={onChangeAI} />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit">
-                Submit
+                {SUBMIT}
               </Button>
             </Form.Item>
           </Form>

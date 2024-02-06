@@ -3,11 +3,20 @@ import { useMutation } from '@apollo/react-hooks';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form, Formik, Field } from 'formik';
-import { Icon, Input, Button, Checkbox, Card, Modal, Select } from 'antd';
 import { FormSelect } from '../FormSelect/FormSelect';
 import { FormInputField } from '../FormInputField/FormInputField';
 import { mutations } from '../../graphql/graphql';
 import validators from '../../validators/validators';
+import { Icon, Input, Button, Modal, Select } from 'antd';
+import { COLOR_BLACK_1 } from '../../constants/common';
+import {
+  NAME,
+  CONFIG,
+  CANCEL,
+  SUBMIT,
+  SELECT_THEME,
+  MAKE_YOUR_CARD
+} from '../../constants/wording';
 
 const { Option } = Select;
 
@@ -28,6 +37,7 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
 
   const handleSubmitForm = async (values, actions) => {
     const { name, themeId, config } = values;
+
     const { setErrors, setSubmitting } = actions;
 
     if (value.id) {
@@ -38,7 +48,6 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
         },
         err => {
           const errors = {};
-
           err.graphQLErrors.map(x => {
             if (x.message.includes('name')) {
               errors.name = x.message.includes('name');
@@ -62,7 +71,6 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
         },
         err => {
           const errors = {};
-
           err.graphQLErrors.map(x => {
             if (x.message.includes('name')) {
               errors.name = x.message.includes('name');
@@ -83,16 +91,13 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
 
   const handleNameChange = event => {
     setValue({
-      ...value,
-      name: event.target.value
+      ...value, name: event.target.value
     });
   };
 
   const handleThemeChange = themeId => {
     setValue({
-      ...value,
-      themeId,
-      config: '{}'
+      ...value, themeId, config: '{}'
     });
   };
 
@@ -113,52 +118,52 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
 
   return (
     <Modal
-      title="Make Your Card"
+      title={MAKE_YOUR_CARD}
       visible={isOpen}
       onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
-          Cancel
+          {CANCEL}
         </Button>,
         <Button
           key="submit"
           type="primary"
           onClick={() => hiddenInnerSubmitFormRef.current.click()}
         >
-          Submit
+          {SUBMIT}
         </Button>
       ]}
     >
       <Formik
         validateOnBlur={false}
-        initialValues={{
-          name: value.name || '',
-          userId: value.userId || '',
-          themeId: value.themeId || (themes.length && themes[0].id) || '',
-          config: value.config || '{}'
-        }}
         validationSchema={validators.card.createCardSchema}
         onSubmit={(values, actions) => handleSubmitForm(values, actions)}
         enableReinitialize
+        initialValues={{
+          name: value.name || '',
+          userId: value.userId || '',
+          config: value.config || '{}',
+          themeId: value.themeId || (themes.length && themes[0].id) || ''
+        }}
       >
         <Form>
           <button type="submit" style={{ display: 'none' }} ref={hiddenInnerSubmitFormRef}>
-            Submit
+            {SUBMIT}
           </button>
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
             name="name"
             onChange={handleNameChange}
-            placeholder="Name"
+            placeholder={NAME}
             hasFeedback
           />
           <Field
             component={FormSelect}
             onChange={handleThemeChange}
             name="themeId"
-            placeholder="Select Theme"
+            placeholder={SELECT_THEME}
             style={{ width: '100%' }}
           >
             {themes.map(theme => (
@@ -170,9 +175,9 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
           <Field
             InputType={TextArea}
             component={FormInputField}
-            prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
             name="config"
-            placeholder="Config"
+            placeholder={CONFIG}
             hasFeedback
           />
         </Form>

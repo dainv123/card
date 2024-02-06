@@ -1,12 +1,18 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Button, Upload, Icon, message } from 'antd';
 import { SERVER_URI } from '../../constants/endpoint';
+import { 
+  FILE_UPLOAD_FAILED, 
+  IMAGE, 
+  MAXIMUM_UPLOAD_MESSAGE, 
+  UPLOAD 
+} from '../../constants/wording';
 
 export const ImageUpload = ({
   field,
   form: { touched, errors, setFieldValue },
-  showing = true,
   singleUpload = true,
+  showing = true,
   maxCount = 1,
   ...props
 }) => {
@@ -27,11 +33,15 @@ export const ImageUpload = ({
 
   const onChange = ({ file, fileList: newFileList }) => {
     if (file.status === 'error') {
-      message.error(`${file.name} file upload failed.`);
+      message.error(FILE_UPLOAD_FAILED(file.name));
       return;
     }
 
-    if (file.status === 'removed' && !newFileList.filter(item => item.status == "done").length && !isImageURL) {
+    if (
+      file.status === 'removed' && 
+      !newFileList.filter(item => item.status == "done").length && 
+      !isImageURL
+    ) {
       setFieldValue(field.name, "");
     }
 
@@ -40,7 +50,7 @@ export const ImageUpload = ({
 
   const beforeUpload = () => {
     if (uploadedImageCount >= maxCount) {
-      message.error(`Maximum ${maxCount} images allowed.`);
+      message.error(MAXIMUM_UPLOAD_MESSAGE(maxCount));
       return;
     }
   };
@@ -48,12 +58,13 @@ export const ImageUpload = ({
   const customRequest = ({ file, onSuccess, onError }) => {
     if (uploadedImageCount >= maxCount) {
       setTimeout(() => onError(), 0);
-    } else {
-      setTimeout(() => {
-        onSuccess();
-        setFieldValue(field.name, file);
-      }, 800);
+      return;
     }
+
+    setTimeout(() => {
+      onSuccess();
+      setFieldValue(field.name, file);
+    }, 800);
   };
 
   useEffect(() => {
@@ -125,7 +136,7 @@ export const ImageUpload = ({
         {...props}
       >
         <div>
-          Image: <Button icon="upload">Upload</Button>
+          {IMAGE}: <Button icon="upload">{UPLOAD}</Button>
         </div>
       </Upload>
       {/* FOR SINGLE FIRST */}

@@ -2,21 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'antd';
 import { connect } from 'react-redux';
-
 import PrivateLayout from '../../components/Layouts/PrivateLayout';
 import GuestLayout from '../../components/Layouts/GuestLayout';
-
-// import _s from './Dashboard.less';
+import { PAGE_NOT_FOUND } from '../../constants/wording';
 
 const NotFound = props => (
   <>
     {props.loggedIn ? (
       <PrivateLayout>
-        <Card>404 - Page Not Found</Card>
+        <Card>{PAGE_NOT_FOUND}</Card>
       </PrivateLayout>
     ) : (
       <GuestLayout>
-        <Card>404 - Page Not Found</Card>
+        <Card>{PAGE_NOT_FOUND}</Card>
       </GuestLayout>
     )}
   </>

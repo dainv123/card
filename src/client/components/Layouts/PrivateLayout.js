@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Menu, Avatar, Icon, message } from 'antd';
+import actions from '../../store/actions/actions';
 import { Link } from 'react-router-dom';
+import { Layout, Menu, Avatar, Icon, message } from 'antd';
 import { useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { mutations } from '../../graphql/graphql';
-import actions from '../../store/actions/actions';
+import { LOGO_URI } from '../../constants/common';
+import { COPY_RIGHT, DASHBOARD, SIGN_OUT } from '../../constants/wording';
 import _s from './Layouts.less';
-import { COPY_RIGHT } from '../../constants/wording';
 
 const { SubMenu } = Menu;
+
 const { Header, Footer, Content } = Layout;
 
 const PrivateLayout = props => {
@@ -37,17 +39,17 @@ const PrivateLayout = props => {
         <Menu
           theme="dark"
           mode="horizontal"
+          style={{ lineHeight: '65px' }}
           defaultSelectedKeys={['/']}
           selectedKeys={[location.pathname]}
-          style={{ lineHeight: '65px' }}
         >
           <Menu.Item key="logo">
             <Link to="/">
-              <img src="/public/images/logo2.png" alt="menu" className={_s.logo} />
+              <img src={LOGO_URI} alt="menu" className={_s.logo} />
             </Link>
           </Menu.Item>
           <Menu.Item key="/admin">
-            <Link to="/admin">Dashboard</Link>
+            <Link to="/admin">{DASHBOARD}</Link>
           </Menu.Item>
           <SubMenu
             title={
@@ -62,7 +64,7 @@ const PrivateLayout = props => {
               <Link to="/admin/profile">{userName}</Link>
             </Menu.Item>
             <Menu.Item onClick={e => handleLogOut(e)} key="LogOut">
-              Sign Out
+              {SIGN_OUT}
             </Menu.Item>
           </SubMenu>
         </Menu>
