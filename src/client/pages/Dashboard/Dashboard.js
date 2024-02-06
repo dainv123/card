@@ -47,6 +47,7 @@ const DashboardPage = () => {
   };
 
   const handleCancelCard = () => {
+    setDataCardPopup({});
     setIsOpenCardPopup(false);
   };
 
@@ -125,6 +126,7 @@ const DashboardPage = () => {
   };
 
   const handleCancelTheme = () => {
+    setDataThemePopup({});
     setIsOpenThemePopup(false);
   };
 
@@ -220,6 +222,7 @@ const DashboardPage = () => {
   };
 
   const handleCancelBlog = () => {
+    setDataBlogPopup({});
     setIsOpenBlogPopup(false);
   };
 
@@ -310,6 +313,7 @@ const DashboardPage = () => {
   };
 
   const handleCancelTag = () => {
+    setDataTagPopup({});
     setIsOpenTagPopup(false);
   };
 
