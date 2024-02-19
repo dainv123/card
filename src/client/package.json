@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production --progress",
-    "dev": "webpack-dev-server --mode development"
+    "build": "node_modules/.bin/webpack --mode production --progress",
+    "dev": "node_modules/.bin/webpack-dev-server --mode development"
   },
   "keywords": [],
   "author": "Igor Marracho Carriço Cesar",
