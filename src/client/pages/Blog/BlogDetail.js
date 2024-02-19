@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { queries } from '../../graphql/graphql';
-import { useQuery } from '@apollo/react-hooks';
-import { connect } from 'react-redux';
 import { Layout } from 'antd';
+import { connect } from 'react-redux';
+import { useQuery } from '@apollo/react-hooks';
+import { queries } from '../../graphql/graphql';
 import PropTypes from 'prop-types';
 import PublicLayout from '../../components/Layouts/PublicLayout';
 import { SERVER_URI } from '../../constants/endpoint';
+import { ABOUT_ME_IMAGE } from '../../constants/common';
 
 const BlogDetailPage = ({ loggedIn, user, ...rest }) => {
   const [dataBlog, setDataBlog] = useState(null);
@@ -54,7 +55,7 @@ const BlogDetailPage = ({ loggedIn, user, ...rest }) => {
                           src={
                             dataBlog.image
                               ? SERVER_URI + dataBlog.image
-                              : '../public/assets/../../public/assets/images/about.png'
+                              : ABOUT_ME_IMAGE
                           }
                           className="img-fluid"
                           alt="image"

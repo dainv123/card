@@ -1,24 +1,38 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactQuill from 'react-quill';
-import { useMutation } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import { Form, Formik, Field } from 'formik';
-import { Icon, Input, Button, Checkbox, Card, Modal, Select, Upload } from 'antd';
-import validators from '../../validators/validators';
-import { FormSelect } from '../FormSelect/FormSelect';
-import { ImageUpload } from '../ImageUpload/ImageUpload';
-import { FormInputField } from '../FormInputField/FormInputField';
-import { QuillInput } from '../QuillInput/QuillInput';
+import { useMutation } from '@apollo/react-hooks';
 import { mutations } from '../../graphql/graphql';
+import validators from '../../validators/validators';
+import { QuillInput } from '../QuillInput/QuillInput';
+import { ImageUpload } from '../ImageUpload/ImageUpload';
 import { uploadFile, deleteFile } from '../../utils/uploadFile';
+import { FormInputField } from '../FormInputField/FormInputField';
+import { Icon, Input, Modal, Button } from 'antd';
+import { COLOR_BLACK_1 } from '../../constants/common';
+import {
+  NAME,
+  TREND,
+  INTRODUCTION,
+  IMAGE,
+  CONTENT,
+  CANCEL,
+  SUBMIT, 
+  MAKE_YOUR_BLOG 
+} from '../../constants/wording';
 
 const { TextArea } = Input;
 
 const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
+
   const [value, setValue] = useState({});
+
   const [isOpen, setIsOpen] = useState(false);
+
   const [CreateBlog] = useMutation(mutations.CREATE_BLOG);
+
   const [UpdateBlog] = useMutation(mutations.UPDATE_BLOG);
 
   const handleSubmitForm = async (values, actions) => {
@@ -116,70 +130,70 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
 
   return (
     <Modal
-      title="Make Your Blog"
+      title={MAKE_YOUR_BLOG}
       visible={isOpen}
       onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
-          Cancel
+          {CANCEL}
         </Button>,
         <Button
           key="submit"
           type="primary"
           onClick={() => hiddenInnerSubmitFormRef.current.click()}
         >
-          Submit
+          {SUBMIT}
         </Button>
       ]}
     >
       <Formik
         validateOnBlur={false}
-        initialValues={{
-          name: value.name || '',
-          trend: value.trend || '',
-          introduction: value.introduction || '',
-          content: value.content || '',
-          image: value.image || null
-        }}
         validationSchema={validators.tag.createBlogSchema}
         onSubmit={(values, actions) => handleSubmitForm(values, actions)}
         enableReinitialize
+        initialValues={{
+          name: value.name || '',
+          trend: value.trend || '',
+          image: value.image || null,
+          content: value.content || '',
+          introduction: value.introduction || '',
+        }}
       >
         <Form>
           <button type="submit" style={{ display: 'none' }} ref={hiddenInnerSubmitFormRef}>
-            Submit
+            {SUBMIT}
           </button>
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
             name="name"
-            placeholder="Name"
+            placeholder={NAME}
             hasFeedback
           />
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
             name="trend"
-            placeholder="Trend"
+            placeholder={TREND}
             hasFeedback
           />
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
             name="introduction"
-            placeholder="Introduction"
+            placeholder={INTRODUCTION}
             hasFeedback
           />
           <div className="ant-row ant-form-item">
             <Field
-              InputType={Input}
+              showing={isOpen}
               component={ImageUpload}
-              prefix={<Icon type="folder" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
               name="image"
-              placeholder="Image"
+              placeholder={IMAGE}
               hasFeedback
             />
           </div>
@@ -187,7 +201,7 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
             InputType={ReactQuill}
             component={QuillInput}
             name="content"
-            placeholder="Content"
+            placeholder={CONTENT}
             hasFeedback
           />
         </Form>

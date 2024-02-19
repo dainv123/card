@@ -1,16 +1,18 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { queries, mutations } from '../../graphql/graphql';
-import { connect } from 'react-redux';
-import { Icon, Avatar } from 'antd';
-import { Route, Redirect } from 'react-router-dom';
-import { useMutation, useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { queries, mutations } from '../../graphql/graphql';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { Icon, Avatar, message } from 'antd';
+import { Route, Redirect } from 'react-router-dom';
 import EditorModal from '../../components/EditorModal/EditorModal';
+import { PAGE_NOT_FOUND, SOMETHING_WENT_WRONG } from '../../constants/wording';
 
 const ReaderPage = ({ loggedIn, user, ...rest }) => {
   const iframeRef = useRef(null);
   const [theme, setTheme] = useState('');
   const [config, setConfig] = useState({});
+  const [configDefault, setConfigDefault] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataCard, setDataCard] = useState(null);
   const [dataTheme, setDataTheme] = useState(null);
@@ -57,6 +59,7 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
 
   const handleOk = config => {
     handleUpdateCard(config);
+    setConfig(JSON.stringify(config) === '{}' ? configDefault : config);
     iframeRef.current.contentWindow.postMessage({
       type: 'internal-iframe-pass-inside',
       data: config
@@ -65,17 +68,15 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
 
   const handleUpdateCard = config => {
     UpdateCard({ variables: { id: dataCard.id, config: JSON.stringify(config) } }).then(
-      res => {
-        setIsModalOpen(false);
-      },
-      err => {
-        alert('Something went wrong!');
-      }
+      res => setIsModalOpen(false),
+      err => message.error(SOMETHING_WENT_WRONG)
     );
   };
 
   const handleCallback = event => {
     if (event.data.type === 'internal-iframe-ready' && iframeRef.current) {
+      setConfigDefault(event.data.data);
+      
       if (dataCard && dataCard.config && dataCard.config !== '{}') {
         setConfig(JSON.parse(dataCard.config));
         iframeRef.current.contentWindow.postMessage({
@@ -140,7 +141,7 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
           }}
         />
       ) : (
-        'Nothing here'
+        PAGE_NOT_FOUND
       )}
     </>
   );

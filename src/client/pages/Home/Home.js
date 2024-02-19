@@ -3,6 +3,17 @@ import { useSelector } from 'react-redux';
 import { Layout } from 'antd';
 import { NavLink } from 'react-router-dom';
 import PublicLayout from '../../components/Layouts/PublicLayout';
+import { MY_NAME } from '../../constants/common';
+import { 
+  AND, 
+  BACKEND_DEVELOPER, 
+  CONTACT_ME, 
+  GO_TO_ADMIN, 
+  HELLO_NAME, 
+  LOG_IN, 
+  MOBILE_DEVELOPER, 
+  WEB_DEVELOPER 
+} from '../../constants/wording';
 
 const HomePage = () => {
   const loggedIn = useSelector(state => state.auth.loggedIn);
@@ -29,22 +40,22 @@ const HomePage = () => {
             <div className="row">
               <div className="col-sm-12 col-md-12 col-lg-12">
                 <div className="title-block">
-                  <h2>Hello, I'm Dai Nguyen</h2>
+                  <h2>{HELLO_NAME(MY_NAME)}</h2>
                   <div className="type-wrap">
                     <div className="typed-strings">
-                      <span>Senior Web Developer</span>
-                      <span>Also, Mobile Developer</span>
-                      <span>and</span>
-                      <span>Culi in Some Backend Languages</span>
+                      <span>{WEB_DEVELOPER}</span>
+                      <span>{MOBILE_DEVELOPER}</span>
+                      <span>{AND}</span>
+                      <span>{BACKEND_DEVELOPER}</span>
                     </div>
                     <span className="typed"></span>
                   </div>
                   <div className="home-buttons">
                     <NavLink to={loggedIn ? '/admin' : '/login'} className="bt-submit">
-                      <i className="lnr lnr-briefcase"></i> {loggedIn ? 'Go to Admin' : 'Login'}
+                      <i className="lnr lnr-briefcase"></i> {loggedIn ? GO_TO_ADMIN : LOG_IN}
                     </NavLink>
                     <NavLink to="/contact" className="bt-submit">
-                      <i className="lnr lnr-envelope"></i> Contact Me
+                      <i className="lnr lnr-envelope"></i> {CONTACT_ME}
                     </NavLink>
                   </div>
                 </div>

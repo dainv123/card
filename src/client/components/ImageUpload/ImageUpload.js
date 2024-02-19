@@ -1,41 +1,77 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Button, Upload, Icon, message } from 'antd';
 import { SERVER_URI } from '../../constants/endpoint';
+import { 
+  FILE_UPLOAD_FAILED, 
+  IMAGE, 
+  MAXIMUM_UPLOAD_MESSAGE, 
+  UPLOAD 
+} from '../../constants/wording';
 
 export const ImageUpload = ({
   field,
   form: { touched, errors, setFieldValue },
   singleUpload = true,
-  maxCount = 1
+  showing = true,
+  maxCount = 1,
+  ...props
 }) => {
-  const isImageURL = useMemo(() => typeof field.value === 'string', [field]);
+  const [fileList, setFileList] = useState([]);
 
-  const isExistedImage = useMemo(() => !!(singleUpload ? field.value : field && field.length), [
-    field
-  ]);
+  const isImageURL = useMemo(
+    () => typeof field.value === 'string', [field]);
+
+  const isExistedImage = useMemo(
+    () => !!(singleUpload ? field.value : field && field.length), [field]);
 
   const uploadedImageCount = useMemo(
-    () => (isExistedImage ? (singleUpload ? 1 : field.value.length) : 0),
-    [singleUpload, field]
-  );
+    () => (isExistedImage ? (singleUpload ? 1 : field.value.length) : 0), [singleUpload, field]);
+
+  const resetFileList = () => setFileList([]);
 
   const onDeleteOld = () => setFieldValue(field.name, null);
 
-  const handleChange = info => {
-    if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
+  const onChange = ({ file, fileList: newFileList }) => {
+    if (file.status === 'error') {
+      message.error(FILE_UPLOAD_FAILED(file.name));
+      return;
+    }
+
+    if (
+      file.status === 'removed' && 
+      !newFileList.filter(item => item.status == "done").length && 
+      !isImageURL
+    ) {
+      setFieldValue(field.name, "");
+    }
+
+    setFileList(newFileList);
+  };
+
+  const beforeUpload = () => {
+    if (uploadedImageCount >= maxCount) {
+      message.error(MAXIMUM_UPLOAD_MESSAGE(maxCount));
+      return;
     }
   };
 
   const customRequest = ({ file, onSuccess, onError }) => {
     if (uploadedImageCount >= maxCount) {
-      message.error(`Maximum ${maxCount} images allowed.`);
-      onError();
+      setTimeout(() => onError(), 0);
       return;
     }
-    setFieldValue(field.name, file);
-    setTimeout(() => onSuccess(), 800);
+
+    setTimeout(() => {
+      onSuccess();
+      setFieldValue(field.name, file);
+    }, 800);
   };
+
+  useEffect(() => {
+    if (!showing) {
+      resetFileList();
+    }
+  }, [showing]);
 
   const previewImage = (url, onDelete) => (
     <div className="ant-upload-list ant-upload-list-picture">
@@ -91,17 +127,20 @@ export const ImageUpload = ({
     <>
       <Upload
         accept="image/*"
-        multiple={false}
-        onChange={handleChange}
-        customRequest={customRequest}
         listType="picture"
+        multiple={false}
+        fileList={fileList}
+        onChange={onChange}
+        beforeUpload={beforeUpload}
+        customRequest={customRequest}
+        {...props}
       >
         <div>
-          Image: <Button icon="upload">Upload</Button>
+          {IMAGE}: <Button icon="upload">{UPLOAD}</Button>
         </div>
       </Upload>
       {/* FOR SINGLE FIRST */}
-      {isImageURL && previewImage(field.value, onDeleteOld)}
+      {isImageURL && field.value && previewImage(field.value, onDeleteOld)}
     </>
   );
 };

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { Layout } from 'antd';
-import PublicLayout from '../../components/Layouts/PublicLayout';
 import { useQuery } from '@apollo/react-hooks';
 import { queries } from '../../graphql/graphql';
-import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
 import { useSelector } from 'react-redux';
+import PublicLayout from '../../components/Layouts/PublicLayout';
+import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
+import { BLOG, BLOG_INTRO } from '../../constants/wording';
 
 const BlogPage = () => {
   const loggedIn = useSelector(state => state.auth.loggedIn);
@@ -31,8 +32,8 @@ const BlogPage = () => {
             <div className="section-title">
               <div className="main-title">
                 <div className="title-main-page">
-                  <h4>Blog</h4>
-                  <p>I share my news and blog</p>
+                  <h4>{BLOG}</h4>
+                  <p>{BLOG_INTRO}</p>
                 </div>
               </div>
             </div>

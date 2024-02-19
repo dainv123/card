@@ -6,26 +6,26 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { Formik, Field } from 'formik';
 import { Form, Icon, Input, Button, Checkbox, Card, Alert, message } from 'antd';
-
 import { FormInputField } from '../FormInputField/FormInputField';
-
 import validators from '../../validators/validators';
-import { mutations } from '../../graphql/graphql';
 import actions from '../../store/actions/actions';
-
+import { mutations } from '../../graphql/graphql';
+import { EMAIL, FORGOT_PASSWORD, INCORRECT_EMAIL_PASSWORD, LOGGED_IN_SUCCESSFULLY, LOG_IN, OR, PASSWORD, REGISTER_NOW, REMEMBER_ME } from '../../constants/wording';
 import _s from './LoginForm.less';
+import { COLOR_BLACK_1 } from '../../constants/common';
 
 const LoginForm = props => {
   const [LogIn] = useMutation(mutations.LOG_IN);
 
   const handleSubmitForm = async (values, actions) => {
     const { email, password } = values;
+
     const { setErrors, setSubmitting } = actions;
 
     LogIn({ variables: { email, password } }).then(
       res => {
         props.setAuthUser(res.data.LogIn);
-        message.success('Logged in successfully');
+        message.success(LOGGED_IN_SUCCESSFULLY);
       },
       err => {
         setSubmitting(false);
@@ -35,7 +35,7 @@ const LoginForm = props => {
           // if (x.message.includes('email')) errors.email = 'Email has already been taken.';
           // if (x.message.includes('username')) errors.username = 'Username has already been taken.';
         });
-        setErrors({ auth: 'Incorrect email or password.' });
+        setErrors({ auth: INCORRECT_EMAIL_PASSWORD });
       }
     );
   };
@@ -43,14 +43,14 @@ const LoginForm = props => {
   return (
     <Card className={_s.LoginFormCard}>
       <p style={{ fontWeight: 'bold', fontSize: '1.05rem' }}>
-        <Icon style={{ paddingRight: '5px' }} type="login" /> Log In
+        <Icon style={{ paddingRight: '5px' }} type="login" /> {LOG_IN}
       </p>
 
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={validators.user.loginSchema}
-        validateOnChange={false}
         validateOnBlur={false}
+        validateOnChange={false}
         onSubmit={(values, actions) => handleSubmitForm(values, actions)}
         render={formikProps => {
           const { errors, isSubmitting, handleSubmit } = formikProps;
@@ -69,24 +69,24 @@ const LoginForm = props => {
                 <Field
                   InputType={Input}
                   component={FormInputField}
-                  prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  prefix={<Icon type="mail" style={{ color: COLOR_BLACK_1 }} />}
                   name="email"
-                  placeholder="Email"
+                  placeholder={EMAIL}
                   hideErrorMessage={true}
                 />
                 <Field
                   InputType={Input}
                   component={FormInputField}
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  prefix={<Icon type="lock" style={{ color: COLOR_BLACK_1 }} />}
                   name="password"
-                  placeholder="Password"
+                  placeholder={PASSWORD}
                   type="password"
                   hideErrorMessage={true}
                 />
                 <Form.Item style={{ marginBottom: 'unset' }}>
-                  <Checkbox>Remember me</Checkbox>
+                  <Checkbox>{REMEMBER_ME}</Checkbox>
                   <a className={_s.loginFormForgot} href="/contact">
-                    Forgot password
+                    {FORGOT_PASSWORD}
                   </a>
                   <Button
                     type="primary"
@@ -94,9 +94,9 @@ const LoginForm = props => {
                     loading={isSubmitting}
                     className={_s.loginFormButton}
                   >
-                    Log in
+                    {LOG_IN}
                   </Button>
-                  Or <Link to="/register">register now!</Link>
+                  {OR} <Link to="/register">{REGISTER_NOW}</Link>
                 </Form.Item>
               </Form>
             </>

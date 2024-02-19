@@ -9,6 +9,8 @@ import { withRouter } from 'react-router';
 import { mutations } from '../../graphql/graphql';
 import actions from '../../store/actions/actions';
 import _s from './Layouts.less';
+import { AVATAR_URI, MY_NAME } from '../../constants/common';
+import { ABOUT_ME, BLOG, CONTACT, HOME, THEME } from '../../constants/wording';
 
 const { SubMenu } = Menu;
 
@@ -46,40 +48,40 @@ const PublicLayout = React.memo(props => {
             <div className="profile-picture-block">
               <div className="my-photo">
                 <img
-                  src="http://localhost:3000/public/assets/images/avatar.jpg"
+                  src={AVATAR_URI}
+                  alt="avatar"
                   className="img-fluid"
-                  alt="image"
                 />
               </div>
             </div>
             <div className="site-title-block">
-              <div className="site-title">Dai Nguyen</div>
+              <div className="site-title">{MY_NAME}</div>
             </div>
             <div className="site-nav">
               <ul className="header-main-menu" id="header-main-menu">
                 <li>
                   <NavLink exact activeClassName="active" to="/">
-                    <i className="fas fa-home"></i> Home
+                    <i className="fas fa-home"></i> {HOME}
                   </NavLink>
                 </li>
                 <li>
                   <NavLink activeClassName="active" to="/about-me">
-                    <i className="fas fa-user-tie"></i> About Me
+                    <i className="fas fa-user-tie"></i> {ABOUT_ME}
                   </NavLink>
                 </li>
                 <li>
                   <NavLink activeClassName="active" to="/theme">
-                    <i className="fas fa-business-time"></i>Theme
+                    <i className="fas fa-business-time"></i> {THEME}
                   </NavLink>
                 </li>
                 <li>
                   <NavLink activeClassName="active" to="/blog">
-                    <i className="fas fa-book-reader"></i> Blog
+                    <i className="fas fa-book-reader"></i> {BLOG}
                   </NavLink>
                 </li>
                 <li>
                   <NavLink activeClassName="active" to="/contact">
-                    <i className="fas fa-paper-plane"></i> Contact
+                    <i className="fas fa-paper-plane"></i> {CONTACT}
                   </NavLink>
                 </li>
               </ul>
@@ -90,10 +92,9 @@ const PublicLayout = React.memo(props => {
           <div className="responsive-header-name">
             <img
               className="responsive-logo"
-              src="http://localhost:3000/public/assets/images/avatar.jpg"
-              alt=""
+              src={AVATAR_URI}
             />
-            Dai Nguyen
+            {MY_NAME}
           </div>
           <span className="responsive-icon">
             <i className="lnr lnr-menu"></i>

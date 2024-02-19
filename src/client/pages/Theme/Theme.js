@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Layout } from 'antd';
 import { NavLink } from 'react-router-dom';
-import PublicLayout from '../../components/Layouts/PublicLayout';
 import { useQuery } from '@apollo/react-hooks';
-import { queries } from '../../graphql/graphql';
-import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
 import { useSelector } from 'react-redux';
+import { queries } from '../../graphql/graphql';
+import PublicLayout from '../../components/Layouts/PublicLayout';
+import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
+import { ALL, PROJECT, THEME, THEME_INTRO } from '../../constants/wording';
 
 const ThemePage = () => {
   const loggedIn = useSelector(state => state.auth.loggedIn);
@@ -49,8 +50,8 @@ const ThemePage = () => {
             <div className="section-title">
               <div className="main-title">
                 <div className="title-main-page">
-                  <h4>Theme</h4>
-                  <p>Feel free to take a brief look and utilize them as needed.</p>
+                  <h4>{THEME}</h4>
+                  <p>{THEME_INTRO}</p>
                 </div>
               </div>
             </div>
@@ -62,7 +63,7 @@ const ThemePage = () => {
                   data-rel="all"
                   onClick={() => setCurrent('0')}
                 >
-                  All
+                  {ALL}
                 </button>
                 {dataTag &&
                   dataTag.map(tag => {
@@ -83,7 +84,7 @@ const ThemePage = () => {
 
               <div className="portfolio-grid portfolio-trigger" id="portfolio-page">
                 <div className="label-portfolio">
-                  <span className="rotated-sub">project</span>
+                  <span className="rotated-sub">{PROJECT}</span>
                   <span className="project-count">{themeFilteredCount}</span>
                 </div>
                 <div className="row">
@@ -95,7 +96,7 @@ const ThemePage = () => {
                           key={theme.id}
                         >
                           <div className="portfolio-img">
-                            <img src={SERVER_URI + theme.image} className="img-responsive" alt="" />
+                            <img src={SERVER_URI + theme.image} className="img-responsive" alt="theme" />
                           </div>
                           <div className="portfolio-data">
                             <h4>
