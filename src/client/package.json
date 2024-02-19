@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "build": "webpack --mode production --progress",
     "dev": "webpack-dev-server --mode development"
@@ -10,9 +13,6 @@
   "keywords": [],
   "author": "Igor Marracho Carriço Cesar",
   "license": "ISC",
-  "engines": {
-    "node": "20.11.0"
-  },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.1",
     "@json-editor/json-editor": "^2.13.1",
