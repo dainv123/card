@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "React Node Boilerplate is a MERN stack with GraphQL.",
   "scripts": {
-    "heroku-postbuild": "npm install && lerna bootstrap",
+    "heroku-postbuild": "lerna bootstrap && lerna run build",
     "start": "lerna exec -- npm run --parallel dev",
     "lint": "eslint '**/*.{js,jsx}'",
     "lint:fix": "npm run lint -- --fix",
