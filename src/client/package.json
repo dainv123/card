@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node_modules/webpack --mode production --progress",
-    "dev": "node_modules/webpack-dev-server --mode development"
+    "heroku-prebuild": "npm install --dev",
+    "build": "webpack --mode production --progress",
+    "dev": "webpack-dev-server --mode development"
   },
   "keywords": [],
   "author": "Igor Marracho Carriço Cesar",
