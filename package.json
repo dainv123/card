@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "React Node Boilerplate is a MERN stack with GraphQL.",
   "scripts": {
-    "dev": "lerna exec -- npm run --parallel dev",
+    "start": "lerna exec -- npm run --parallel dev",
     "lint": "eslint '**/*.{js,jsx}'",
     "lint:fix": "npm run lint -- --fix",
     "test": "lerna run --parallel test",
