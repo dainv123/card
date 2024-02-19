@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "heroku-prebuild": "npm install --dev",
     "build": "webpack --mode production --progress",
     "dev": "webpack-dev-server --mode development"
   },
