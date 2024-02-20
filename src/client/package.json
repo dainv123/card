@@ -8,6 +8,7 @@
     "npm": "10.2.4"
   },
   "scripts": {
+    "heroku-postbuild": "npm install --production=false",
     "build": "webpack --mode production --progress",
     "dev": "webpack-dev-server --mode development"
   },
