@@ -11,7 +11,7 @@
     "lint": "eslint '**/*.{js,jsx}'",
     "lint:fix": "npm run lint -- --fix",
     "test": "lerna run --parallel test",
-    "install:all": "npm install && lerna bootstrap && npm --prefix client install client && npm --prefix server install server"
+    "install:all": "npm install && lerna bootstrap && npm --prefix ./src/client install ./src/client && npm --prefix ./src/server install ./src/server"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
