@@ -1,6 +1,6 @@
-console.log(11111111111111111111111)
+console.log(1111111111)
 import express from 'express';
-const path = require('path');
+import path from 'path';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 import session from 'express-session';
