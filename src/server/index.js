@@ -1,5 +1,5 @@
 import express from 'express';
-import path from 'path';
+const path = require('path');
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 import session from 'express-session';

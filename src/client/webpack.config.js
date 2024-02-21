@@ -70,6 +70,9 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    minimize: false
+  },
   resolve: {
     extensions: ['*', '.mjs', '.js', '.jsx']
   },
