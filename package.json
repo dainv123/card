@@ -7,7 +7,7 @@
     "npm": "10.2.4"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production babel-node src/server/index",
+    "start": "cd src/server & npm run start",
     "dev": "lerna exec -- npm run --parallel dev",
     "lint": "eslint '**/*.{js,jsx}'",
     "lint:fix": "npm run lint -- --fix",
@@ -59,8 +59,5 @@
     "url": "https://github.com/IgorMCesar/react-node-boilerplate/issues"
   },
   "homepage": "https://github.com/IgorMCesar/react-node-boilerplate#readme",
-  "dependencies": {
-    "antd": "^5.12.2",
-    "react-router-dom": "^6.21.0"
-  }
+  "dependencies": {}
 }

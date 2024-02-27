@@ -1,4 +1,3 @@
-console.log(1111111111)
 import express from 'express';
 import path from 'path';
 import helmet from 'helmet';
