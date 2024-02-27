@@ -25,12 +25,6 @@ const {
 
 const app = express();
 
-app.use(helmet());
-app.use(helmet.permittedCrossDomainPolicies());
-app.use(express.json({ limit: '1mb' }));
-app.use(express.static('dist'));
-app.use(fileUpload());
-
 // Serve React Application
 if (NODE_ENV === 'development') {
   app.use(function (req, res, next) {
@@ -41,11 +35,21 @@ if (NODE_ENV === 'development') {
   });
 }
 
+app.use(helmet());
+app.use(helmet.permittedCrossDomainPolicies());
+app.use(express.json({ limit: '1mb' }));
+app.use(express.static(__dirname + '/../client/dist'));
+app.use(fileUpload());
+
 // View Public Images
 app.use('/uploads', express.static(path.join(__dirname, UPLOADS_FOLDER)));
 
 // Use the defined routes under the /api subpath
 app.use('/api', uploadRoutes);  
+
+app.get('/*', (req, res)=> {
+  res.sendFile(__dirname + '/../client/dist/index.html');
+});
 
 // Set User Session
 const MongoStore = connectMongo(session);

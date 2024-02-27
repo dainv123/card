@@ -12,7 +12,8 @@
     "lint": "eslint '**/*.{js,jsx}'",
     "lint:fix": "npm run lint -- --fix",
     "test": "lerna run --parallel test",
-    "install:all": "npm install && lerna bootstrap"
+    "install:all": "npm install && lerna bootstrap",
+    "heroku-postbuild":"cd src/client & npm run build"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
