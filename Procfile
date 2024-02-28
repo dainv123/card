@@ -1,1 +1,1 @@
-release: cd src/server && npm install esm && npm start
+release: cd src/server && && npm start

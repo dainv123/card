@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "./index.js",
+  "type": "module",
   "engines": {
     "node": "20.11.0",
     "npm": "10.2.4"
   },
   "scripts": {
     "check-staged": "lint-staged",
-    "start": "node -r esm index.js",
+    "start": "node index.js",
     "dev": "nodemon -r esm -r dotenv/config index.js dotenv_config_path=../../.env"
   },
   "keywords": [],
