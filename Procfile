@@ -1,1 +1,1 @@
-release: npm run install:all
+release: cd src/server && npm install
