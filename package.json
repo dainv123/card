@@ -1,13 +1,13 @@
 {
-  "name": "react-node-boilerplate",
+  "name": "daidev",
   "version": "1.0.0",
-  "description": "React Node Boilerplate is a MERN stack with GraphQL.",
+  "description": "React Express GraphQL.",
   "engines": {
     "node": "20.11.0",
     "npm": "10.2.4"
   },
   "scripts": {
-    "start": "cd src/server & npm run start",
+    "start": "cd src/server && npm run start",
     "dev": "lerna exec -- npm run --parallel dev",
     "lint": "eslint '**/*.{js,jsx}'",
     "lint:fix": "npm run lint -- --fix",
@@ -48,16 +48,5 @@
       "eslint --fix",
       "git add"
     ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/IgorMCesar/react-node-boilerplate.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/IgorMCesar/react-node-boilerplate/issues"
-  },
-  "homepage": "https://github.com/IgorMCesar/react-node-boilerplate#readme",
-  "dependencies": {}
+  }
 }
