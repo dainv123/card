@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
-import loggerConfig from './config/loggerConfig';
+import loggerConfig from './config/loggerConfig.js';
 import typeDefs from './graphql/schemas/schemas';
 import resolvers from './graphql/resolvers/resolvers';
 import schemaDirectives from './graphql/directives/directives';
@@ -12,15 +12,15 @@ import fileUpload from 'express-fileupload';
 import uploadRoutes from './api/upload';
 import { ApolloServer } from 'apollo-server-express';
 
-const { 
-  PORT, 
-  NODE_ENV, 
+const {
+  PORT,
+  NODE_ENV,
   CLIENT_URI,
-  MONGO_DB_URI, 
+  MONGO_DB_URI,
   UPLOADS_FOLDER,
-  SESSION_NAME, 
-  SESSION_SECRET, 
-  SESSION_MAX_AGE, 
+  SESSION_NAME,
+  SESSION_SECRET,
+  SESSION_MAX_AGE,
 } = process.env;
 
 const app = express();
@@ -45,9 +45,9 @@ app.use(fileUpload());
 app.use('/uploads', express.static(path.join(__dirname, UPLOADS_FOLDER)));
 
 // Use the defined routes under the /api subpath
-app.use('/api', uploadRoutes);  
+app.use('/api', uploadRoutes);
 
-app.get('/*', (req, res)=> {
+app.get('/*', (req, res) => {
   res.sendFile(__dirname + '/../client/dist/index.html');
 });
 
