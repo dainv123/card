@@ -1,4 +1,4 @@
-import authActions from './auth/auth';
+import authActions from './auth/auth.js';
 
 const actions = {
   ...authActions

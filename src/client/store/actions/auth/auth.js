@@ -1,6 +1,6 @@
-import * as setAuthUser from './setAuthUser';
-import * as removeAuthUser from './removeAuthUser';
-import * as setFirstAuthState from './setFirstAuthState';
+import * as setAuthUser from './setAuthUser.js';
+import * as removeAuthUser from './removeAuthUser.js';
+import * as setFirstAuthState from './setFirstAuthState.js';
 
 const authActions = {
   ...setAuthUser,

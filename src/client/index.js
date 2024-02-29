@@ -3,11 +3,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
-
-import client from './config/createApolloClient';
-import configureStore, { history } from './config/configureStore';
-
-import App from './App';
+import client from './config/createApolloClient.js';
+import configureStore, { history } from './config/configureStore.js';
+import App from './App.js';
 
 const store = configureStore();
 const Root = () => {

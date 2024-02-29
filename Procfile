@@ -1,1 +1,1 @@
-release: cd src/server && npm install && npm start
+release: cd src/server && npm run start

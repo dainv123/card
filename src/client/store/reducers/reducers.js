@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 
-import { default as auth } from './auth';
+import { default as auth } from './auth.js';
 
 const rootReducer = history =>
   combineReducers({

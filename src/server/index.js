@@ -4,12 +4,12 @@ import helmet from 'helmet';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
-import loggerConfig from './config/loggerConfig.js';
-import typeDefs from './graphql/schemas/schemas';
-import resolvers from './graphql/resolvers/resolvers';
-import schemaDirectives from './graphql/directives/directives';
+import loggerConfig from './config/loggerConfig.js.js';
+import typeDefs from './graphql/schemas/schemas.js';
+import resolvers from './graphql/resolvers/resolvers.js';
+import schemaDirectives from './graphql/directives/directives.js';
 import fileUpload from 'express-fileupload';
-import uploadRoutes from './api/upload';
+import uploadRoutes from './api/upload.js';
 import { ApolloServer } from 'apollo-server-express';
 
 const {

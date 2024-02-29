@@ -1,7 +1,7 @@
-import * as user from './user';
-import * as theme from './theme';
-import * as card from './card';
-import * as tag from './tag';
-import * as blog from './blog';
+import * as user from './user.js';
+import * as theme from './theme.js';
+import * as card from './card.js';
+import * as tag from './tag.js';
+import * as blog from './blog.js';
 
 export default { user, theme, card, tag, blog };
