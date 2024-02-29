@@ -9,12 +9,13 @@
   },
   "scripts": {
     "check-staged": "lint-staged",
-    "start": "node -r esm index.js",
+    "start": "node -r esm -r dotenv/config index.js dotenv_config_path=./.env",
     "dev": "nodemon -r esm -r dotenv/config index.js dotenv_config_path=../../.env"
   },
   "keywords": [],
   "author": "Igor Marracho Carriço Cesar",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
     "apollo-server-express": "^2.6.3",
     "bcryptjs": "^2.4.3",

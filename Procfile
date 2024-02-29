@@ -1,1 +1,1 @@
-release: npm start
+release: npm install && npm run start
