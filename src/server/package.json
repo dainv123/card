@@ -4,8 +4,8 @@
   "description": "",
   "main": "./index.js",
   "engines": {
-    "node": "20.11.0",
-    "npm": "10.2.4"
+    "node": "18.16.0",
+    "npm": "9.5.1"
   },
   "scripts": {
     "check-staged": "lint-staged",
