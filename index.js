@@ -8,7 +8,7 @@ import loggerConfig from './config/loggerConfig.js';
 import typeDefs from './graphql/schemas/schemas.js';
 import resolvers from './graphql/resolvers/resolvers.js';
 import schemaDirectives from './graphql/directives/directives.js';
-import fileUpload from 'express-fileupload.js';
+import fileUpload from 'express-fileupload';
 import uploadRoutes from './api/upload.js';
 import { ApolloServer } from 'apollo-server-express';
 
