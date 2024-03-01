@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "React Express GraphQL.",
   "engines": {
-    "node": "18.16.0",
+    "node": "14.17.3",
     "npm": "9.5.1"
   },
   "scripts": {
