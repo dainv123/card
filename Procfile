@@ -1,1 +1,0 @@
-release: npm install esm && npm run start
