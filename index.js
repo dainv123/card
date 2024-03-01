@@ -38,20 +38,12 @@ if (NODE_ENV === 'development') {
 app.use(helmet());
 app.use(helmet.permittedCrossDomainPolicies());
 app.use(express.json({ limit: '1mb' }));
-
 app.use(fileUpload());
-
-// View Public Images
-app.use('/uploads', express.static(path.join(__dirname, UPLOADS_FOLDER)));
-
-// Use the defined routes under the /api subpath
 app.use('/api', uploadRoutes);
-
+app.use('/uploads', express.static(path.join(__dirname, UPLOADS_FOLDER)));
+app.use('/themes', express.static(__dirname + '/client/themes'));
 app.use(express.static(__dirname + '/client/dist'));
-
-app.get('/*', (req, resp) => {
-  resp.sendFile(__dirname + '/client/dist/index.html');
-})
+app.get('/*', (req, resp) => resp.sendFile(__dirname + '/client/dist/index.html'))
 
 // Set User Session
 const MongoStore = connectMongo(session);
