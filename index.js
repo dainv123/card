@@ -45,10 +45,10 @@ app.use(express.json({
 // app.use(fileUpload());
 
 // View Public Images
-app.use('/uploads', express.static(path.join(__dirname, UPLOADS_FOLDER)));
+// app.use('/uploads', express.static(path.join(__dirname, UPLOADS_FOLDER)));
 
 // Use the defined routes under the /api subpath
-app.use('/api', uploadRoutes);
+// app.use('/api', uploadRoutes);
 
 app.use(express.static(__dirname + '/dist/angulartmp'));
 app.get('/*', (req, resp) => {
