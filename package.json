@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "./index.js",
+  "engines": {
+    "node": "14.17.3",
+    "npm": "9.5.1"
+  },
   "scripts": {
     "check-staged": "lint-staged",
     "start": "node -r esm index.js",
@@ -11,8 +15,6 @@
   "keywords": [],
   "author": "Igor Marracho Carriço Cesar",
   "license": "ISC",
-  "type": "module",
-  "module": "es6",
   "dependencies": {
     "apollo-server-express": "^2.6.3",
     "bcryptjs": "^2.4.3",
