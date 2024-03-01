@@ -18,7 +18,7 @@ const RegisterForm = props => {
 
   const handleSubmitForm = async (values, actions) => {
     const { email, password, name, username } = values;
-    
+
     const { setErrors, setSubmitting } = actions;
 
     SignUp({ variables: { email, password, name, username } }).then(
@@ -69,7 +69,7 @@ const RegisterForm = props => {
                 <Field
                   InputType={Input}
                   component={FormInputField}
-                  prefix={<Icon type="user" style={{ color: COLOR_BLACK_1LACK_1 }} />}
+                  prefix={<Icon type="user" style={{ color: COLOR_BLACK_1 }} />}
                   name="username"
                   placeholder={USERNAME}
                   hasFeedback
