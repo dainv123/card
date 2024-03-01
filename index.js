@@ -3,16 +3,16 @@ import path from 'path';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 import session from 'express-session';
-import connectMongo from 'connect-mongo';
-import loggerConfig from './config/loggerConfig.js';
-import typeDefs from './graphql/schemas/schemas.js';
-import resolvers from './graphql/resolvers/resolvers.js';
-import schemaDirectives from './graphql/directives/directives.js';
-import fileUpload from 'express-fileupload.js';
-import uploadRoutes from './api/upload.js';
-import {
-  ApolloServer
-} from 'apollo-server-express';
+// import connectMongo from 'connect-mongo';
+// import loggerConfig from './config/loggerConfig.js';
+// import typeDefs from './graphql/schemas/schemas.js';
+// import resolvers from './graphql/resolvers/resolvers.js';
+// import schemaDirectives from './graphql/directives/directives.js';
+// import fileUpload from 'express-fileupload.js';
+// import uploadRoutes from './api/upload.js';
+// import {
+//   ApolloServer
+// } from 'apollo-server-express';
 
 const {
   PORT,
@@ -42,7 +42,7 @@ app.use(helmet.permittedCrossDomainPolicies());
 app.use(express.json({
   limit: '1mb'
 }));
-app.use(fileUpload());
+// app.use(fileUpload());
 
 // View Public Images
 app.use('/uploads', express.static(path.join(__dirname, UPLOADS_FOLDER)));
