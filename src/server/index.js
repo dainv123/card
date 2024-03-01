@@ -4,13 +4,15 @@ import helmet from 'helmet';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
-import loggerConfig from './config/loggerConfig.js.js';
+import loggerConfig from './config/loggerConfig.js';
 import typeDefs from './graphql/schemas/schemas.js';
 import resolvers from './graphql/resolvers/resolvers.js';
 import schemaDirectives from './graphql/directives/directives.js';
 import fileUpload from 'express-fileupload';
 import uploadRoutes from './api/upload.js';
-import { ApolloServer } from 'apollo-server-express';
+import {
+  ApolloServer
+} from 'apollo-server-express';
 
 const {
   PORT,
@@ -37,7 +39,9 @@ if (NODE_ENV === 'development') {
 
 app.use(helmet());
 app.use(helmet.permittedCrossDomainPolicies());
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({
+  limit: '1mb'
+}));
 app.use(express.static(__dirname + '/../client/dist'));
 app.use(fileUpload());
 
@@ -58,7 +62,9 @@ mongoose.set('useCreateIndex', true);
 
 app.use(
   session({
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection
+    }),
     name: SESSION_NAME,
     secret: SESSION_SECRET,
     resave: true,
@@ -77,16 +83,21 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   schemaDirectives,
-  playground:
-    NODE_ENV.trim() !== 'development'
-      ? false
-      : {
-        settings: {
-          'request.credentials': 'include',
-          'schema.polling.enable': false
-        }
-      },
-  context: ({ req, res }) => ({ req, res })
+  playground: NODE_ENV.trim() !== 'development' ?
+    false :
+    {
+      settings: {
+        'request.credentials': 'include',
+        'schema.polling.enable': false
+      }
+    },
+  context: ({
+    req,
+    res
+  }) => ({
+    req,
+    res
+  })
 });
 
 // Logging with Morgan
@@ -109,7 +120,9 @@ mongoose.connect(MONGO_DB_URI, {
 
 mongoose.connection.once('open', () => {
   const port = PORT || 8080;
-  app.listen({ port }, () => {
+  app.listen({
+    port
+  }, () => {
     console.log(`Server running on port ${port}`);
   });
 });
