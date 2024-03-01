@@ -7,6 +7,7 @@
     "npm": "9.5.1"
   },
   "scripts": {
+    "start": "cd src/server && npm install esm && npm run start",
     "dev": "lerna exec -- npm run --parallel dev",
     "lint": "eslint '**/*.{js,jsx}'",
     "lint:fix": "npm run lint -- --fix",
