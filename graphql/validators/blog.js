@@ -21,7 +21,7 @@ const introduction = Joi.string()
 
 const content = Joi.string()
   .min(0)
-  .max(255)
+  .max(5000)
   .label('Content');
 
 const image = Joi.required();
