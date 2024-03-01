@@ -1,8 +1,8 @@
 let express = require('express');
 let app = express();
-app.use(express.static(__dirname + '/dist/angulartmp'));
+app.use(express.static(__dirname + '/client/dist/'));
 app.get('/*', (req, resp) => {
-  resp.sendFile(__dirname + '/dist/angulartmp/index.html');
+  resp.sendFile(__dirname + '/client/dist/index.html');
 })
 
 app.listen(process.env.PORT, 8080);
