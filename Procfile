@@ -1,1 +1,1 @@
-release: npm install && npm run start
+release: npm install esm && npm run start
