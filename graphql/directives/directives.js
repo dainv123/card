@@ -1,6 +1,6 @@
-import AuthDirective from './auth';
-import GuestDirective from './guest';
-import RoleDirective from './role';
+import AuthDirective from './auth.js';
+import GuestDirective from './guest.js';
+import RoleDirective from './role.js';
 
 export default {
   auth: AuthDirective,

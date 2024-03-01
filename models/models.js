@@ -1,8 +1,8 @@
-import User from './user';
-import Token from './token';
-import Theme from './theme';
-import Card from './card';
-import Tag from './tag';
-import Blog from './Blog';
+import User from './user.js';
+import Token from './token.js';
+import Theme from './theme.js';
+import Card from './card.js';
+import Tag from './tag.js';
+import Blog from './blog.js';
 
 export { User, Token, Theme, Card, Tag, Blog };
