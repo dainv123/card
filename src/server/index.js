@@ -52,6 +52,7 @@ app.use('/uploads', express.static(path.join(__dirname, UPLOADS_FOLDER)));
 app.use('/api', uploadRoutes);
 
 app.get('/*', (req, res) => {
+  console.log(1111111111111111);
   res.sendFile(__dirname + '/../client/dist/index.html');
 });
 
@@ -84,8 +85,7 @@ const server = new ApolloServer({
   resolvers,
   schemaDirectives,
   playground: NODE_ENV.trim() !== 'development' ?
-    false :
-    {
+    false : {
       settings: {
         'request.credentials': 'include',
         'schema.polling.enable': false
@@ -128,3 +128,4 @@ mongoose.connection.once('open', () => {
 });
 
 mongoose.connection.on('error', error => console.error(error));
+console.log(2222222222);
