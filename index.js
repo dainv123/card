@@ -5,12 +5,14 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
 import loggerConfig from './config/loggerConfig.js';
-import typeDefs from './graphql/schemas/schemas';
-import resolvers from './graphql/resolvers/resolvers';
-import schemaDirectives from './graphql/directives/directives';
-import fileUpload from 'express-fileupload';
-import uploadRoutes from './api/upload';
-import { ApolloServer } from 'apollo-server-express';
+import typeDefs from './graphql/schemas/schemas.js';
+import resolvers from './graphql/resolvers/resolvers.js';
+import schemaDirectives from './graphql/directives/directives.js';
+import fileUpload from 'express-fileupload.js';
+import uploadRoutes from './api/upload.js';
+import {
+  ApolloServer
+} from 'apollo-server-express';
 
 const {
   PORT,
@@ -37,8 +39,9 @@ if (NODE_ENV === 'development') {
 
 app.use(helmet());
 app.use(helmet.permittedCrossDomainPolicies());
-app.use(express.json({ limit: '1mb' }));
-app.use(express.static(__dirname + '/client/dist'));
+app.use(express.json({
+  limit: '1mb'
+}));
 app.use(fileUpload());
 
 // View Public Images
@@ -47,71 +50,72 @@ app.use('/uploads', express.static(path.join(__dirname, UPLOADS_FOLDER)));
 // Use the defined routes under the /api subpath
 app.use('/api', uploadRoutes);
 
-app.get('/*', (req, res) => {
-  res.sendFile(__dirname + '/client/dist/index.html');
-});
+app.use(express.static(__dirname + '/dist/angulartmp'));
+app.get('/*', (req, resp) => {
+  resp.sendFile(__dirname + '/dist/angulartmp/index.html');
+})
 
-// Set User Session
-const MongoStore = connectMongo(session);
+// // Set User Session
+// const MongoStore = connectMongo(session);
 
-mongoose.set('useCreateIndex', true);
+// mongoose.set('useCreateIndex', true);
 
-app.use(
-  session({
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    name: SESSION_NAME,
-    secret: SESSION_SECRET,
-    resave: true,
-    rolling: true,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: parseInt(SESSION_MAX_AGE, 10),
-      sameSite: true,
-      httpOnly: true,
-      secure: !NODE_ENV.trim() === 'development'
-    }
-  })
-);
+// app.use(
+//   session({
+//     store: new MongoStore({ mongooseConnection: mongoose.connection }),
+//     name: SESSION_NAME,
+//     secret: SESSION_SECRET,
+//     resave: true,
+//     rolling: true,
+//     saveUninitialized: false,
+//     cookie: {
+//       maxAge: parseInt(SESSION_MAX_AGE, 10),
+//       sameSite: true,
+//       httpOnly: true,
+//       secure: !NODE_ENV.trim() === 'development'
+//     }
+//   })
+// );
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  schemaDirectives,
-  playground:
-    NODE_ENV.trim() !== 'development'
-      ? false
-      : {
-        settings: {
-          'request.credentials': 'include',
-          'schema.polling.enable': false
-        }
-      },
-  context: ({ req, res }) => ({ req, res })
-});
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+//   schemaDirectives,
+//   playground:
+//     NODE_ENV.trim() !== 'development'
+//       ? false
+//       : {
+//         settings: {
+//           'request.credentials': 'include',
+//           'schema.polling.enable': false
+//         }
+//       },
+//   context: ({ req, res }) => ({ req, res })
+// });
 
-// Logging with Morgan
-if (NODE_ENV === 'development') {
-  loggerConfig(app);
-}
+// // Logging with Morgan
+// if (NODE_ENV === 'development') {
+//   loggerConfig(app);
+// }
 
-server.applyMiddleware({
-  app,
-  cors: {
-    credentials: true,
-    origin: CLIENT_URI
-  }
-});
+// server.applyMiddleware({
+//   app,
+//   cors: {
+//     credentials: true,
+//     origin: CLIENT_URI
+//   }
+// });
 
-mongoose.connect(MONGO_DB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+// mongoose.connect(MONGO_DB_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
 
-mongoose.connection.once('open', () => {
-  const port = PORT || 8080;
-  app.listen({ port }, () => {
-    console.log(`Server running on port ${port}`);
-  });
-});
+// mongoose.connection.once('open', () => {
+//   const port = PORT || 8080;
+//   app.listen({ port }, () => {
+//     console.log(`Server running on port ${port}`);
+//   });
+// });
 
-mongoose.connection.on('error', error => console.error(error));
+// mongoose.connection.on('error', error => console.error(error));
