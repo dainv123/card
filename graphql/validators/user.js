@@ -43,6 +43,9 @@ const token = Joi.string()
   .token()
   .length(32);
 
+const message = Joi.string()
+  .max(4000);
+
 export const findUser = Joi.object().keys({
   id: Joi.objectId()
 });
@@ -76,6 +79,12 @@ export const sendUserToken = Joi.object().keys({
 
 export const verifyUser = Joi.object().keys({
   token
+});
+
+export const sendContact = Joi.object().keys({
+  name,
+  email,
+  message
 });
 
 export const ChangePasswordWithToken = Joi.object().keys({

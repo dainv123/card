@@ -1,18 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { mutations } from '../../graphql/graphql';
+import { useMutation } from '@apollo/react-hooks';
 import { Layout } from 'antd';
 import { NavLink } from 'react-router-dom';
+import { message as toast } from 'antd';
 import PublicLayout from '../../components/Layouts/PublicLayout';
 import { CONTACT_MAILBOX } from '../../constants/common';
-import { 
-  CONTACT, 
-  CONTACT_INTRO, 
-  EMAIL, 
-  MESSAGE, 
-  NAME, 
-  SEND_MESSAGE 
+import {
+  CONTACT,
+  CONTACT_INTRO,
+  EMAIL,
+  MESSAGE,
+  NAME,
+  SEND_MESSAGE,
+  SOMETHING_WENT_WRONG,
+  SEND_CONTACT_SUCCESSFULLY
 } from '../../constants/wording';
 
+
 const ContactPage = () => {
+  const [name, setName] = useState('');
+
+  const [email, setEmail] = useState('');
+
+  const [message, setMessage] = useState('');
+
+  const [SendContact] = useMutation(mutations.SEND_CONTACT);
+
+  const handleSendMessage = (event) => {
+    event.preventDefault();
+
+    SendContact({ variables: { name, email, message } }).then(
+      res => toast.success(SEND_CONTACT_SUCCESSFULLY),
+      err => toast.error(err.message ? err.message : SOMETHING_WENT_WRONG)
+    );
+  }
+
   return (
     <PublicLayout>
       <Layout.Content>
@@ -33,7 +56,7 @@ const ContactPage = () => {
               <div className="col-sm-12 col-md-7 col-lg-7">
                 <div className="form-contact-me">
                   <div id="show_contact_msg"></div>
-                  <form method="post" id="contact-form" action="/contact">
+                  <form onSubmit={handleSendMessage}>
                     <input
                       name="name"
                       id="name"
@@ -41,6 +64,8 @@ const ContactPage = () => {
                       placeholder={NAME + ':'}
                       required
                       autoComplete="off"
+                      value={name}
+                      onChange={e => setName(e.target.value)}
                     />
                     <input
                       name="email"
@@ -49,6 +74,8 @@ const ContactPage = () => {
                       placeholder={EMAIL + ':'}
                       required
                       autoComplete="off"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
                     />
                     <textarea
                       name="comment"
@@ -56,6 +83,8 @@ const ContactPage = () => {
                       placeholder={MESSAGE + ':'}
                       required
                       rows="6"
+                      value={message}
+                      onChange={e => setMessage(e.target.value)}
                     ></textarea>
                     <input className="bt-submit" type="submit" value={SEND_MESSAGE} />
                   </form>

@@ -22,6 +22,7 @@ export default gql`
     updateUser(email: String!, username: String!, name: String!): Boolean @auth
     resendSignUpToken(email: String!): Boolean @guest
     verifyUser(token: String!): Boolean @guest
+    sendContact(name: String!, email: String!, message: String!): Boolean
     LogIn(email: String!, password: String!): User @guest
     CheckIfLoggedIn: User @auth
     LogOut: Boolean @auth

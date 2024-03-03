@@ -14,6 +14,7 @@ import BlogPage from './pages/Blog/Blog';
 import BlogDetailPage from './pages/Blog/BlogDetail';
 import ContactPage from './pages/Contact/Contact';
 import ReaderPage from './pages/Reader/Reader';
+import VerifyTokenPage from './pages/VerifyToken/VerifyToken';
 import DashboardPage from './pages/Dashboard/Dashboard';
 import ProfilePage from './pages/Profile/Profile';
 import PageNotFound from './pages/NotFound/NotFound';
@@ -34,6 +35,7 @@ const App = props => {
           <Route exact path="/blog/:id" component={BlogDetailPage} />
           <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/reader/:id?" component={ReaderPage} />
+          <Route exact path="/verify-token/:token" component={VerifyTokenPage} />
           <Route component={PageNotFound} />
         </Switch>
       </CheckIfLoggedIn>

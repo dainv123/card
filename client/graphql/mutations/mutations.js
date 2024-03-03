@@ -44,6 +44,13 @@ export const VERIFY_LOGGED_IN = gql`
   }
 `;
 
+export const VERIFY_TOKEN = gql`
+  mutation VerifyToken($token: String!) {
+    verifyUser(token: $token)
+  }
+`;
+
+
 export const CREATE_THEME = gql`
   mutation CreateTheme($name: String!, $path: String!, $tags: [ID], $image: String!) {
     createTheme(name: $name, path: $path, tags: $tags, image: $image) {
@@ -169,5 +176,12 @@ export const DELETE_BLOG = gql`
     deleteBlog(id: $id) {
       id
     }
+  }
+`;
+
+
+export const SEND_CONTACT = gql`
+  mutation SendContact($name: String!, $email: String!, $message: String!) {
+    sendContact(name: $name, email: $email, message: $message)
   }
 `;

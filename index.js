@@ -1,5 +1,4 @@
 import express from 'express';
-import path from 'path';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 import session from 'express-session';
@@ -40,10 +39,10 @@ app.use(helmet.permittedCrossDomainPolicies());
 app.use(express.json({ limit: '1mb' }));
 app.use(fileUpload());
 app.use('/api', uploadRoutes);
-app.use('/uploads', express.static(path.join(__dirname, UPLOADS_FOLDER)));
+app.use('/uploads', express.static(__dirname + UPLOADS_FOLDER));
 app.use('/themes', express.static(__dirname + '/client/themes'));
-app.use(express.static(__dirname + '/client/dist'));
-app.get('/*', (req, resp) => resp.sendFile(__dirname + '/client/dist/index.html'))
+app.use('/public', express.static(__dirname + '/client/public'));
+app.get('/*', (req, res) => res.sendFile(__dirname + '/client/dist/index.html'))
 
 // Set User Session
 const MongoStore = connectMongo(session);

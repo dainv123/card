@@ -1,17 +1,15 @@
 import Joi from 'joi';
 import { UserInputError, ApolloError } from 'apollo-server-express';
-
 import { User } from '../../models/models';
 import validators from '../validators/validators';
 import * as Auth from '../../helpers/auth';
 import { verifyToken, sendEmailWithToken } from '../../helpers/token';
+import { sendMailToContact } from '../../helpers/contact';
 
 export default {
   Query: {
-    // TODO: projection, pagination, sanitization
     users: (root, args, context, info) => User.find({}),
     user: async (root, args, context, info) => {
-      // TODO: projection
       await Joi.validate(args, validators.user.findUser);
 
       return User.findById(args.id);
@@ -77,6 +75,13 @@ export default {
       const res = await User.updateOne({ _id: verifiedToken.user }, { isVerified: true });
 
       return !!res.nModified > 0;
+    },
+    sendContact: async (root, args, context, info) => {
+      await Joi.validate(args, validators.user.sendContact);
+
+      await sendMailToContact(args.name, args.email, args.message);
+
+      return true;
     },
     LogIn: async (root, args, context, info) => {
       await Joi.validate(args, validators.user.LogIn, { abortEarly: false });

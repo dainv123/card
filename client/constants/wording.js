@@ -70,10 +70,12 @@ export const USER_NAME = "User Name";
 export const SAVE = 'Save';
 export const PROFILE = 'Profile';
 export const SOMETHING_WENT_WRONG = 'Something went wrong!';
+export const SEND_CONTACT_SUCCESSFULLY = 'Your message has been successfully sent!';
 export const THEME_INTRO = 'Feel free to take a brief look and utilize them as needed.';
 export const ALL = 'All';
 export const E_MAIL = 'E-mail';
 export const PROJECT = 'Project';
+export const VERIFY_USER_SUCCESSFULLY = 'Verify user account successfully';
 /*************************
  MESSAGES
 *************************/
