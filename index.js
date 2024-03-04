@@ -42,7 +42,7 @@ app.use(express.json({
   limit: '1mb'
 }));
 app.use(fileUpload());
-app.use(express.static(__dirname, '/client/dist/bundle.js'));
+app.use(express.static(__dirname + '/client/dist'));
 app.use('/api', uploadRoutes);
 app.use('/uploads', express.static(__dirname + UPLOADS_FOLDER));
 app.use('/themes', express.static(__dirname + '/client/themes'));
