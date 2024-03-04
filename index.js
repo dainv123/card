@@ -46,7 +46,7 @@ app.use('/api', uploadRoutes);
 app.use('/uploads', express.static(__dirname + UPLOADS_FOLDER));
 app.use('/themes', express.static(__dirname + '/client/themes'));
 app.use('/public', express.static(__dirname + '/client/public'));
-app.use(express.static(path.join(__dirname, '/client/dist')));
+app.use(express.static(path.join(__dirname, '/client/dist/bundle.js')));
 app.get('/*', (req, res) => res.sendFile(__dirname + '/client/dist/index.html'))
 
 // Set User Session
