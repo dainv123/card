@@ -81,7 +81,7 @@ module.exports = {
     open: true,
     historyApiFallback: true,
     proxy: {
-      '/api': 'https://daidev-bc51fcbb2e2d.herokuapp.com/'
+      '/api': 'http://localhost:8080'
     }
   },
   plugins: [new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/), htmlPlugin]
