@@ -69,7 +69,7 @@ const BlogPage = () => {
                               </div>
                             )}
                             <div className="article-img">
-                              <a href={BLOG_URI + blog.name}>
+                              <a href={BLOG_URI + blog.name} target="_blank">
                                 <img
                                   src={
                                     blog.image 
@@ -86,13 +86,13 @@ const BlogPage = () => {
                               </a>
                             </div>
                             <div className="article-link">
-                              <a href={BLOG_URI + blog.name}>
+                              <a href={BLOG_URI + blog.name} target="_blank">
                                 <i className="lnr lnr-arrow-right"></i>
                               </a>
                             </div>
                             <div className="article-content">
                               <h4>
-                                <a href={BLOG_URI + blog.name}>{blog.name}</a>
+                                <a href={BLOG_URI + blog.name} target="_blank">{blog.name}</a>
                               </h4>
                               <div className="meta">
                                 <span>{formatDate(blog.updatedAt)}</span> <span>{blog.trend}</span>
