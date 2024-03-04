@@ -248,11 +248,6 @@ const DashboardPage = () => {
       key: 'introduction'
     },
     {
-      title: 'Content',
-      dataIndex: 'content',
-      key: 'content'
-    },
-    {
       title: 'Image',
       dataIndex: 'image',
       key: 'image',

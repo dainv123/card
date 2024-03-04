@@ -33,17 +33,17 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
 
     let imageURL = image;
 
-    if (data.image !== image) {
+    if (data.image !== image && image) {
       imageURL = await uploadFile(image);
-
-      if (data.image && image) {
-        deleteFile(data.image);
-      }
     }
 
     if (value.id) {
       UpdateTheme({ variables: { id: value.id, name, path, tags, image: imageURL } }).then(
         res => {
+          if (data.image !== image && data.image && image) {
+            // clear legacy image
+            deleteFile(data.image);
+          }
           handleOk();
           setIsOpen(false);
         },
@@ -63,6 +63,12 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
               errors.image = x.message.includes('image');
             }
           });
+          
+          // clear uploaded image
+          if (data.image !== image && imageURL !== image) {
+            deleteFile(imageURL);
+          }
+
           setSubmitting(false);
           setErrors(errors);
         }
@@ -137,7 +143,7 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
           tags: (value.tags || []).map(i => i.id),
           image: value.image || null
         }}
-        validationSchema={validators.tag.createThemeSchema}
+        validationSchema={validators.theme.createThemeSchema}
         onSubmit={(values, actions) => handleSubmitForm(values, actions)}
         enableReinitialize
       >

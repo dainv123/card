@@ -22,8 +22,8 @@ export default gql`
   }
 
   extend type Mutation {
-    createTheme(name: String!, path: String!, tags: [ID], image: String!): Theme @auth
-    updateTheme(id: ID!, name: String!, path: String!, tags: [ID], image: String!): Theme @auth
+    createTheme(name: String!, path: String!, tags: [ID], image: String): Theme @auth
+    updateTheme(id: ID!, name: String!, path: String!, tags: [ID], image: String): Theme @auth
     deleteTheme(id: ID!): Theme @auth
   }
 `;

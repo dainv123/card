@@ -9,7 +9,7 @@ import { QuillInput } from '../QuillInput/QuillInput';
 import { ImageUpload } from '../ImageUpload/ImageUpload';
 import { uploadFile, deleteFile } from '../../utils/uploadFile';
 import { FormInputField } from '../FormInputField/FormInputField';
-import { Icon, Input, Modal, Button } from 'antd';
+import { Icon, Input, Modal, Button, message } from 'antd';
 import { COLOR_BLACK_1 } from '../../constants/common';
 import {
   NAME,
@@ -42,12 +42,8 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
 
     let imageURL = image;
 
-    if (data.image !== image) {
+    if (data.image !== image && image) {
       imageURL = await uploadFile(image);
-
-      if (data.image && image) {
-        deleteFile(data.image);
-      }
     }
 
     if (value.id) {
@@ -55,11 +51,17 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
         variables: { id: value.id, name, trend, introduction, content, image: imageURL }
       }).then(
         res => {
+          // clear legacy image
+          if (data.image !== image && data.image && image) {
+            deleteFile(data.image);
+          }
           handleOk();
           setIsOpen(false);
         },
         err => {
           const errors = {};
+
+          // show error below fields
           err.graphQLErrors.map(x => {
             if (x.message.includes('name')) {
               errors.name = x.message.includes('name');
@@ -77,6 +79,12 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
               errors.image = x.message.includes('image');
             }
           });
+
+          // clear uploaded image
+          if (data.image !== image && imageURL !== image) {
+            deleteFile(imageURL);
+          }
+
           setSubmitting(false);
           setErrors(errors);
         }
@@ -148,7 +156,7 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     >
       <Formik
         validateOnBlur={false}
-        validationSchema={validators.tag.createBlogSchema}
+        validationSchema={validators.blog.createBlogSchema}
         onSubmit={(values, actions) => handleSubmitForm(values, actions)}
         enableReinitialize
         initialValues={{
@@ -201,6 +209,7 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
             InputType={ReactQuill}
             component={QuillInput}
             name="content"
+            className="ant-input-affix-wrapper"
             placeholder={CONTENT}
             hasFeedback
           />

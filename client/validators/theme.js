@@ -1,9 +1,13 @@
 import * as yup from 'yup';
-import { MIN_MESSAGE, REQUIRED_MESSAGE } from '../constants/wording';
+import { MAX_MESSAGE, REQUIRED_MESSAGE } from '../constants/wording';
 
 export const createThemeSchema = yup.object().shape({
     name: yup
       .string()
-      .min(1, MIN_MESSAGE(1))
+      .max(255, MAX_MESSAGE(255))
       .required(REQUIRED_MESSAGE('Name')),
+    path: yup
+      .string()
+      .max(255, MAX_MESSAGE(255))
+      .required(REQUIRED_MESSAGE('Path')),
   });

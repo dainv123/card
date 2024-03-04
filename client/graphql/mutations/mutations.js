@@ -52,7 +52,7 @@ export const VERIFY_TOKEN = gql`
 
 
 export const CREATE_THEME = gql`
-  mutation CreateTheme($name: String!, $path: String!, $tags: [ID], $image: String!) {
+  mutation CreateTheme($name: String!, $path: String!, $tags: [ID], $image: String) {
     createTheme(name: $name, path: $path, tags: $tags, image: $image) {
       id
     }
@@ -60,7 +60,7 @@ export const CREATE_THEME = gql`
 `;
 
 export const UPDATE_THEME = gql`
-  mutation UpdateTheme($id: ID!, $name: String!, $path: String!, $tags: [ID], $image: String!) {
+  mutation UpdateTheme($id: ID!, $name: String!, $path: String!, $tags: [ID], $image: String) {
     updateTheme(id: $id, name: $name, path: $path, tags: $tags, image: $image) {
       id
     }
@@ -135,7 +135,7 @@ export const CREATE_BLOG = gql`
     $trend: String!
     $introduction: String!
     $content: String!
-    $image: String!
+    $image: String
   ) {
     createBlog(
       name: $name
@@ -156,7 +156,7 @@ export const UPDATE_BLOG = gql`
     $trend: String!
     $introduction: String!
     $content: String!
-    $image: String!
+    $image: String
   ) {
     updateBlog(
       id: $id

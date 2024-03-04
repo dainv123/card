@@ -24,7 +24,7 @@ export default gql`
       trend: String!
       introduction: String!
       content: String!
-      image: String!
+      image: String
     ): Blog @auth
     updateBlog(
       id: ID!
@@ -32,7 +32,7 @@ export default gql`
       trend: String!
       introduction: String!
       content: String!
-      image: String!
+      image: String
     ): Blog @auth
     deleteBlog(id: ID!): Blog @auth
   }

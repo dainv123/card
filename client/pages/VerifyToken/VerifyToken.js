@@ -20,7 +20,7 @@ const VerifyPage = ({ ...rest }) => {
     )
   }, [rest.match.params.token]);
 
-  return 'loading';
+  return 'VERIFYING...';
 };
 
 export default VerifyPage;

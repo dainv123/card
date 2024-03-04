@@ -1,10 +1,9 @@
 import fs from 'fs';
 import express from 'express';
+import { UPLOADS_FOLDER } from '../client/constants/common';
 import { NO_FILE_UPLOADED, FILE_DELETED_SUCCESSFULLY } from '../constants/message';
 
 const router = express.Router();
-
-const UPLOADS_FOLDER = process.env.UPLOADS_FOLDER;
 
 router.post('/upload', (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {

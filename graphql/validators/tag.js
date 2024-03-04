@@ -4,7 +4,6 @@ import JoiObjectId from 'joi-objectid';
 Joi.objectId = JoiObjectId(Joi);
 
 const name = Joi.string()
-  .min(1)
   .max(255)
   .required()
   .label('Name');
