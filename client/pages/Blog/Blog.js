@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import PublicLayout from '../../components/Layouts/PublicLayout';
 import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
 import { BLOG, BLOG_INTRO } from '../../constants/wording';
+import { BLOG_1_IMAGE, BLOG_2_IMAGE, BLOG_3_IMAGE } from '../../constants/common';
 
 const BlogPage = () => {
   const loggedIn = useSelector(state => state.auth.loggedIn);
@@ -53,18 +54,32 @@ const BlogPage = () => {
                       <>
                         <div className={className} key={blog.id}>
                           <div className="blog-article">
-                            {!index && (
+                            {!index ? (
                               <div className="post-format">
                                 {' '}
                                 <span className="post-format-icon">
                                   <i className="fas fa-quote-right"></i>
                                 </span>
                               </div>
+                            ) : (
+                              <div className="post-format">
+                                <span className="post-format-icon">
+                                  <i className="lnr lnr-picture"></i>
+                                </span>
+                              </div>
                             )}
                             <div className="article-img">
                               <a href={BLOG_URI + blog.name}>
                                 <img
-                                  src={SERVER_URI + blog.image}
+                                  src={
+                                    blog.image 
+                                    ? SERVER_URI + blog.image 
+                                    : index == 0 
+                                      ? BLOG_1_IMAGE
+                                      : index === 1
+                                        ? BLOG_2_IMAGE
+                                        : BLOG_3_IMAGE
+                                  }
                                   className="img-responsive"
                                   alt=""
                                 />
