@@ -1,42 +1,64 @@
-import fs from 'fs';
+// import fs from 'fs';
 import express from 'express';
+import { uploadFileMiddleware } from '../helpers/upload';
 import { UPLOADS_FOLDER } from '../client/constants/common';
-import { NO_FILE_UPLOADED, FILE_DELETED_SUCCESSFULLY } from '../constants/message';
+import { NO_FILE_UPLOADED, FILE_DELETED_SUCCESSFULLY, SOMETHING_WENT_WRONG } from '../constants/message';
 
 const router = express.Router();
 
-router.post('/upload', (req, res) => {
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send(NO_FILE_UPLOADED);
-    }
+router.post('/upload', async (req, res) => {
+    try {
+        // console.log(111111111, req.files);
+        console.log(111111111, req.files.file);
+        console.log(111111111, req.files.file.originalname);
+		const response = await uploadFileMiddleware(req, res);
 
-    const file = req.files.file;
 
-    const filename = `/${UPLOADS_FOLDER}/${new Date().getTime()}-${file.name}`;
-    
-    const uploadPath = `${__dirname}/..${filename}`;
+		if (req.file == undefined) {
+			return res.status(500).json({ error: NO_FILE_UPLOADED });
+		}
 
-    file.mv(uploadPath, function (err) {
-        if (err) return res.status(500).send(err);
-
-        res.send({
-            url: filename
-        });
-    });
+		res.status(200).json({ id: req.file.id });
+	} catch (error) {
+		res.status(500).json({ error: SOMETHING_WENT_WRONG });
+	}
 });
 
 router.post('/upload-delete', (req, res) => {
-    const filename = req.body.filename;
-
-    const filePath = `${__dirname}/..${filename}`;
-
-    fs.unlink(filePath, err => {
-        if (err) {
-            return res.status(500).send(err);
-        }
-
-        res.send(FILE_DELETED_SUCCESSFULLY);
-    });
 });
+
+// router.post('/upload', (req, res) => {
+//     if (!req.files || Object.keys(req.files).length === 0) {
+//         return res.status(400).send(NO_FILE_UPLOADED);
+//     }
+
+//     const file = req.files.file;
+
+//     const filename = `/${UPLOADS_FOLDER}/${new Date().getTime()}-${file.name}`;
+    
+//     const uploadPath = `${__dirname}/..${filename}`;
+
+//     file.mv(uploadPath, function (err) {
+//         if (err) return res.status(500).send(err);
+
+//         res.send({
+//             url: filename
+//         });
+//     });
+// });
+
+// router.post('/upload-delete', (req, res) => {
+//     const filename = req.body.filename;
+
+//     const filePath = `${__dirname}/..${filename}`;
+
+//     fs.unlink(filePath, err => {
+//         if (err) {
+//             return res.status(500).send(err);
+//         }
+
+//         res.send(FILE_DELETED_SUCCESSFULLY);
+//     });
+// });
 
 export default router;
