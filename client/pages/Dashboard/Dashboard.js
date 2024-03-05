@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Layout, Row, Card, Table, Tag, Button } from 'antd';
 import { deleteFile } from '../../utils/uploadFile';
 import { mutations, queries } from '../../graphql/graphql';
-import { SERVER_URI } from '../../constants/endpoint';
+import { BLOG_URI, SERVER_URI } from '../../constants/endpoint';
 import PrivateLayout from '../../components/Layouts/PrivateLayout';
 import ThemeModal from '../../components/ThemeModal/ThemeModal';
 import CardModal from '../../components/CardModal/CardModal';
@@ -232,7 +232,7 @@ const DashboardPage = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
-        <a target="_blank" href={record.path} rel="noreferrer">
+        <a target="_blank" href={BLOG_URI + text} rel="noreferrer">
           {text}
         </a>
       )

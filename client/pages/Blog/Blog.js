@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import PublicLayout from '../../components/Layouts/PublicLayout';
 import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
 import { BLOG, BLOG_INTRO } from '../../constants/wording';
+import { BLOG_1_IMAGE, BLOG_2_IMAGE, BLOG_3_IMAGE } from '../../constants/common';
 
 const BlogPage = () => {
   const loggedIn = useSelector(state => state.auth.loggedIn);
@@ -53,31 +54,45 @@ const BlogPage = () => {
                       <>
                         <div className={className} key={blog.id}>
                           <div className="blog-article">
-                            {!index && (
+                            {!index ? (
                               <div className="post-format">
                                 {' '}
                                 <span className="post-format-icon">
                                   <i className="fas fa-quote-right"></i>
                                 </span>
                               </div>
+                            ) : (
+                              <div className="post-format">
+                                <span className="post-format-icon">
+                                  <i className="lnr lnr-picture"></i>
+                                </span>
+                              </div>
                             )}
                             <div className="article-img">
-                              <a href={BLOG_URI + blog.name}>
+                              <a href={BLOG_URI + blog.name} target="_blank">
                                 <img
-                                  src={SERVER_URI + blog.image}
+                                  src={
+                                    blog.image 
+                                    ? SERVER_URI + blog.image 
+                                    : index == 0 
+                                      ? BLOG_1_IMAGE
+                                      : index === 1
+                                        ? BLOG_2_IMAGE
+                                        : BLOG_3_IMAGE
+                                  }
                                   className="img-responsive"
                                   alt=""
                                 />
                               </a>
                             </div>
                             <div className="article-link">
-                              <a href={BLOG_URI + blog.name}>
+                              <a href={BLOG_URI + blog.name} target="_blank">
                                 <i className="lnr lnr-arrow-right"></i>
                               </a>
                             </div>
                             <div className="article-content">
                               <h4>
-                                <a href={BLOG_URI + blog.name}>{blog.name}</a>
+                                <a href={BLOG_URI + blog.name} target="_blank">{blog.name}</a>
                               </h4>
                               <div className="meta">
                                 <span>{formatDate(blog.updatedAt)}</span> <span>{blog.trend}</span>

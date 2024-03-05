@@ -100,10 +100,10 @@ const ThemePage = () => {
                           </div>
                           <div className="portfolio-data">
                             <h4>
-                              <a href={theme.path}>{theme.name}</a>
+                              <a href={theme.path} target="_blank">{theme.name}</a>
                             </h4>
                             <div className="portfolio-attr">
-                              <a href={theme.path}>
+                              <a href={theme.path} target="_blank">
                                 <i className="lnr lnr-link"></i>
                               </a>
                               <a
