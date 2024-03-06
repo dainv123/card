@@ -7,10 +7,15 @@ import loggerConfig from './config/loggerConfig.js';
 import typeDefs from './graphql/schemas/schemas.js';
 import resolvers from './graphql/resolvers/resolvers.js';
 import schemaDirectives from './graphql/directives/directives.js';
-import fileUpload from 'express-fileupload';
-import uploadRoutes from './api/upload.js';
+// import fileUpload from 'express-fileupload';
+// import uploadRoutes from './api/upload.js';
 import { ApolloServer } from 'apollo-server-express';
 import { UPLOADS_FOLDER } from './client/constants/common.js';
+import multer from 'multer';
+import Grid from 'gridfs-stream';
+import { GridFsStorage } from 'multer-gridfs-storage';
+import { FILE_BUCKET } from './constants/config.js';
+import { upload, showImage } from './helpers/upload.js';
 
 const {
   PORT,
@@ -22,6 +27,8 @@ const {
   SESSION_MAX_AGE,
 } = process.env;
 
+let gfs;
+const conn = mongoose.connection;
 const app = express();
 
 // Serve React Application
@@ -37,12 +44,14 @@ if (NODE_ENV === 'development') {
 app.use(helmet());
 app.use(helmet.permittedCrossDomainPolicies());
 app.use(express.json({ limit: '1mb' }));
-app.use(fileUpload());
+// app.use(fileUpload());
+// app.use('/api', uploadRoutes);
+// app.use('/uploads', express.static(__dirname + '/' + UPLOADS_FOLDER));
 app.use(express.static(__dirname + '/client/dist'));
-app.use('/api', uploadRoutes);
+app.get('/files/:filename', (req, res) => showImage(req, res, gfs));
+app.post('/upload', upload.single('file'), (req, res) => res.json({ file: req.file.filename }));
 app.use('/public', express.static(__dirname + '/client/public'));
 app.use('/themes', express.static(__dirname + '/client/themes'));
-app.use('/uploads', express.static(__dirname + '/' + UPLOADS_FOLDER));
 app.get('/*', (req, res) => res.sendFile(__dirname + '/client/dist/index.html'))
 
 // Set User Session
@@ -109,11 +118,9 @@ mongoose.connect(MONGO_DB_URI, {
 
 mongoose.connection.once('open', () => {
   const port = PORT || 8080;
-  app.listen({
-    port
-  }, () => {
-    console.log(`Server running on port ${port}`);
-  });
+  gfs = Grid(mongoose.connection.db, mongoose.mongo);
+  gfs.collection(FILE_BUCKET);
+  app.listen({ port }, () => console.log(`Server running on port ${port}`));
 });
 
 mongoose.connection.on('error', error => console.error(error));

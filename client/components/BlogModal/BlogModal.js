@@ -43,7 +43,8 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     let imageURL = image;
 
     if (data.image !== image && image) {
-      imageURL = await uploadFile(image);
+      const imageResponse = await uploadFile(image);
+      imageURL = imageResponse.file || '';
     }
 
     if (value.id) {

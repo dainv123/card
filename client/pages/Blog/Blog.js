@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { queries } from '../../graphql/graphql';
 import { useSelector } from 'react-redux';
 import PublicLayout from '../../components/Layouts/PublicLayout';
-import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
+import { SERVER_URI, BLOG_URI, SHOW_IMAGE_URI } from '../../constants/endpoint';
 import { BLOG, BLOG_INTRO } from '../../constants/wording';
 import { BLOG_1_IMAGE, BLOG_2_IMAGE, BLOG_3_IMAGE } from '../../constants/common';
 
@@ -73,7 +73,7 @@ const BlogPage = () => {
                                 <img
                                   src={
                                     blog.image 
-                                    ? SERVER_URI + blog.image 
+                                    ? SHOW_IMAGE_URI + blog.image 
                                     : index == 0 
                                       ? BLOG_1_IMAGE
                                       : index === 1

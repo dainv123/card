@@ -6,26 +6,28 @@ import { NO_FILE_UPLOADED, FILE_DELETED_SUCCESSFULLY, SOMETHING_WENT_WRONG } fro
 
 const router = express.Router();
 
-router.post('/upload', async (req, res) => {
-    try {
-        // console.log(111111111, req.files);
-        console.log(111111111, req.files.file);
-        console.log(111111111, req.files.file.originalname);
-		const response = await uploadFileMiddleware(req, res);
+// router.post('/upload', async (req, res) => {
+//     try {
+//         // console.log(111111111, req.files);
+//         console.log(111111111, req.files.file);
+//         console.log(111111111, req.files.file.name);
+// 		req.file = req.files.file;
+// 		const response = await uploadFileMiddleware(req, res);
 
 
-		if (req.file == undefined) {
-			return res.status(500).json({ error: NO_FILE_UPLOADED });
-		}
+// 		if (req.file == undefined) {
+// 			return res.status(500).json({ error: NO_FILE_UPLOADED });
+// 		}
 
-		res.status(200).json({ id: req.file.id });
-	} catch (error) {
-		res.status(500).json({ error: SOMETHING_WENT_WRONG });
-	}
-});
+// 		res.status(200).json({ id: req.file.id });
+// 	} catch (error) {
+// 		console.log("error: ", error)
+// 		res.status(500).json({ error: SOMETHING_WENT_WRONG });
+// 	}
+// });
 
-router.post('/upload-delete', (req, res) => {
-});
+// router.post('/upload-delete', (req, res) => {
+// });
 
 // router.post('/upload', (req, res) => {
 //     if (!req.files || Object.keys(req.files).length === 0) {

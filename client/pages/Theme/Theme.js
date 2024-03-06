@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { useSelector } from 'react-redux';
 import { queries } from '../../graphql/graphql';
 import PublicLayout from '../../components/Layouts/PublicLayout';
-import { SERVER_URI, BLOG_URI } from '../../constants/endpoint';
+import { SERVER_URI, BLOG_URI, SHOW_IMAGE_URI } from '../../constants/endpoint';
 import { ALL, PROJECT, THEME, THEME_INTRO } from '../../constants/wording';
 
 const ThemePage = () => {
@@ -96,7 +96,7 @@ const ThemePage = () => {
                           key={theme.id}
                         >
                           <div className="portfolio-img">
-                            <img src={SERVER_URI + theme.image} className="img-responsive" alt="theme" />
+                            <img src={SHOW_IMAGE_URI + theme.image} className="img-responsive" alt="theme" />
                           </div>
                           <div className="portfolio-data">
                             <h4>

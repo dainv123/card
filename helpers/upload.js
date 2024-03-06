@@ -1,7 +1,6 @@
-import util from "util";
 import multer from "multer";
+import { FILE_BUCKET } from "../constants/config";
 import { GridFsStorage } from "multer-gridfs-storage";
-import { FILE_BUCKET, FILE_IMAGE_ACCEPTED } from "../constants/config";
 
 const storage = new GridFsStorage({
 	url: process.env.MONGO_DB_URI,
@@ -10,19 +9,29 @@ const storage = new GridFsStorage({
 		useUnifiedTopology: true
 	},
 	file: (req, file) => {
-		return FILE_IMAGE_ACCEPTED.indexOf(file.mimetype) === -1
-			? `${Date.now()}-${file.name}`
-			: {
-				bucketName: FILE_BUCKET,
-				filename: `${Date.now()}-${file.name}`
-			};
+		return {
+			filename: `${Date.now()}-${file.originalname}`,
+			bucketName: FILE_BUCKET
+		};
 	}
 });
 
-const uploadFile = multer({ storage: storage }).single("file");
+export const upload = multer({ storage });
 
-const uploadFiles = multer({ storage: storage }).array('file', 10);
+export const showImage = (req, res, gfs) => {
+	gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+		if (!file || file.length === 0) {
+			return res.status(404).json({ error: 'File not found' });
+		}
 
-export const uploadFileMiddleware = util.promisify(uploadFile);
-
-export const uploadFilesMiddleware = util.promisify(uploadFiles);
+		if (file.contentType.startsWith('image')) {
+			// Display the image directly in the browser
+			res.set('Content-Type', file.contentType);
+			const readStream = gfs.createReadStream(file.filename);
+			readStream.pipe(res);
+		} else {
+			// For other file types, you may want to display them differently
+			res.status(400).json({ error: 'File type not supported for preview' });
+		}
+	});
+};

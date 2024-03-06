@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Layout, Row, Card, Table, Tag, Button } from 'antd';
 import { deleteFile } from '../../utils/uploadFile';
 import { mutations, queries } from '../../graphql/graphql';
-import { BLOG_URI, SERVER_URI } from '../../constants/endpoint';
+import { BLOG_URI, SERVER_URI, SHOW_IMAGE_URI } from '../../constants/endpoint';
 import PrivateLayout from '../../components/Layouts/PrivateLayout';
 import ThemeModal from '../../components/ThemeModal/ThemeModal';
 import CardModal from '../../components/CardModal/CardModal';
@@ -152,7 +152,7 @@ const DashboardPage = () => {
       key: 'image',
       render: (text, record) => (
         <img
-          src={SERVER_URI + record.image}
+          src={SHOW_IMAGE_URI + record.image}
           style={{ width: '80px', height: '80px', objectFit: 'cover' }}
         />
       )
@@ -253,7 +253,7 @@ const DashboardPage = () => {
       key: 'image',
       render: (text, record) => (
         <img
-          src={SERVER_URI + record.image}
+          src={SHOW_IMAGE_URI + record.image}
           style={{ width: '80px', height: '80px', objectFit: 'cover' }}
         />
       )

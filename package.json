@@ -28,6 +28,7 @@
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
     "graphql-upload": "^13.0.0",
+    "gridfs-stream": "^1.1.1",
     "helmet": "^3.18.0",
     "joi": "^14.3.1",
     "joi-objectid": "^2.0.0",

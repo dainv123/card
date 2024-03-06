@@ -3,8 +3,8 @@ import { UPLOAD_URI, UPLOAD_DELETE_URI } from '../constants/endpoint';
 
 export const uploadFile = async file => {
   const formData = new FormData();
-console.log(123, file);
-  formData.append('file', file, file.name);
+
+  formData.append('file', file);
 
   return await axios
     .post(UPLOAD_URI, formData, {
@@ -14,7 +14,7 @@ console.log(123, file);
     })
     .then(response => {
       console.log('Response:', response.data);
-      return response.data.url;
+      return response.data;
     })
     .catch(error => {
       console.error('Error:', error);
