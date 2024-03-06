@@ -2144,8 +2144,7 @@ button.owl-dot.active,  button.owl-dot:focus{
     width: 100%;
 }
 
-.portfolio-data h4,
-.portfolio-data .meta {
+.portfolio-data h4 {
     font-size: 16px;
     margin-bottom: 5px;
     margin-top: 0;
@@ -2154,9 +2153,11 @@ button.owl-dot.active,  button.owl-dot:focus{
 
 .portfolio-data .meta {
     color: #6b6b6b;
-    margin-bottom: 0;
     transition: all 0.4s ease-in-out;
     font-size: 13px;
+    margin-bottom: 5px;
+    margin-top: 0;
+    transition: all 0.4s ease-in-out;
 }
 
 .portfolio-attr a {
