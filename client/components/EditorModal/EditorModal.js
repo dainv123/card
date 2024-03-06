@@ -164,7 +164,7 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     >
       <div
         ref={aiRef}
-        style={{ position: 'fixed', zIndex: 1, top, left, display: isAI ? 'block' : 'none' }}
+        style={{ position: 'fixed', zIndex: 1, top, left, display: isAI ? 'none' : 'none' }}
       >
         <Card title={AI_FORM} style={{ width: 300 }}>
           <Form onSubmit={onSubmitAI}>

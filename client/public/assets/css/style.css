@@ -2111,6 +2111,8 @@ button.owl-dot.active,  button.owl-dot:focus{
 .portfolio-item .portfolio-img > img {
     width: 100%;
     margin-bottom: 0;
+    aspect-ratio: 550 / 367;
+    object-fit: cover;
 }
 
 .portfolio-grid {
@@ -2142,7 +2144,8 @@ button.owl-dot.active,  button.owl-dot:focus{
     width: 100%;
 }
 
-.portfolio-data h4 {
+.portfolio-data h4,
+.portfolio-data .meta {
     font-size: 16px;
     margin-bottom: 5px;
     margin-top: 0;
@@ -2316,6 +2319,14 @@ button.owl-dot.active,  button.owl-dot:focus{
 .blog-grid-flex .blog-item {
     margin-bottom: 30px;
 }
+.blog-grid-flex .blog-item:nth-child(1) .article-img img {
+    aspect-ratio: 350 / 467;
+    object-fit: cover;
+}
+.blog-grid-flex .blog-item:nth-child(2) .article-img img {
+    aspect-ratio: 728 / 305;
+    object-fit: cover;
+}
 
 .blog-grid-flex .blog-article {
     position: relative;
@@ -2351,6 +2362,8 @@ button.owl-dot.active,  button.owl-dot:focus{
     width: 100%;
     transform: scale(1);
     transition: transform 0.5s ease-in-out 0s;
+    aspect-ratio: 350 / 234;
+    object-fit: cover;
 }
 
 .blog-grid-flex .blog-item:hover .article-img img {

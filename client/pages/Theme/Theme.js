@@ -102,6 +102,7 @@ const ThemePage = () => {
                             <h4>
                               <a href={theme.path} target="_blank">{theme.name}</a>
                             </h4>
+                            <p class="meta">{theme.tags.map(i => i.name).join(', ')}</p>
                             <div className="portfolio-attr">
                               <a href={theme.path} target="_blank">
                                 <i className="lnr lnr-link"></i>
