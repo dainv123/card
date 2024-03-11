@@ -19,7 +19,8 @@ import {
   CONTENT,
   CANCEL,
   SUBMIT, 
-  MAKE_YOUR_BLOG 
+  UPDATE_YOUR_BLOG,
+  ADD_YOUR_BLOG
 } from '../../constants/wording';
 
 const { TextArea } = Input;
@@ -139,7 +140,7 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
 
   return (
     <Modal
-      title={MAKE_YOUR_BLOG}
+      title={value.id ? UPDATE_YOUR_BLOG : ADD_YOUR_BLOG}
       visible={isOpen}
       onCancel={handleCancel}
       footer={[

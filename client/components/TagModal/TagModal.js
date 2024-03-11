@@ -6,7 +6,13 @@ import { FormInputField } from '../FormInputField/FormInputField';
 import { mutations } from '../../graphql/graphql';
 import validators from '../../validators/validators';
 import { COLOR_BLACK_1 } from '../../constants/common';
-import { CANCEL, MAKE_YOUR_TAG, NAME, SUBMIT } from '../../constants/wording';
+import { 
+  ADD_YOUR_TAG, 
+  CANCEL, 
+  NAME, 
+  SUBMIT, 
+  UPDATE_YOUR_TAG 
+} from '../../constants/wording';
 
 const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
@@ -78,7 +84,7 @@ const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
 
   return (
     <Modal
-      title={MAKE_YOUR_TAG}
+      title={value.id ? UPDATE_YOUR_TAG : ADD_YOUR_TAG}
       visible={isOpen}
       onCancel={handleCancel}
       footer={[

@@ -10,13 +10,14 @@ import { uploadFile, deleteFile } from '../../utils/uploadFile';
 import validators from '../../validators/validators';
 import { COLOR_BLACK_1 } from '../../constants/common';
 import { 
+  ADD_YOUR_THEME,
   CANCEL, 
   IMAGE, 
-  MAKE_YOUR_THEME, 
   NAME, 
   PATH, 
   SELECT_TAGS, 
-  SUBMIT 
+  SUBMIT, 
+  UPDATE_YOUR_THEME
 } from '../../constants/wording';
 
 const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel }) => {
@@ -104,7 +105,8 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
   };
 
   useEffect(() => {
-    if (JSON.stringify(data) != JSON.stringify(value)) {
+    console.log(1111);
+    if (data != value) {
       setValue(data);
     }
   }, [data]);
@@ -120,7 +122,7 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
 
   return (
     <Modal
-      title={MAKE_YOUR_THEME}
+      title={value.id ? UPDATE_YOUR_THEME : ADD_YOUR_THEME}
       visible={isOpen}
       onCancel={handleCancel}
       footer={[

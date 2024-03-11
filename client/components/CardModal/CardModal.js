@@ -15,7 +15,8 @@ import {
   CANCEL,
   SUBMIT,
   SELECT_THEME,
-  MAKE_YOUR_CARD
+  UPDATE_YOUR_CARD,
+  ADD_YOUR_CARD
 } from '../../constants/wording';
 
 const { Option } = Select;
@@ -118,7 +119,7 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
 
   return (
     <Modal
-      title={MAKE_YOUR_CARD}
+      title={value.id ? UPDATE_YOUR_CARD : ADD_YOUR_CARD}
       visible={isOpen}
       onCancel={handleCancel}
       footer={[
