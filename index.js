@@ -1,5 +1,7 @@
-import express from 'express';
+import Grid from 'gridfs-stream';
 import helmet from 'helmet';
+import multer from 'multer';
+import express from 'express';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
@@ -7,63 +9,46 @@ import loggerConfig from './config/loggerConfig.js';
 import typeDefs from './graphql/schemas/schemas.js';
 import resolvers from './graphql/resolvers/resolvers.js';
 import schemaDirectives from './graphql/directives/directives.js';
-// import fileUpload from 'express-fileupload';
-// import uploadRoutes from './api/upload.js';
 import { ApolloServer } from 'apollo-server-express';
-import { UPLOADS_FOLDER } from './client/constants/common.js';
-import multer from 'multer';
-import Grid from 'gridfs-stream';
 import { GridFsStorage } from 'multer-gridfs-storage';
 import { FILE_BUCKET } from './constants/config.js';
-import { upload, showImage } from './helpers/upload.js';
+import { UPLOADS_FOLDER } from './client/constants/common.js';
+import { GetFile, UploadFile, DeleteFile } from './helpers/upload.js';
 
-const {
-  PORT,
-  NODE_ENV,
-  CLIENT_URI,
-  MONGO_DB_URI,
-  SESSION_NAME,
-  SESSION_SECRET,
-  SESSION_MAX_AGE,
-} = process.env;
+mongoose.set('useCreateIndex', true);
 
-let gfs;
-const conn = mongoose.connection;
+const { PORT, NODE_ENV, CLIENT_URI, MONGO_DB_URI, SESSION_NAME, SESSION_SECRET, SESSION_MAX_AGE } = process.env;
+
+let grid;
 const app = express();
+const mongooseConnection = mongoose.connection;
+const MongoSessionConnection = connectMongo(session);
 
-// Serve React Application
 if (NODE_ENV === 'development') {
   app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST');
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
   });
+
+  loggerConfig(app);
 }
 
 app.use(helmet());
 app.use(helmet.permittedCrossDomainPolicies());
 app.use(express.json({ limit: '1mb' }));
-// app.use(fileUpload());
-// app.use('/api', uploadRoutes);
-// app.use('/uploads', express.static(__dirname + '/' + UPLOADS_FOLDER));
 app.use(express.static(__dirname + '/client/dist'));
-app.get('/files/:filename', (req, res) => showImage(req, res, gfs));
-app.post('/upload', upload.single('file'), (req, res) => res.json({ file: req.file.filename }));
-app.use('/public', express.static(__dirname + '/client/public'));
 app.use('/themes', express.static(__dirname + '/client/themes'));
-app.get('/*', (req, res) => res.sendFile(__dirname + '/client/dist/index.html'))
-
-// Set User Session
-const MongoStore = connectMongo(session);
-
-mongoose.set('useCreateIndex', true);
+app.use('/public', express.static(__dirname + '/client/public'));
+app.post('/upload', UploadFile.single('file'), (req, res) => res.json({ file: req.file.filename }));
+app.get('/file/:filename', (req, res) => GetFile(req, res, grid));
+app.delete('/file/:filename', (req, res) => DeleteFile(req, res, grid));
+app.get('/*', (req, res) => res.sendFile(__dirname + '/client/dist/index.html'));
 
 app.use(
   session({
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection
-    }),
+    store: new MongoSessionConnection({ mongooseConnection: mongoose.connection }),
     name: SESSION_NAME,
     secret: SESSION_SECRET,
     resave: true,
@@ -82,26 +67,15 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   schemaDirectives,
-  playground: NODE_ENV.trim() !== 'development' ?
-    false : {
-      settings: {
-        'request.credentials': 'include',
-        'schema.polling.enable': false
-      }
-    },
-  context: ({
-    req,
-    res
-  }) => ({
-    req,
-    res
-  })
+  playground: NODE_ENV.trim() !== 'development' ? false : {
+    settings: {
+      'request.credentials': 'include',
+      'schema.polling.enable': false
+    }
+  },
+  context: ({ req, res }) => ({ req, res })
 });
 
-// Logging with Morgan
-if (NODE_ENV === 'development') {
-  loggerConfig(app);
-}
 
 server.applyMiddleware({
   app,
@@ -118,8 +92,8 @@ mongoose.connect(MONGO_DB_URI, {
 
 mongoose.connection.once('open', () => {
   const port = PORT || 8080;
-  gfs = Grid(mongoose.connection.db, mongoose.mongo);
-  gfs.collection(FILE_BUCKET);
+  grid = Grid(mongoose.connection.db, mongoose.mongo);
+  grid.collection(FILE_BUCKET);
   app.listen({ port }, () => console.log(`Server running on port ${port}`));
 });
 

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Button, Upload, Icon, message } from 'antd';
-import { SERVER_URI } from '../../constants/endpoint';
+import { GET_FILE_URI, SERVER_URI } from '../../constants/endpoint';
 import { 
   FILE_UPLOAD_FAILED, 
   IMAGE, 
@@ -85,7 +85,7 @@ export const ImageUpload = ({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <img alt={url} className="ant-upload-list-item-image" src={SERVER_URI + url} />
+                  <img alt={url} className="ant-upload-list-item-image" src={GET_FILE_URI + url} />
                 </a>
                 <span
                   className="ant-upload-list-item-name ant-upload-list-item-name-icon-count-1"

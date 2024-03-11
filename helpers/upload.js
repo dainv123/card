@@ -8,30 +8,41 @@ const storage = new GridFsStorage({
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	},
-	file: (req, file) => {
-		return {
-			filename: `${Date.now()}-${file.originalname}`,
-			bucketName: FILE_BUCKET
-		};
-	}
+	file: (request, file) => ({
+    filename: `${Date.now()}-${file.originalname}`,
+    bucketName: FILE_BUCKET
+  })
 });
 
-export const upload = multer({ storage });
-
-export const showImage = (req, res, gfs) => {
-	gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+export const GetFile = (request, response, grid) => {
+	grid.files.findOne({ filename: request.params.filename }, (err, file) => {
 		if (!file || file.length === 0) {
-			return res.status(404).json({ error: 'File not found' });
+			return response.status(404).json({ error: 'File not found' });
 		}
 
 		if (file.contentType.startsWith('image')) {
-			// Display the image directly in the browser
-			res.set('Content-Type', file.contentType);
-			const readStream = gfs.createReadStream(file.filename);
-			readStream.pipe(res);
+			response.set('Content-Type', file.contentType);
+			grid.createReadStream(file.filename).pipe(response);
 		} else {
-			// For other file types, you may want to display them differently
-			res.status(400).json({ error: 'File type not supported for preview' });
+			response.status(400).json({ error: 'File type not supported for preview' });
 		}
 	});
 };
+
+export const DeleteFile = (request, response, grid) => {
+	grid.files.findOne({ filename: request.params.filename }, (err, file) => {
+    if (!file || file.length === 0) {
+      return response.status(404).json({ error: 'File not found' });
+    }
+
+    grid.remove({ _id: file._id, root: 'uploads' }, (err) => {
+      if (err) {
+        return response.status(500).json({ error: 'Error deleting file' });
+      }
+      
+      response.json({ message: 'File deleted successfully' });
+    });
+  });
+};
+
+export const UploadFile = multer({ storage });

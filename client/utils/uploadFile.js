@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { UPLOAD_URI, UPLOAD_DELETE_URI } from '../constants/endpoint';
+import { UPLOAD_FILE_URI, DELETE_FILE_URI } from '../constants/endpoint';
 
 export const uploadFile = async file => {
   const formData = new FormData();
@@ -7,7 +7,7 @@ export const uploadFile = async file => {
   formData.append('file', file);
 
   return await axios
-    .post(UPLOAD_URI, formData, {
+    .post(UPLOAD_FILE_URI, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -23,9 +23,7 @@ export const uploadFile = async file => {
 
 export const deleteFile = async filename => {
   return await axios
-    .post(UPLOAD_DELETE_URI, {
-      filename: filename
-    })
+    .delete(DELETE_FILE_URI + filename)
     .then(response => {
       console.log('Response:', response.data);
     })
