@@ -2111,6 +2111,8 @@ button.owl-dot.active,  button.owl-dot:focus{
 .portfolio-item .portfolio-img > img {
     width: 100%;
     margin-bottom: 0;
+    aspect-ratio: 550 / 367;
+    object-fit: cover;
 }
 
 .portfolio-grid {
@@ -2154,6 +2156,10 @@ button.owl-dot.active,  button.owl-dot:focus{
     margin-bottom: 0;
     transition: all 0.4s ease-in-out;
     font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 95%;
 }
 
 .portfolio-attr a {
@@ -2316,6 +2322,14 @@ button.owl-dot.active,  button.owl-dot:focus{
 .blog-grid-flex .blog-item {
     margin-bottom: 30px;
 }
+.blog-grid-flex .blog-item:nth-child(1) .article-img img {
+    aspect-ratio: 350 / 467;
+    object-fit: cover;
+}
+.blog-grid-flex .blog-item:nth-child(2) .article-img img {
+    aspect-ratio: 728 / 305;
+    object-fit: cover;
+}
 
 .blog-grid-flex .blog-article {
     position: relative;
@@ -2351,6 +2365,8 @@ button.owl-dot.active,  button.owl-dot:focus{
     width: 100%;
     transform: scale(1);
     transition: transform 0.5s ease-in-out 0s;
+    aspect-ratio: 350 / 234;
+    object-fit: cover;
 }
 
 .blog-grid-flex .blog-item:hover .article-img img {
