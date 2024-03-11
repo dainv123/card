@@ -40,7 +40,7 @@ const BlogDetailPage = ({ loggedIn, user, ...rest }) => {
               <div className="section-content">
                 <div className="section-content">
                   <div className="row pb-30">
-                    <div className="col-xs-12 col-sm-12 col-md-12">
+                    <div className="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                       {dataBlog.intro && (
                         <span className="about-location">
                           <i className="lnr lnr-map-marker"></i>
@@ -48,6 +48,15 @@ const BlogDetailPage = ({ loggedIn, user, ...rest }) => {
                         </span>
                       )}
                       <div dangerouslySetInnerHTML={{ __html: dataBlog.content }} />
+                    </div>
+                    <div className="col-xs-6 col-sm-12 col-md-5 col-lg-5">
+                      <div className="box-img">
+                        <img
+                          src={ABOUT_ME_IMAGE}
+                          className="img-fluid"
+                          alt="image"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
