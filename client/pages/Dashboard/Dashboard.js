@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import { Layout, Row, Card, Table, Tag, Button } from 'antd';
 import { deleteFile } from '../../utils/uploadFile';
 import { mutations, queries } from '../../graphql/graphql';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { Layout, Row, Card, Table, Tag, Button, message } from 'antd';
 import { BLOG_URI, SERVER_URI, GET_FILE_URI } from '../../constants/endpoint';
+import { COPY_CLIPBOARD_ERROR, COPY_CLIPBOARD_OK } from '../../constants/wording';
 import PrivateLayout from '../../components/Layouts/PrivateLayout';
 import ThemeModal from '../../components/ThemeModal/ThemeModal';
+import ImageModal from '../../components/ImageModal/ImageModal';
 import CardModal from '../../components/CardModal/CardModal';
 import BlogModal from '../../components/BlogModal/BlogModal';
 import TagModal from '../../components/TagModal/TagModal';
@@ -17,6 +19,85 @@ const DashboardPage = () => {
 
   const isRoleAdmin = user.role === 'ADMIN';
 
+  // IMAGE:
+  const [DeleteImage] = useMutation(mutations.DELETE_IMAGE);
+
+  const [dataImagePopup, setDataImagePopup] = useState({});
+
+  const [isOpenImagePopup, setIsOpenImagePopup] = useState(false);
+
+  const responseImage = useQuery(queries.GET_IMAGES);
+
+  const dataImage = (responseImage && responseImage.data && responseImage.data.images) || [];
+
+  const onDeleteImage = async (id, filename) => {
+    await DeleteImage({ variables: { id } });
+    await responseImage.refetch();
+    deleteFile(filename);
+  };
+
+  const onOpenUpdateImagePopup = record => {
+    setDataImagePopup(record);
+    setIsOpenImagePopup(true);
+  };
+
+  const showModalImage = () => {
+    setIsOpenImagePopup(true);
+  };
+
+  const handleOkImage = async () => {
+    setIsOpenImagePopup(false);
+    await responseImage.refetch();
+  };
+
+  const handleCancelImage = () => {
+    setDataImagePopup({});
+    setIsOpenImagePopup(false);
+  };
+
+  const handleCopyImage = (text) => {
+    navigator.clipboard.writeText(text)
+      .then(() => message.success(COPY_CLIPBOARD_OK))
+      .catch(err => message.error(COPY_CLIPBOARD_ERROR));
+  };
+
+  const columnsImage = [
+    {
+      title: 'Name',
+      dataIndex: 'image',
+      key: 'name',
+      render: (text, record) => (
+        <a target="_blank" href={GET_FILE_URI + record.image} rel="noreferrer">{text}</a>
+      )
+    },
+    {
+      title: 'Image',
+      dataIndex: 'image',
+      key: 'image',
+      render: (text, record) => (
+        <img src={GET_FILE_URI + record.image} style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
+      )
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <div className={_s.alignRight}>
+          <Button type="dashed" onClick={() => handleCopyImage(GET_FILE_URI + record.image)} style={{ marginRight: '6px' }}>
+            Copy
+          </Button>
+          <Button type="default" onClick={() => onOpenUpdateImagePopup(record)} style={{ marginRight: '6px' }}>
+            Edit
+          </Button>
+          <Button type="danger" onClick={() => onDeleteImage(record.id, record.image)}>
+            Delete
+          </Button>
+        </div>
+      )
+    }
+  ];
+
+  // CARD
   const [DeleteCard] = useMutation(mutations.DELETE_CARD);
 
   const [dataCardPopup, setDataCardPopup] = useState({});
@@ -57,9 +138,7 @@ const DashboardPage = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
-        <a target="_blank" href={'/reader/' + encodeURIComponent(text)} rel="noreferrer">
-          {text}
-        </a>
+        <a target="_blank" href={'/reader/' + encodeURIComponent(text)} rel="noreferrer">{text}</a>
       )
     },
     {
@@ -79,22 +158,19 @@ const DashboardPage = () => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <>
-          <Button
-            type="danger"
-            onClick={() => onOpenUpdateCardPopup(record)}
-            style={{ marginRight: '6px' }}
-          >
+        <div className={_s.alignRight}>
+          <Button type="default" onClick={() => onOpenUpdateCardPopup(record)} style={{ marginRight: '6px' }}>
             Edit
           </Button>
           <Button type="danger" onClick={() => onDeleteCard(record.id)}>
             Delete
           </Button>
-        </>
+        </div>
       )
     }
   ];
 
+  // THEME
   const [DeleteTheme] = useMutation(mutations.DELETE_THEME);
 
   const [dataThemePopup, setDataThemePopup] = useState({});
@@ -136,9 +212,7 @@ const DashboardPage = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
-        <a target="_blank" href={record.path} rel="noreferrer">
-          {text}
-        </a>
+        <a target="_blank" href={record.path} rel="noreferrer">{text}</a>
       )
     },
     {
@@ -151,10 +225,7 @@ const DashboardPage = () => {
       dataIndex: 'image',
       key: 'image',
       render: (text, record) => (
-        <img
-          src={GET_FILE_URI + record.image}
-          style={{ width: '80px', height: '80px', objectFit: 'cover' }}
-        />
+        <img src={GET_FILE_URI + record.image} style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
       )
     },
     {
@@ -163,11 +234,7 @@ const DashboardPage = () => {
       key: 'tags',
       render: (text, record) => (
         <>
-          {record.tags.map(item => (
-            <Tag key={item.id} color="blue">
-              {item.name}
-            </Tag>
-          ))}
+          {record.tags.map(item => <Tag key={item.id} color="blue">{item.name}</Tag>)}
         </>
       )
     },
@@ -175,22 +242,19 @@ const DashboardPage = () => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <>
-          <Button
-            type="danger"
-            onClick={() => onOpenUpdateThemePopup(record)}
-            style={{ marginRight: '6px' }}
-          >
+        <div className={_s.alignRight}>
+          <Button type="default" onClick={() => onOpenUpdateThemePopup(record)} style={{ marginRight: '6px' }}>
             Edit
           </Button>
           <Button type="danger" onClick={() => onDeleteTheme(record.id, record.image)}>
             Delete
           </Button>
-        </>
+        </div>
       )
     }
   ];
 
+  // BLOG
   const [DeleteBlog] = useMutation(mutations.DELETE_BLOG);
 
   const [dataBlogPopup, setDataBlogPopup] = useState({});
@@ -232,9 +296,7 @@ const DashboardPage = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
-        <a target="_blank" href={BLOG_URI + text} rel="noreferrer">
-          {text}
-        </a>
+        <a target="_blank" href={BLOG_URI + text} rel="noreferrer">{text}</a>
       )
     },
     {
@@ -252,32 +314,26 @@ const DashboardPage = () => {
       dataIndex: 'image',
       key: 'image',
       render: (text, record) => (
-        <img
-          src={GET_FILE_URI + record.image}
-          style={{ width: '80px', height: '80px', objectFit: 'cover' }}
-        />
+        <img src={GET_FILE_URI + record.image} style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
       )
     },
     {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <>
-          <Button
-            type="danger"
-            onClick={() => onOpenUpdateBlogPopup(record)}
-            style={{ marginRight: '6px' }}
-          >
+        <div className={_s.alignRight}>
+          <Button type="default" onClick={() => onOpenUpdateBlogPopup(record)} style={{ marginRight: '6px' }}>
             Edit
           </Button>
           <Button type="danger" onClick={() => onDeleteBlog(record.id, record.image)}>
             Delete
           </Button>
-        </>
+        </div>
       )
     }
   ];
 
+  // TAG
   const [DeleteTag] = useMutation(mutations.DELETE_TAG);
 
   const [dataTagPopup, setDataTagPopup] = useState({});
@@ -322,18 +378,14 @@ const DashboardPage = () => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <>
-          <Button
-            type="danger"
-            onClick={() => onOpenUpdateTagPopup(record)}
-            style={{ marginRight: '6px' }}
-          >
+        <div className={_s.alignRight}>
+          <Button type="default" onClick={() => onOpenUpdateTagPopup(record)} style={{ marginRight: '6px' }}>
             Edit
           </Button>
           <Button type="danger" onClick={() => onDeleteTag(record.id)}>
             Delete
           </Button>
-        </>
+        </div>
       )
     }
   ];
@@ -342,7 +394,21 @@ const DashboardPage = () => {
     <PrivateLayout>
       <Layout.Content>
         <div className={_s.container}>
+          <Row className={_s.alignRight}>
+            <Button type="primary" onClick={showModalImage}>
+              ADD IMAGE
+            </Button>
+            <ImageModal
+              data={dataImagePopup}
+              isModalOpen={isOpenImagePopup}
+              handleOk={handleOkImage}
+              handleCancel={handleCancelImage}
+            ></ImageModal>
+          </Row>
           <Row>
+            <Table columns={columnsImage} dataSource={dataImage} rowKey={'id'}></Table>
+          </Row>
+          <Row className={_s.alignRight}>
             <Button type="primary" onClick={showModalCard}>
               ADD CARD
             </Button>
@@ -359,7 +425,22 @@ const DashboardPage = () => {
           </Row>
           {isRoleAdmin && (
             <>
+              <Row className={_s.alignRight}>
+                <Button type="primary" onClick={showModalTag}>
+                  ADD TAG
+                </Button>
+                <TagModal
+                  data={dataTagPopup}
+                  isModalOpen={isOpenTagPopup}
+                  handleOk={handleOkTag}
+                  handleCancel={handleCancelTag}
+                ></TagModal>
+              </Row>
               <Row>
+                <Table columns={columnsTag} dataSource={dataTag} rowKey={'id'}></Table>
+              </Row>
+              
+              <Row className={_s.alignRight}>
                 <Button type="primary" onClick={showModalTheme}>
                   ADD THEME
                 </Button>
@@ -375,7 +456,7 @@ const DashboardPage = () => {
                 <Table columns={columnsTheme} dataSource={dataTheme} rowKey={'id'}></Table>
               </Row>
 
-              <Row>
+              <Row className={_s.alignRight}>
                 <Button type="primary" onClick={showModalBlog}>
                   ADD BLOG
                 </Button>
@@ -388,21 +469,6 @@ const DashboardPage = () => {
               </Row>
               <Row>
                 <Table columns={columnsBlog} dataSource={dataBlog} rowKey={'id'}></Table>
-              </Row>
-
-              <Row>
-                <Button type="primary" onClick={showModalTag}>
-                  ADD TAG
-                </Button>
-                <TagModal
-                  data={dataTagPopup}
-                  isModalOpen={isOpenTagPopup}
-                  handleOk={handleOkTag}
-                  handleCancel={handleCancelTag}
-                ></TagModal>
-              </Row>
-              <Row>
-                <Table columns={columnsTag} dataSource={dataTag} rowKey={'id'}></Table>
               </Row>
             </>
           )}

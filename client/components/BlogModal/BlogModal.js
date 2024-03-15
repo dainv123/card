@@ -44,7 +44,7 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     let imageURL = image;
 
     if (data.image !== image && image) {
-      const imageResponse = await uploadFile(image);
+      const imageResponse = await uploadFile(image);    // upload new image
       imageURL = imageResponse.file || '';
     }
 
@@ -53,17 +53,14 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
         variables: { id: value.id, name, trend, introduction, content, image: imageURL }
       }).then(
         res => {
-          // clear legacy image
           if (data.image !== image && data.image && image) {
-            deleteFile(data.image);
+            deleteFile(data.image); // clear legacy image
           }
           handleOk();
           setIsOpen(false);
         },
         err => {
-          const errors = {};
-
-          // show error below fields
+          const errors = {};  // show error below fields
           err.graphQLErrors.map(x => {
             if (x.message.includes('name')) {
               errors.name = x.message.includes('name');
@@ -81,12 +78,9 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
               errors.image = x.message.includes('image');
             }
           });
-
-          // clear uploaded image
           if (data.image !== image && imageURL !== image) {
-            deleteFile(imageURL);
+            deleteFile(imageURL); // clear uploaded image
           }
-
           setSubmitting(false);
           setErrors(errors);
         }
@@ -116,6 +110,10 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
               errors.image = x.message.includes('image');
             }
           });
+          // clear uploaded image
+          if (data.image !== image && imageURL !== image) {
+            deleteFile(imageURL);
+          }
           setSubmitting(false);
           setErrors(errors);
         }

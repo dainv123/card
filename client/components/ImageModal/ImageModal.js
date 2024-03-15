@@ -1,37 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useMutation } from '@apollo/react-hooks';
 import { Form, Formik, Field } from 'formik';
-import { Icon, Input, Button, Modal, Upload, Select } from 'antd';
-import { FormSelect } from '../FormSelect/FormSelect';
-import { ImageUpload } from '../ImageUpload/ImageUpload';
-import { FormInputField } from '../FormInputField/FormInputField';
+import { Icon, Button, Modal, Upload } from 'antd';
 import { mutations } from '../../graphql/graphql';
+import { ImageUpload } from '../ImageUpload/ImageUpload';
 import { uploadFile, deleteFile } from '../../utils/uploadFile';
 import validators from '../../validators/validators';
 import { COLOR_BLACK_1 } from '../../constants/common';
 import { 
-  ADD_YOUR_THEME,
+  ADD_YOUR_IMAGE,
   CANCEL, 
   IMAGE, 
   NAME, 
   PATH, 
-  SELECT_TAGS, 
   SUBMIT, 
-  UPDATE_YOUR_THEME
+  UPDATE_YOUR_IMAGE
 } from '../../constants/wording';
 
-const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel }) => {
+const ImageModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
+  const user = useSelector(state => state.auth.user);
   const [value, setValue] = useState({});
   const [isOpen, setIsOpen] = useState(false);
-  const [CreateTheme] = useMutation(mutations.CREATE_THEME);
-  const [UpdateTheme] = useMutation(mutations.UPDATE_THEME);
+  const [CreateImage] = useMutation(mutations.CREATE_IMAGE);
+  const [UpdateImage] = useMutation(mutations.UPDATE_IMAGE);
 
   const handleSubmitForm = async (values, actions) => {
-    const { name, path, tags, image } = values;
-
+    const { image } = values;
     const { setErrors, setSubmitting } = actions;
-
     let imageURL = image;
 
     if (data.image !== image && image) {
@@ -40,7 +37,7 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
     }
 
     if (value.id) {
-      UpdateTheme({ variables: { id: value.id, name, path, tags, image: imageURL } }).then(
+      UpdateImage({ variables: { id: value.id, userId: user.id, image: imageURL } }).then(
         res => {
           if (data.image !== image && data.image && image) {
             deleteFile(data.image); // clear legacy image
@@ -51,15 +48,6 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
         err => {
           const errors = {};
           err.graphQLErrors.map(x => {
-            if (x.message.includes('name')) {
-              errors.name = x.message.includes('name');
-            }
-            if (x.message.includes('path')) {
-              errors.path = x.message.includes('path');
-            }
-            if (x.message.includes('tags')) {
-              errors.tags = x.message.includes('tags');
-            }
             if (x.message.includes('image')) {
               errors.image = x.message.includes('image');
             }
@@ -72,7 +60,7 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
         }
       );
     } else {
-      CreateTheme({ variables: { name, path, tags, image: imageURL } }).then(
+      CreateImage({ variables: {  userId: user.id, image: imageURL } }).then(
         res => {
           handleOk();
           setIsOpen(false);
@@ -80,22 +68,12 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
         err => {
           const errors = {};
           err.graphQLErrors.map(x => {
-            if (x.message.includes('name')) {
-              errors.name = x.message.includes('name');
-            }
-            if (x.message.includes('path')) {
-              errors.path = x.message.includes('path');
-            }
-            if (x.message.includes('tags')) {
-              errors.tags = x.message.includes('tags');
-            }
             if (x.message.includes('image')) {
               errors.image = x.message.includes('image');
             }
           });
-          // clear uploaded image
           if (data.image !== image && imageURL !== image) {
-            deleteFile(imageURL);
+            deleteFile(imageURL); // clear uploaded image
           }
           setSubmitting(false);
           setErrors(errors);
@@ -107,45 +85,33 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
   useEffect(() => {
     if (data != value) {
       setValue(data);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (!isModalOpen) {
+    } else if (!isModalOpen) {
       setValue({});
     }
+    
     if (isModalOpen != isOpen) {
       setIsOpen(isModalOpen);
     }
-  }, [isModalOpen]);
+  }, [data, isModalOpen]);
 
   return (
     <Modal
-      title={value.id ? UPDATE_YOUR_THEME : ADD_YOUR_THEME}
+      title={value.id ? UPDATE_YOUR_IMAGE : ADD_YOUR_IMAGE}
       visible={isOpen}
       onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
           {CANCEL}
         </Button>,
-        <Button
-          key="submit"
-          type="primary"
-          onClick={() => hiddenInnerSubmitFormRef.current.click()}
-        >
+        <Button key="submit" type="primary" onClick={() => hiddenInnerSubmitFormRef.current.click()}>
           {SUBMIT}
         </Button>
       ]}
     >
       <Formik
         validateOnBlur={false}
-        initialValues={{
-          name: value.name || '',
-          path: value.path || '',
-          tags: (value.tags || []).map(i => i.id),
-          image: value.image || null
-        }}
-        validationSchema={validators.theme.createThemeSchema}
+        initialValues={{ image: value.image || null }}
+        validationSchema={validators.theme.createImageSchema}
         onSubmit={(values, actions) => handleSubmitForm(values, actions)}
         enableReinitialize
       >
@@ -153,22 +119,6 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
           <button type="submit" style={{ display: 'none' }} ref={hiddenInnerSubmitFormRef}>
             {SUBMIT}
           </button>
-          <Field
-            InputType={Input}
-            component={FormInputField}
-            prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
-            name="name"
-            placeholder={NAME}
-            hasFeedback
-          />
-          <Field
-            InputType={Input}
-            component={FormInputField}
-            prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
-            name="path"
-            placeholder={PATH}
-            hasFeedback
-          />
           <div className="ant-row ant-form-item">
             <Field
               component={ImageUpload}
@@ -179,23 +129,10 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
               hasFeedback
             />
           </div>
-          <Field
-            component={FormSelect}
-            name="tags"
-            mode="multiple"
-            placeholder={SELECT_TAGS}
-            style={{ width: '100%' }}
-          >
-            {tags.map(tag => (
-              <Select.Option key={tag.id} value={tag.id}>
-                {tag.name}
-              </Select.Option>
-            ))}
-          </Field>
         </Form>
       </Formik>
     </Modal>
   );
 };
 
-export default ThemeModal;
+export default ImageModal;

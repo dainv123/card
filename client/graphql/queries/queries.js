@@ -1,5 +1,25 @@
 import gql from 'graphql-tag';
 
+export const GET_IMAGE = gql`
+  query GetImage($id: ID!) {
+    image(id: $id) {
+      id
+      image
+    }
+  }
+`;
+
+
+export const GET_IMAGES = gql`
+  query GetImages {
+    images {
+      id
+      image
+    }
+  }
+`;
+
+
 export const GET_THEME = gql`
   query GetTheme($id: ID!) {
     theme(id: $id) {

@@ -75,6 +75,34 @@ export const DELETE_THEME = gql`
   }
 `;
 
+export const CREATE_IMAGE = gql`
+  mutation CreateImage($userId: ID!, $image: String!) {
+    createImage(userId: $userId, image: $image) {
+      id
+      userId
+      image
+    }
+  }
+`;
+
+export const UPDATE_IMAGE = gql`
+  mutation UpdateImage($id: ID!, $userId: ID!, $image: String!) {
+    updateImage(id: $id, userId: $userId, image: $image) {
+      id
+      userId
+      image
+    }
+  }
+`;
+
+export const DELETE_IMAGE = gql`
+  mutation DeleteImage($id: ID!) {
+    deleteImage(id: $id) {
+      id
+    }
+  }
+`;
+
 export const CREATE_CARD = gql`
   mutation CreateCard($userId: ID!, $themeId: ID!, $config: String!, $name: String) {
     createCard(userId: $userId, themeId: $themeId, config: $config, name: $name) {
