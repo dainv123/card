@@ -5,7 +5,7 @@ import { mutations, queries } from '../../graphql/graphql';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Layout, Row, Card, Table, Tag, Button, message } from 'antd';
 import { BLOG_URI, SERVER_URI, GET_FILE_URI } from '../../constants/endpoint';
-import { COPY_CLIPBOARD_ERROR, COPY_CLIPBOARD_OK } from '../../constants/wording';
+import { ADD_BLOG, ADD_CARD, ADD_IMAGE, ADD_TAG, ADD_THEME, BLOGS, CARDS, COPY_CLIPBOARD_ERROR, COPY_CLIPBOARD_OK, IMAGES, TAGS, THEMES } from '../../constants/wording';
 import PrivateLayout from '../../components/Layouts/PrivateLayout';
 import ThemeModal from '../../components/ThemeModal/ThemeModal';
 import ImageModal from '../../components/ImageModal/ImageModal';
@@ -394,10 +394,14 @@ const DashboardPage = () => {
     <PrivateLayout>
       <Layout.Content>
         <div className={_s.container}>
-          <Row className={_s.alignRight}>
-            <Button type="primary" onClick={showModalImage}>
-              ADD IMAGE
-            </Button>
+        <Card className={_s.marginBottom10}>
+          <Row className={_s.paddingVertical10}>
+            <div className={_s.flexBetween}>
+              <h4>{IMAGES}</h4>
+              <Button type="primary" onClick={showModalImage}>{ADD_IMAGE}</Button>
+            </div>
+          </Row>
+          <Row>
             <ImageModal
               data={dataImagePopup}
               isModalOpen={isOpenImagePopup}
@@ -408,10 +412,16 @@ const DashboardPage = () => {
           <Row>
             <Table columns={columnsImage} dataSource={dataImage} rowKey={'id'}></Table>
           </Row>
-          <Row className={_s.alignRight}>
-            <Button type="primary" onClick={showModalCard}>
-              ADD CARD
-            </Button>
+        </Card>
+
+        <Card className={_s.marginBottom10}>
+          <Row className={_s.paddingVertical10}>
+            <div className={_s.flexBetween}>
+              <h4>{CARDS}</h4>
+              <Button type="primary" onClick={showModalCard}>{ADD_CARD}</Button>
+            </div>
+          </Row>
+          <Row>
             <CardModal
               data={dataCardPopup}
               themes={dataTheme}
@@ -423,53 +433,70 @@ const DashboardPage = () => {
           <Row>
             <Table columns={columnsCard} dataSource={dataCard} rowKey={'id'}></Table>
           </Row>
+        </Card>
+
           {isRoleAdmin && (
             <>
-              <Row className={_s.alignRight}>
-                <Button type="primary" onClick={showModalTag}>
-                  ADD TAG
-                </Button>
-                <TagModal
-                  data={dataTagPopup}
-                  isModalOpen={isOpenTagPopup}
-                  handleOk={handleOkTag}
-                  handleCancel={handleCancelTag}
-                ></TagModal>
-              </Row>
-              <Row>
-                <Table columns={columnsTag} dataSource={dataTag} rowKey={'id'}></Table>
-              </Row>
-              
-              <Row className={_s.alignRight}>
-                <Button type="primary" onClick={showModalTheme}>
-                  ADD THEME
-                </Button>
-                <ThemeModal
-                  data={dataThemePopup}
-                  tags={dataTag}
-                  isModalOpen={isOpenThemePopup}
-                  handleOk={handleOkTheme}
-                  handleCancel={handleCancelTheme}
-                ></ThemeModal>
-              </Row>
-              <Row>
-                <Table columns={columnsTheme} dataSource={dataTheme} rowKey={'id'}></Table>
-              </Row>
+              <Card className={_s.marginBottom10}>
+                <Row className={_s.paddingVertical10}>
+                  <div className={_s.flexBetween}>
+                    <h4>{TAGS}</h4>
+                    <Button type="primary" onClick={showModalTag}>{ADD_TAG}</Button>
+                  </div>
+                </Row>
+                <Row>
+                  <TagModal
+                    data={dataTagPopup}
+                    isModalOpen={isOpenTagPopup}
+                    handleOk={handleOkTag}
+                    handleCancel={handleCancelTag}
+                  ></TagModal>
+                </Row>
+                <Row>
+                  <Table columns={columnsTag} dataSource={dataTag} rowKey={'id'}></Table>
+                </Row>
+              </Card>
 
-              <Row className={_s.alignRight}>
-                <Button type="primary" onClick={showModalBlog}>
-                  ADD BLOG
-                </Button>
-                <BlogModal
-                  data={dataBlogPopup}
-                  isModalOpen={isOpenBlogPopup}
-                  handleOk={handleOkBlog}
-                  handleCancel={handleCancelBlog}
-                ></BlogModal>
-              </Row>
-              <Row>
-                <Table columns={columnsBlog} dataSource={dataBlog} rowKey={'id'}></Table>
-              </Row>
+              <Card className={_s.marginBottom10}>
+                <Row className={_s.paddingVertical10}>
+                  <div className={_s.flexBetween}>
+                    <h4>{THEMES}</h4>
+                    <Button type="primary" onClick={showModalTheme}>{ADD_THEME}</Button>
+                  </div>
+                </Row>
+                <Row>
+                  <ThemeModal
+                    data={dataThemePopup}
+                    tags={dataTag}
+                    isModalOpen={isOpenThemePopup}
+                    handleOk={handleOkTheme}
+                    handleCancel={handleCancelTheme}
+                  ></ThemeModal>
+                </Row>
+                <Row>
+                  <Table columns={columnsTheme} dataSource={dataTheme} rowKey={'id'}></Table>
+                </Row>
+              </Card>
+
+              <Card className={_s.marginBottom10}>
+                <Row className={_s.paddingVertical10}>
+                  <div className={_s.flexBetween}>
+                    <h4>{BLOGS}</h4>
+                    <Button type="primary" onClick={showModalBlog}>{ADD_BLOG}</Button>
+                  </div>
+                </Row>
+                <Row>
+                  <BlogModal
+                    data={dataBlogPopup}
+                    isModalOpen={isOpenBlogPopup}
+                    handleOk={handleOkBlog}
+                    handleCancel={handleCancelBlog}
+                  ></BlogModal>
+                </Row>
+                <Row>
+                  <Table columns={columnsBlog} dataSource={dataBlog} rowKey={'id'}></Table>
+                </Row>
+              </Card>
             </>
           )}
         </div>

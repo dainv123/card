@@ -88,6 +88,16 @@ export const ALL = 'All';
 export const E_MAIL = 'E-mail';
 export const PROJECT = 'Project';
 export const VERIFY_USER_SUCCESSFULLY = 'Verify user account successfully';
+export const IMAGES = 'IMAGE(S)';
+export const ADD_IMAGE = 'ADD IMAGE';
+export const CARDS = 'CARD(S)';
+export const ADD_CARD = 'ADD CARD';
+export const THEMES = 'THEME(S)';
+export const ADD_THEME = 'ADD THEME';
+export const TAGS = 'TAG(S)';
+export const ADD_TAG = 'ADD TAG';
+export const BLOGS = 'BLOG(S)';
+export const ADD_BLOG = 'ADD BLOG';
 /*************************
  MESSAGES
 *************************/
