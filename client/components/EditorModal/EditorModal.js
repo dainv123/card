@@ -205,7 +205,7 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel, handleScr
       <Col span={15}>
         <List
           className="viewport"
-          width={window.innerWidth * 0.5}
+          width={(window.innerWidth * 0.9 > 1200 ? 1200 : window.innerWidth * 0.9) * 15 / 24 - 48}
           height={window.innerHeight - 347} 
           rowCount={listClone.length}
           rowHeight={60}
