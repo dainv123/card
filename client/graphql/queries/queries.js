@@ -51,6 +51,11 @@ export const GET_PUBLIC_THEMES = gql`
       id
       name
       path
+      tags {
+        id
+        name
+      }
+      image
     }
   }
 `;
