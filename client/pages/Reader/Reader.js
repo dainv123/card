@@ -66,6 +66,13 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
     });
   };
 
+  const handleScrollToElement = element => {
+    iframeRef.current.contentWindow.postMessage({
+      type: 'scroll-to-element',
+      data: element
+    });
+  };
+
   const handleUpdateCard = config => {
     UpdateCard({ variables: { id: dataCard.id, config: JSON.stringify(config) } }).then(
       res => setIsModalOpen(false),
@@ -85,6 +92,10 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
         });
       } else {
         setConfig(event.data.data);
+        iframeRef.current.contentWindow.postMessage({
+          type: 'internal-iframe-pass-inside',
+          data: {}
+        });
       }
     }
   };
@@ -117,6 +128,7 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
             isModalOpen={isModalOpen}
             handleOk={handleOk}
             handleCancel={handleCancel}
+            handleScrollToElement={handleScrollToElement}
           />
         </>
       )}

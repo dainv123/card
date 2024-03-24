@@ -2600,10 +2600,8 @@ input:hover,
 textarea:hover,
 input:focus,
 textarea:focus{
-    text-indent: 15px;
     outline: none !important;
-    border: 0;
-    border-bottom: 1px solid #11d6f0;
+    border: 1px solid #11d6f0;
 }
 textarea{
     resize: none;

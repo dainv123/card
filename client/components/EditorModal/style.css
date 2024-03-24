@@ -1,24 +1,26 @@
 #editor-modal .card [data-schemapath] {
     display: flex;
 }
-#editor-modal .card .col-md-12[data-schemapath] > div {
+
+#editor-modal .card .col-md-12[data-schemapath]>div {
     flex: 1;
 }
 
-#editor-modal .card .col-md-12[data-schemapath] > div [data-schematype="string"] .form-group,
-#editor-modal .card .col-md-12[data-schemapath] > div [data-schematype="string"] .form-control {
+#editor-modal .card .col-md-12[data-schemapath]>div [data-schematype="string"] .form-group,
+#editor-modal .card .col-md-12[data-schemapath]>div [data-schematype="string"] .form-control {
     width: 100%;
 }
 
-#editor-modal .card [data-schemapath] .btn-secondary{
+#editor-modal .card [data-schemapath] .btn-secondary {
     font-size: 10px;
     padding: 4px 10px;
 }
-#editor-modal .card .form-control[aria-label]{
+
+#editor-modal .card .form-control[aria-label] {
     width: 700px;
 }
 
-#editor-modal .card [data-schematype="array"] .form-control[aria-label]{
+#editor-modal .card [data-schematype="array"] .form-control[aria-label] {
     width: 400px;
 }
 
@@ -27,4 +29,63 @@
     min-width: 35px;
     text-transform: capitalize;
     font-weight: 600;
+}
+
+.viewport {
+    overflow-y: auto;
+    padding-right: 20px;
+    scrollbar-color: rgba(27, 127, 204, .8) #e8e8e8;
+    scrollbar-width: thin;
+    max-height: calc(-347px + 100vh);
+}
+
+.viewport .item {
+    display: flex;
+    align-items: center;
+}
+
+.viewport .form-control.input-label {
+    max-width: 120px;
+    margin-right: 5px;
+    background: #d9d9d9;
+}
+
+.viewport .form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    margin: 5px 0;
+}
+
+.viewport .scroller {
+    max-height: calc(-349px + 100vh);
+    overflow-y: auto;
+}
+
+.viewport .item-close {
+    color: red;
+    font-size: 30px;
+    position: absolute;
+    top: -10px;
+    right: 3px;
+    cursor: pointer;
+}
+
+.viewport .ant-modal.display-below .ant-modal-content {
+    background-color: #ffffff94
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5px;
+}
+
+.margin-right-5 {
+    margin-right: 5px;
 }
