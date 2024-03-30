@@ -1,0 +1,441 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditorModal component renders with given data 1`] = `
+<body
+  style="overflow: hidden; overflow-x: hidden; overflow-y: hidden;"
+>
+  <div />
+  <div>
+    <div
+      class="ant-modal-root"
+    >
+      <div
+        class="ant-modal-mask fade-appear"
+      />
+      <div
+        aria-labelledby="rcDialogTitle0"
+        class="ant-modal-wrap "
+        role="dialog"
+        tabindex="-1"
+      >
+        <div
+          class="ant-modal zoom-appear"
+          role="document"
+          style="max-width: 1200px; width: 90%;"
+        >
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+          <div
+            class="ant-modal-content"
+          >
+            <button
+              aria-label="Close"
+              class="ant-modal-close"
+              type="button"
+            >
+              <span
+                class="ant-modal-close-x"
+              >
+                <i
+                  aria-label="icon: close"
+                  class="anticon anticon-close ant-modal-close-icon"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class=""
+                    data-icon="close"
+                    fill="currentColor"
+                    focusable="false"
+                    height="1em"
+                    viewBox="64 64 896 896"
+                    width="1em"
+                  >
+                    <path
+                      d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 0 0 203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"
+                    />
+                  </svg>
+                </i>
+              </span>
+            </button>
+            <div
+              class="ant-modal-header"
+            >
+              <div
+                class="ant-modal-title"
+                id="rcDialogTitle0"
+              >
+                Setting
+              </div>
+            </div>
+            <div
+              class="ant-modal-body"
+              style="overflow-y: auto; max-height: calc(100vh - 300px);"
+            >
+              <div
+                class="ant-col ant-col-15"
+              >
+                <div
+                  aria-label="grid"
+                  aria-readonly="true"
+                  class="ReactVirtualized__Grid ReactVirtualized__List viewport"
+                  role="grid"
+                  style="box-sizing: border-box; direction: ltr; height: 421px; position: relative; width: 528px; will-change: transform; overflow-x: hidden; overflow-y: auto;"
+                  tabindex="0"
+                >
+                  <div
+                    class="ReactVirtualized__Grid__innerScrollContainer"
+                    role="rowgroup"
+                    style="width: auto; height: 8580px; max-width: 528px; max-height: 8580px; overflow: hidden; position: relative;"
+                  >
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 0px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_11"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="img/navbar-brand.png"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 60px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_26"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="The Couple"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 120px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_32"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="Events"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 180px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_38"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="Love Story"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 240px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_44"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="img/navbar-brand.png"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 300px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_52"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="Photos"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 360px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_58"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="Wedding Gifts"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 420px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_64"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="RSVP"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 480px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_74"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="url('./images/bg-hero.jpg')"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 540px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_83"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="Together with Their Families"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 600px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_89"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="images/the-couple-hero.jpg"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 660px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_95"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="Milea"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 720px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_98"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="img/icon-wedding-ampersand.svg"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 780px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_101"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="Dilan"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 840px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_105"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="
+                            Request the honor of your presence at their wedding ceremony and reception.
+                        "
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 900px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_107"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="img/ornament-divider.png"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 960px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_126"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="The Happy Couple"
+                      />
+                    </div>
+                    <div
+                      class="item"
+                      style="height: 60px; left: 0px; position: absolute; top: 1020px; width: 100%;"
+                    >
+                      <input
+                        class="form-control input-label"
+                        disabled=""
+                        type="text"
+                        value="node_129"
+                      />
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="
+                            A happy marriage is the union of two good forgivers.
+                        "
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-col ant-col-9 viewport"
+              >
+                No thing to select!
+              </div>
+            </div>
+            <div
+              class="ant-modal-footer"
+            >
+              <button
+                class="ant-btn"
+                type="button"
+              >
+                <span>
+                  Cancel
+                </span>
+              </button>
+              <button
+                class="ant-btn ant-btn-danger"
+                type="button"
+              >
+                <span>
+                  Switch content background
+                </span>
+              </button>
+              <button
+                class="ant-btn ant-btn-danger"
+                type="button"
+              >
+                <span>
+                  Reset to default
+                </span>
+              </button>
+              <button
+                class="ant-btn ant-btn-primary"
+                type="button"
+              >
+                <span>
+                  Submit
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
