@@ -170,13 +170,13 @@ const rowTemplate = item => (
           <Card>
             {item.text.map((child) => (
               <Card>
-                Key: <input key={child.value} type="text" class="form-control" value={child.value} />
-                Text: <input key={child.text} type="text" class="form-control" value={child.text} />
+                Key: <input key={child.value} type="text" className="form-control" value={child.value} />
+                Text: <input key={child.text} type="text" className="form-control" value={child.text} />
               </Card>
             ))} 
           </Card>
         </>
-      : <input key={item.key} type="text" class="form-control" value={item.text} />
+      : <input key={item.key} type="text" className="form-control" value={item.text} />
     }
   </div>
 );
