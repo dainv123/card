@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
+import Scroller from '../../pages/Reader/Scroller';
 import { Modal, Card, Form, Input, Button } from 'antd';
 import { JSONEditor } from '@json-editor/json-editor';
 import { 
@@ -142,6 +143,44 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
     }, 0);
   }, [data, isModalOpen]);
 
+  
+const SETTINGS = {
+  itemHeight: 60,
+  amount: 15,
+  tolerance: 5,
+  minIndex: 0,
+  maxIndex: 322,
+  startIndex: 0
+};
+
+const getData = (offset, limit) => {
+  const start = Math.max(SETTINGS.minIndex, offset);
+  const end = Math.min(offset + limit - 1, SETTINGS.maxIndex);
+  const output = Object.keys(data).slice(start, end).map(key => ({ key, text: data[key] }));
+  return output;
+};
+
+const rowTemplate = item => (
+  <div className="item" key={item.key}>
+    {
+      Array.isArray(item.text) 
+      ? 
+        <>
+          ARRAY:
+          <Card>
+            {item.text.map((child) => (
+              <Card>
+                Key: <input key={child.value} type="text" class="form-control" value={child.value} />
+                Text: <input key={child.text} type="text" class="form-control" value={child.text} />
+              </Card>
+            ))} 
+          </Card>
+        </>
+      : <input key={item.key} type="text" class="form-control" value={item.text} />
+    }
+  </div>
+);
+
   return (
     <Modal
       title={SETTING}
@@ -162,16 +201,22 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
         </Button>
       ]}
     >
-      <div
+      <Scroller
+        get={getData}
+        className="viewport"
+        settings={SETTINGS}
+        row={rowTemplate}
+      />
+      {/* <div
         ref={aiRef}
         style={{ position: 'fixed', zIndex: 1, top, left, display: isAI ? 'none' : 'none' }}
       >
         <Card title={AI_FORM} style={{ width: 300 }}>
           <Form onSubmit={onSubmitAI}>
             <Form.Item
+              name="requirement"
               label={ENTER_REQUIREMENT + ' ' + node.id + ':'}
               extra={REQUIRE_PROCESSING_MESSAGE}
-              name="requirement"
               rules={[{ required: true, message: REQUIRE_REQUIREMENT_MESSAGE }]}
             >
               <Input placeholder="Your requirement" onChange={onChangeAI} />
@@ -184,7 +229,7 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
           </Form>
         </Card>
       </div>
-      <div id="editor-modal" ref={editorRef}></div>
+      <div id="editor-modal" ref={editorRef}></div> */}
     </Modal>
   );
 };
