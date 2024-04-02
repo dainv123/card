@@ -54,7 +54,7 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel, handleScr
   
   const rowRenderer = ({ key, index, isScrolling, style }) => {
     const item = listClone[index].text;
-    
+  
     const handleInputChange = (e) => {
       const updatedData = { ...dataClone }; 
       const keyToUpdate = listClone[index].key; 
