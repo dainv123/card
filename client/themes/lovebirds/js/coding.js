@@ -61,7 +61,7 @@ function flattenJSON(json) {
           };
         });
 
-      result[nodeObject.id] = options;
+      result[nodeObject.id] = { default: options };
     } else {
       if (
         nodeObject.text ||
@@ -70,11 +70,14 @@ function flattenJSON(json) {
         nodeObject.placeholder ||
         nodeObject.backgroundImage
       ) {
-        result[nodeObject.id] = nodeObject.text ||
-          nodeObject.src ||
-          nodeObject.href ||
-          nodeObject.placeholder ||
-          nodeObject.backgroundImage
+        result[nodeObject.id] = {
+          default:
+            nodeObject.text ||
+            nodeObject.src ||
+            nodeObject.href ||
+            nodeObject.placeholder ||
+            nodeObject.backgroundImage
+        };
       }
 
       if (node.child && node.child.length > 0) {
@@ -91,25 +94,19 @@ function flattenJSON(json) {
 function remapAndModify(json, flattened) {
   const mapValueById = node => {
     if (flattened[node.id]) {
-      if (node.id == 'node_61') {
-        node.tag = 'span';
-        node.node = 'element'
-        console.log(1);
-      }
-      // console.log("node", node.attr.class);
       if (node.tag == 'img' && node.attr) {
-        node.attr.src = flattened[node.id];
+        node.attr.src = flattened[node.id].default || flattened[node.id];
       } else if (node.tag == 'a' && node.attr) {
-        node.attr.href = flattened[node.id];
+        node.attr.href = flattened[node.id].default || flattened[node.id];
       } else if (node.tag == 'input' && node.attr) {
-        node.attr.placeholder = flattened[node.id];
+        node.attr.placeholder = flattened[node.id].default || flattened[node.id];
       } else if (
         node.attr &&
         node.attr.style &&
         node.attr.style.length == 2 &&
         node.attr.style[0] == 'background-image:'
       ) {
-        node.attr.style[1] = flattened[node.id];
+        node.attr.style[1] = flattened[node.id].default || flattened[node.id];
       } else if (node.tag == 'select') {
         node.child = [];
         if (flattened[node.id].length) {
@@ -130,17 +127,8 @@ function remapAndModify(json, flattened) {
           });
         }
       } else {
-        node.text = flattened[node.id];
+        node.text = flattened[node.id].default || flattened[node.id];
       }
-
-      // map class
-      if (node.attr && node.attr.class) {
-        node.attr.class += node.attr.class + ',' + node.id;
-      } else {
-        node.attr = { class: node.id };
-      }
-
-      // console.log("node.id", node);
     }
 
     if (node.child && node.child.length > 0) {
@@ -149,7 +137,7 @@ function remapAndModify(json, flattened) {
   };
 
   mapValueById(json);
-console.log(json);
+
   return json;
 }
 
@@ -168,7 +156,6 @@ function reloadScript(scriptUrl = './js/script.min.js') {
 }
 
 function quickView(config) {
-  console.log(input, config);
   const json = remapAndModify(input, config);
   document.getElementById('content').innerHTML = json2html(json);
   reloadScript('./js/pagetransitions.js');
