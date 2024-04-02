@@ -108,7 +108,7 @@ const ThemePage = () => {
                                 <i className="lnr lnr-link"></i>
                               </a>
                               <a
-                                href={SERVER_URI + theme.image}
+                                href={GET_FILE_URI + theme.image}
                                 data-rel="lightcase:gal"
                                 title={theme.name}
                               >

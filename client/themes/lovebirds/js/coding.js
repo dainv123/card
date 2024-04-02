@@ -1,3 +1,18 @@
+function scrollToClass(className) {
+  const highlightedElements = document.querySelectorAll('.highlight');
+
+  highlightedElements.forEach(element => {
+    element.classList.remove('highlight');
+  });
+
+  const element = document.querySelector(`.${className}`);
+
+  if (element) {
+    element.classList.add('highlight');
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
 function addIds(json) {
   let counter = 1;
 
@@ -71,10 +86,10 @@ function flattenJSON(json) {
         nodeObject.backgroundImage
       ) {
         result[nodeObject.id] = nodeObject.text ||
-          nodeObject.src ||
-          nodeObject.href ||
-          nodeObject.placeholder ||
-          nodeObject.backgroundImage
+        nodeObject.src ||
+        nodeObject.href ||
+        nodeObject.placeholder ||
+        nodeObject.backgroundImage;
       }
 
       if (node.child && node.child.length > 0) {
@@ -89,7 +104,7 @@ function flattenJSON(json) {
 }
 
 function remapAndModify(json, flattened) {
-  const mapValueById = node => {
+  const mapValueById = (node, parent) => {
     if (flattened[node.id]) {
       if (node.id == 'node_61') {
         node.tag = 'span';
@@ -133,6 +148,17 @@ function remapAndModify(json, flattened) {
         node.text = flattened[node.id];
       }
 
+      if (node.node === 'text' && parent && node.id) {
+        if (!parent.attr) {
+          parent.attr = {};
+        }
+        if (!parent.attr.class) {
+          parent.attr.class = '';
+        } 
+
+        parent.attr.class += (parent.attr.class ? ' ' : '') + node.id;
+      }
+
       // map class
       if (node.attr && node.attr.class) {
         node.attr.class += node.attr.class + ',' + node.id;
@@ -144,7 +170,7 @@ function remapAndModify(json, flattened) {
     }
 
     if (node.child && node.child.length > 0) {
-      node.child.forEach(mapValueById);
+      node.child.forEach(child => mapValueById(child, node));
     }
   };
 
@@ -193,6 +219,9 @@ window.addEventListener('message', function(event) {
     } else {
       quickView(typeof event.data.data === 'string' ? JSON.parse(event.data.data) : event.data.data);
     }
+  }
+  if (event.data && event.data.type === 'scroll-to-element') {
+    scrollToClass(event.data.data)
   }
 });
 

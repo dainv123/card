@@ -81,6 +81,7 @@ const DashboardPage = () => {
     {
       title: 'Action',
       key: 'action',
+      align: 'right',
       render: (_, record) => (
         <div className={_s.alignRight}>
           <Button type="dashed" onClick={() => handleCopyImage(GET_FILE_URI + record.image)} style={{ marginRight: '6px' }}>
@@ -157,6 +158,7 @@ const DashboardPage = () => {
     {
       title: 'Action',
       key: 'action',
+      align: 'right',
       render: (_, record) => (
         <div className={_s.alignRight}>
           <Button type="default" onClick={() => onOpenUpdateCardPopup(record)} style={{ marginRight: '6px' }}>
@@ -241,6 +243,7 @@ const DashboardPage = () => {
     {
       title: 'Action',
       key: 'action',
+      align: 'right',
       render: (_, record) => (
         <div className={_s.alignRight}>
           <Button type="default" onClick={() => onOpenUpdateThemePopup(record)} style={{ marginRight: '6px' }}>
@@ -320,6 +323,7 @@ const DashboardPage = () => {
     {
       title: 'Action',
       key: 'action',
+      align: 'right',
       render: (_, record) => (
         <div className={_s.alignRight}>
           <Button type="default" onClick={() => onOpenUpdateBlogPopup(record)} style={{ marginRight: '6px' }}>
@@ -377,6 +381,7 @@ const DashboardPage = () => {
     {
       title: 'Action',
       key: 'action',
+      align: 'right',
       render: (_, record) => (
         <div className={_s.alignRight}>
           <Button type="default" onClick={() => onOpenUpdateTagPopup(record)} style={{ marginRight: '6px' }}>

@@ -41,11 +41,6 @@ export const GET_PUBLIC_THEME = gql`
       id
       name
       path
-      tags {
-        id
-        name
-      }
-      image
     }
   }
 `;

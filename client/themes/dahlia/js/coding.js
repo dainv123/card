@@ -1,3 +1,18 @@
+function scrollToClass(className) {
+  const highlightedElements = document.querySelectorAll('.highlight');
+
+  highlightedElements.forEach(element => {
+    element.classList.remove('highlight');
+  });
+
+  const element = document.querySelector(`.${className}`);
+
+  if (element) {
+    element.classList.add('highlight');
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
 function addIds(json) {
   let counter = 1;
 
@@ -61,7 +76,7 @@ function flattenJSON(json) {
           };
         });
 
-      result[nodeObject.id] = { default: options };
+      result[nodeObject.id] = options;
     } else {
       if (
         nodeObject.text ||
@@ -70,14 +85,11 @@ function flattenJSON(json) {
         nodeObject.placeholder ||
         nodeObject.backgroundImage
       ) {
-        result[nodeObject.id] = {
-          default:
-            nodeObject.text ||
-            nodeObject.src ||
-            nodeObject.href ||
-            nodeObject.placeholder ||
-            nodeObject.backgroundImage
-        };
+        result[nodeObject.id] = nodeObject.text ||
+        nodeObject.src ||
+        nodeObject.href ||
+        nodeObject.placeholder ||
+        nodeObject.backgroundImage;
       }
 
       if (node.child && node.child.length > 0) {
@@ -92,21 +104,21 @@ function flattenJSON(json) {
 }
 
 function remapAndModify(json, flattened) {
-  const mapValueById = node => {
+  const mapValueById = (node, parent) => {
     if (flattened[node.id]) {
       if (node.tag == 'img' && node.attr) {
-        node.attr.src = flattened[node.id].default || flattened[node.id];
+        node.attr.src = flattened[node.id];
       } else if (node.tag == 'a' && node.attr) {
-        node.attr.href = flattened[node.id].default || flattened[node.id];
+        node.attr.href = flattened[node.id];
       } else if (node.tag == 'input' && node.attr) {
-        node.attr.placeholder = flattened[node.id].default || flattened[node.id];
+        node.attr.placeholder = flattened[node.id];
       } else if (
         node.attr &&
         node.attr.style &&
         node.attr.style.length == 2 &&
         node.attr.style[0] == 'background-image:'
       ) {
-        node.attr.style[1] = flattened[node.id].default || flattened[node.id];
+        node.attr.style[1] = flattened[node.id];
       } else if (node.tag == 'select') {
         node.child = [];
         if (flattened[node.id].length) {
@@ -127,12 +139,23 @@ function remapAndModify(json, flattened) {
           });
         }
       } else {
-        node.text = flattened[node.id].default || flattened[node.id];
+        node.text = flattened[node.id];
+      }
+
+      if (node.node === 'text' && parent && node.id) {
+        if (!parent.attr) {
+          parent.attr = {};
+        }
+        if (!parent.attr.class) {
+          parent.attr.class = '';
+        } 
+
+        parent.attr.class += (parent.attr.class ? ' ' : '') + node.id;
       }
     }
 
     if (node.child && node.child.length > 0) {
-      node.child.forEach(mapValueById);
+      node.child.forEach(child => mapValueById(child, node));
     }
   };
 
@@ -167,6 +190,9 @@ window.addEventListener('message', function(event) {
     } else {
       quickView(typeof event.data.data === 'string' ? JSON.parse(event.data.data) : event.data.data);
     }
+  }
+  if (event.data && event.data.type === 'scroll-to-element') {
+    scrollToClass(event.data.data)
   }
 });
 
