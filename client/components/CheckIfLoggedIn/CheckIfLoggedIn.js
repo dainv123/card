@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Spin } from 'antd';
 import { useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { mutations } from '../../graphql/graphql';
 import actions from '../../store/actions/actions';
+import Loading from '../Loading/Loading';
 
 const CheckIfLoggedIn = props => {
   if (props.firstAuthValidationDone) return props.children;
@@ -29,7 +29,7 @@ const CheckIfLoggedIn = props => {
   }, []);
 
   if (!authCheckDone || loading) {
-    return <Spin />;
+    return <Loading />;
   }
 
   if (data) {

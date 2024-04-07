@@ -191,9 +191,9 @@ const EditorModal = ({ data = {}, isModalOpen, handleOk, handleCancel, handleScr
         <Button key="back" onClick={onCancel}>
           {CANCEL}
         </Button>,
-        <Button key="switch" type="danger" onClick={() => setContentClass(contentClass ? '' : 'display-below')}>
-          Switch content background
-        </Button>,
+        // <Button key="switch" type="danger" onClick={() => setContentClass(contentClass ? '' : 'display-below')}>
+        //   Switch content background
+        // </Button>,
         <Button key="danger" type="danger" onClick={onReset}>
           {RESET_TO_DEFAULT}
         </Button>,

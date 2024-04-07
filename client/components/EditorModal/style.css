@@ -78,9 +78,9 @@
     cursor: pointer;
 }
 
-.viewport .ant-modal.display-below .ant-modal-content {
+/* .ant-modal.display-below .ant-modal-content {
     background-color: #ffffff94
-}
+} */
 
 .margin-bottom-5 {
     margin-bottom: 5px;

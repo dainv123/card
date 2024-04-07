@@ -1,12 +1,14 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { queries, mutations } from '../../graphql/graphql';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { Icon, Avatar, message } from 'antd';
+import { Spin, Icon, Avatar, message } from 'antd';
 import { Route, Redirect } from 'react-router-dom';
 import EditorModal from '../../components/EditorModal/EditorModal';
-import { PAGE_NOT_FOUND, SOMETHING_WENT_WRONG } from '../../constants/wording';
+import { SOMETHING_WENT_WRONG } from '../../constants/wording';
+import NotFound from '../../components/NotFound/NotFound';
+import Loading from '../../components/Loading/Loading';
 
 const ReaderPage = ({ loggedIn, user, ...rest }) => {
   const iframeRef = useRef(null);
@@ -16,7 +18,7 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataCard, setDataCard] = useState(null);
   const [dataTheme, setDataTheme] = useState(null);
-  const [UpdateCard] = useMutation(mutations.UPDATE_CARD);
+  const [UpdateCard, { loading: updateCardLoading }] = useMutation(mutations.UPDATE_CARD);
 
   const responseCard = useQuery(!loggedIn ? queries.GET_PUBLIC_CARD : queries.GET_CARD, {
     variables: {
@@ -25,17 +27,17 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
     }
   });
 
-  useEffect(() => {
-    setDataCard(
-      responseCard.data && (!loggedIn ? responseCard.data.publicCard : responseCard.data.card)
-    );
-  }, [responseCard.data]);
-
   const responseTheme = useQuery(!loggedIn ? queries.GET_PUBLIC_THEME : queries.GET_THEME, {
     variables: {
       id: dataCard ? dataCard.themeId : null
     }
   });
+
+  useEffect(() => {
+    setDataCard(
+      responseCard.data && (!loggedIn ? responseCard.data.publicCard : responseCard.data.card)
+    );
+  }, [responseCard.data]);
 
   useEffect(() => {
     setDataTheme(
@@ -48,6 +50,9 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
       setTheme(`..${dataTheme.path.trim()}/index.html`);
     }
   }, [dataTheme]);
+
+  const loading = useMemo(
+    () => updateCardLoading || responseTheme.loading || responseCard.loading, [updateCardLoading, responseTheme.loading, responseCard.loading]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -108,8 +113,10 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
     };
   }, [dataCard]);
 
+
   return (
-    <>
+    <> 
+      {loading && <Loading />}
       {loggedIn && theme && (
         <>
           <Avatar
@@ -132,29 +139,29 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
           />
         </>
       )}
-      {theme ? (
-        <iframe
-          src={theme}
-          width="100%"
-          height="100%"
-          frameBorder="0"
-          ref={iframeRef}
-          style={{
-            overflow: 'hidden',
-            overflowX: 'hidden',
-            overflowY: 'hidden',
-            position: 'absolute',
-            height: '100%',
-            width: '100%',
-            top: '0px',
-            left: '0px',
-            right: '0px',
-            bottom: '0px'
-          }}
-        />
-      ) : (
-        PAGE_NOT_FOUND
-      )}
+      {
+        theme 
+        ? <iframe
+            src={theme}
+            width="100%"
+            height="100%"
+            frameBorder="0"
+            ref={iframeRef}
+            style={{
+              overflow: 'hidden',
+              overflowX: 'hidden',
+              overflowY: 'hidden',
+              position: 'absolute',
+              height: '100%',
+              width: '100%',
+              top: '0px',
+              left: '0px',
+              right: '0px',
+              bottom: '0px'
+            }}
+          />
+        : (!loading && <NotFound />)
+      }
     </>
   );
 };
