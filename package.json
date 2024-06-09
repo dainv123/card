@@ -10,7 +10,8 @@
   "scripts": {
     "check-staged": "lint-staged",
     "start": "node -r esm index.js",
-    "dev": "nodemon -r esm -r dotenv/config index.js dotenv_config_path=.env"
+    "dev": "nodemon -r esm -r dotenv/config index.js dotenv_config_path=.env",
+    "test": "exit 0"
   },
   "keywords": [],
   "author": "Igor Marracho Carriço Cesar",
