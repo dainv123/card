@@ -46,6 +46,7 @@ export const sendEmailWithToken = async (user, action) => {
 
   return token;
 };
+
 export const verifyToken = async (token, action) => {
   const message = 'We were unable to find a valid token. Your token may have expired.';
 
@@ -56,4 +57,39 @@ export const verifyToken = async (token, action) => {
   }
 
   return verifiedToken;
+};
+
+export const sendEmailGuest = async (request, response) => {
+  // const subject = 'Guest chec mail on DAIDEV';
+  // const text = 'Dear ' + user.name;
+  // const html = `<html>
+  //   <body>
+  //     <p>Dear ${user.name},</p>
+
+  //     <p>Welcome to DAIDEV! We're thrilled to have you join our community.</p>
+      
+  //     <p>To complete the signup process and activate your account, please click the link below:</p>
+      
+  //     <p><a href="${url}">Verify Your Account</a></p>
+      
+  //     <p>By verifying your account, you'll gain access to all the features and benefits DAIDEV has to offer.</p>
+      
+  //     <p>If you didn't sign up for an account with us, please disregard this email.</p>
+      
+  //     <p>Thank you for choosing DAIDEV. We look forward to seeing you onboard!</p>
+      
+  //     <p>Best regards,</p>
+      
+  //     <p>Dai Nguyen</p>
+  //   </body>
+  // </html>`;
+
+  // sendEmail(
+  //   user.email,
+  //   subject,
+  //   text,
+  //   html
+  // );
+
+  // return token;
 };

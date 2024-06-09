@@ -159,6 +159,17 @@ function remapAndModify(json, flattened) {
         parent.attr.class += (parent.attr.class ? ' ' : '') + node.id;
       }
 
+      if (node.node === 'text' && parent && node.id) {
+        if (!parent.attr) {
+          parent.attr = {};
+        }
+        if (!parent.attr.class) {
+          parent.attr.class = '';
+        } 
+
+        parent.attr.class += (parent.attr.class ? ' ' : '') + node.id;
+      }
+
       // map class
       if (node.attr && node.attr.class) {
         node.attr.class += node.attr.class + ',' + node.id;

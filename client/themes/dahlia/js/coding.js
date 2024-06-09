@@ -148,9 +148,12 @@ function remapAndModify(json, flattened) {
         }
         if (!parent.attr.class) {
           parent.attr.class = '';
-        } 
-
-        parent.attr.class += (parent.attr.class ? ' ' : '') + node.id;
+        } else if (Array.isArray(parent.attr.class)) {
+          parent.attr.class.push(node.id);
+        } else {
+          parent.attr.class = parent.attr.class.replaceAll(',', ' ');
+          parent.attr.class += (parent.attr.class ? ' ' : '') + node.id;
+        }
       }
     }
 

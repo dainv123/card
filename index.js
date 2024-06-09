@@ -14,6 +14,7 @@ import { GridFsStorage } from 'multer-gridfs-storage';
 import { FILE_BUCKET } from './constants/config.js';
 import { UPLOADS_FOLDER } from './client/constants/common.js';
 import { GetFile, UploadFile, DeleteFile } from './helpers/upload.js';
+import { sendEmailGuest } from './helpers/token.js';
 
 mongoose.set('useCreateIndex', true);
 
@@ -44,6 +45,7 @@ app.use('/public', express.static(__dirname + '/client/public'));
 app.post('/upload', UploadFile.single('file'), (req, res) => res.json({ file: req.file.filename }));
 app.get('/file/:filename', (req, res) => GetFile(req, res, grid));
 app.delete('/file/:filename', (req, res) => DeleteFile(req, res, grid));
+app.delete('/send-mail', (req, res) => sendEmailGuest(req, res));
 app.get('/*', (req, res) => res.sendFile(__dirname + '/client/dist/index.html'));
 
 app.use(
