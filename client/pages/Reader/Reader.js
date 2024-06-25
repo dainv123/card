@@ -60,30 +60,6 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
   const loading = useMemo(
     () => updateCardLoading || responseTheme.loading || responseCard.loading, [updateCardLoading, responseTheme.loading, responseCard.loading]);
 
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
-
-  // const handleCancel = () => {
-  //   setIsModalOpen(false);
-  // };
-
-  // const handleOk = config => {
-  //   handleUpdateCard(config);
-  //   setConfig(JSON.stringify(config) === '{}' ? configDefault : config);
-  //   iframeRef.current.contentWindow.postMessage({
-  //     type: 'internal-iframe-pass-inside',
-  //     data: config
-  //   });
-  // };
-
-  // const handleScrollToElement = element => {
-  //   iframeRef.current.contentWindow.postMessage({
-  //     type: 'scroll-to-element',
-  //     data: element
-  //   });
-  // };
-
   const handleUpdateCard = config => {
     UpdateCard({ variables: { id: dataCard.id, config } }).then(
       res => message.success(UPDATE_CARD_SUCCESSFULLY),

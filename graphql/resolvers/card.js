@@ -101,9 +101,7 @@ export default {
         cardToUpdate.themeId = args.themeId;
       }
 
-      if (args.config) {
         cardToUpdate.config = args.config;
-      }
 
       if (args.name) {
         const existingCardWithSameName = await Card.findOne({

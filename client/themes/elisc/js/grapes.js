@@ -4,16 +4,19 @@ window.parent.postMessage({
 
 window.addEventListener('message', function(event) {
     if (!event.data) {
+        reloadScript('js/jquery.js');
+        reloadScript('js/plugins.js');
+        reloadScript('js/init.js');
         return;
     }
     
     if (!event.data.loggedIn) {
         if (event.data.data) {
             document.querySelector('#gjs').innerHTML = event.data.data;
-            reloadScript('js/jquery.js');
-            reloadScript('js/plugins.js');
-            reloadScript('js/init.js', true);
         }
+        reloadScript('js/jquery.js');
+        reloadScript('js/plugins.js');
+        reloadScript('js/init.js');
         return;
     }
 

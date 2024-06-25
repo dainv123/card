@@ -98,7 +98,7 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
 
   const handleThemeChange = themeId => {
     setValue({
-      ...value, themeId, config: '{}'
+      ...value, themeId, config: ''
     });
   };
 
@@ -143,7 +143,7 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
         initialValues={{
           name: value.name || '',
           userId: value.userId || '',
-          config: value.config || '{}',
+          config: value.config || '',
           themeId: value.themeId || (themes.length && themes[0].id) || ''
         }}
       >

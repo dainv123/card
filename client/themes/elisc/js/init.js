@@ -1,4 +1,4 @@
-jQuery(document).ready(function () {
+waitForJQuery(function () {
     "use strict";
     elisc_tm_modalbox();
     elisc_tm_movingbox();
@@ -24,7 +24,18 @@ jQuery(document).ready(function () {
     jQuery(window).on('resize', function () {
         elisc_tm_menu_closer();
     });
+    jQuery('.anchor_nav').onePageNav();
 });
+
+function waitForJQuery(callback) {
+    if (window.jQuery) {
+        callback();
+    } else {
+        setTimeout(function() {
+            waitForJQuery(callback);
+        }, 50);
+    }
+}
 
 function elisc_tm_modalbox() {
     "use strict";
@@ -505,7 +516,6 @@ function elisc_tm_stickyy() {
         });
     }
 }
-jQuery('.anchor_nav').onePageNav();
 
 function elisc_tm_down() {
     "use strict";
