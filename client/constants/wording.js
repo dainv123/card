@@ -37,6 +37,7 @@ export const THEME = 'Theme';
 export const BLOG = 'Blog';
 export const CONTACT = 'Contact';
 export const LOGGED_IN_SUCCESSFULLY = 'Logged in successfully';
+export const UPDATE_CARD_SUCCESSFULLY = 'Update card successfully';
 export const INCORRECT_EMAIL_PASSWORD = 'Incorrect email or password.';
 export const EMAIL = 'Email';
 export const PASSWORD = 'Password';

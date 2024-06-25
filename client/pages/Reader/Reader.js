@@ -6,15 +6,21 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Spin, Icon, Avatar, message } from 'antd';
 import { Route, Redirect } from 'react-router-dom';
 import EditorModal from '../../components/EditorModal/EditorModal';
-import { SOMETHING_WENT_WRONG } from '../../constants/wording';
+import { SOMETHING_WENT_WRONG, UPDATE_CARD_SUCCESSFULLY } from '../../constants/wording';
 import NotFound from '../../components/NotFound/NotFound';
 import Loading from '../../components/Loading/Loading';
+// import {minify} from 'html-minifier'
+// // var minify = require('html-minifier').minify;
+// var result = minify('<p title="blah" id="moo">foo</p>', {
+//   removeAttributeQuotes: true
+// });
+
+// console.log(result);
 
 const ReaderPage = ({ loggedIn, user, ...rest }) => {
   const iframeRef = useRef(null);
   const [theme, setTheme] = useState('');
   const [config, setConfig] = useState({});
-  const [configDefault, setConfigDefault] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataCard, setDataCard] = useState(null);
   const [dataTheme, setDataTheme] = useState(null);
@@ -54,54 +60,54 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
   const loading = useMemo(
     () => updateCardLoading || responseTheme.loading || responseCard.loading, [updateCardLoading, responseTheme.loading, responseCard.loading]);
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  // const showModal = () => {
+  //   setIsModalOpen(true);
+  // };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  // const handleCancel = () => {
+  //   setIsModalOpen(false);
+  // };
 
-  const handleOk = config => {
-    handleUpdateCard(config);
-    setConfig(JSON.stringify(config) === '{}' ? configDefault : config);
-    iframeRef.current.contentWindow.postMessage({
-      type: 'internal-iframe-pass-inside',
-      data: config
-    });
-  };
+  // const handleOk = config => {
+  //   handleUpdateCard(config);
+  //   setConfig(JSON.stringify(config) === '{}' ? configDefault : config);
+  //   iframeRef.current.contentWindow.postMessage({
+  //     type: 'internal-iframe-pass-inside',
+  //     data: config
+  //   });
+  // };
 
-  const handleScrollToElement = element => {
-    iframeRef.current.contentWindow.postMessage({
-      type: 'scroll-to-element',
-      data: element
-    });
-  };
+  // const handleScrollToElement = element => {
+  //   iframeRef.current.contentWindow.postMessage({
+  //     type: 'scroll-to-element',
+  //     data: element
+  //   });
+  // };
 
   const handleUpdateCard = config => {
-    UpdateCard({ variables: { id: dataCard.id, config: JSON.stringify(config) } }).then(
-      res => setIsModalOpen(false),
+    UpdateCard({ variables: { id: dataCard.id, config } }).then(
+      res => message.success(UPDATE_CARD_SUCCESSFULLY),
       err => message.error(SOMETHING_WENT_WRONG)
     );
   };
 
   const handleCallback = event => {
-    if (event.data.type === 'internal-iframe-ready' && iframeRef.current) {
-      setConfigDefault(event.data.data);
-      
-      if (dataCard && dataCard.config && dataCard.config !== '{}') {
-        setConfig(JSON.parse(dataCard.config));
+    if (!iframeRef.current) {
+      return;
+    }
+
+    if (event.data.type === 'internal-iframe-ready') {
+      if (iframeRef.current && iframeRef.current.contentWindow) {
         iframeRef.current.contentWindow.postMessage({
           type: 'internal-iframe-pass-inside',
-          data: dataCard.config
-        });
-      } else {
-        setConfig(event.data.data);
-        iframeRef.current.contentWindow.postMessage({
-          type: 'internal-iframe-pass-inside',
-          data: {}
+          data: dataCard.config,
+          loggedIn
         });
       }
+    }
+
+    if (event.data.type === 'internal-iframe-back-outside') {
+      handleUpdateCard(event.data.data);
     }
   };
 
@@ -117,28 +123,6 @@ const ReaderPage = ({ loggedIn, user, ...rest }) => {
   return (
     <> 
       {loading && <Loading />}
-      {loggedIn && theme && (
-        <>
-          <Avatar
-            onClick={showModal}
-            size="medium"
-            icon="setting"
-            style={{
-              position: 'fixed',
-              zIndex: 2,
-              right: '30px',
-              top: '30px'
-            }}
-          />
-          <EditorModal
-            data={config}
-            isModalOpen={isModalOpen}
-            handleOk={handleOk}
-            handleCancel={handleCancel}
-            handleScrollToElement={handleScrollToElement}
-          />
-        </>
-      )}
       {
         theme 
         ? <iframe
