@@ -3,6 +3,17 @@ window.parent.postMessage({
 });
 
 window.addEventListener('message', function(event) {
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log(111);
+      });
+      const event1 = new Event('DOMContentLoaded');
+
+      // Dispatch the event1
+      setTimeout(() => {
+        console.log(123);
+        document.dispatchEvent(event1);
+      }, 6000);
+
     if (!event.data) {
         return;
     }
@@ -11,7 +22,7 @@ window.addEventListener('message', function(event) {
         if (event.data.data) {
             document.querySelector('#gjs').innerHTML = event.data.data;
         }
-        reloadScript('js/init.js');
+        reloadScript('js/script.min.js');
         return;
     }
 
@@ -32,16 +43,16 @@ window.addEventListener('message', function(event) {
             storageManager: false,
             canvas: {
                 styles: [
-                    'css/plugins.css',
-                    'css/style.css',
-                    'https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800&display=swap',
-                    'https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap',
-                    'https://fonts.googleapis.com/css2?family=Kristi&display=swap'
+                    'css/style.min.css',
+                    'css/custom.min.css',
+                    // 'https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800&display=swap',
+                    // 'https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap',
+                    // 'https://fonts.googleapis.com/css2?family=Kristi&display=swap'
                 ],
                 scripts: [
-                    'js/jquery.js',
-                    'js/plugins.js',
-                    'js/init.js'
+                    // 'js/jquery.js',
+                    // 'js/plugins.js',
+                    'js/script.min.js'
                 ],
             }
         });

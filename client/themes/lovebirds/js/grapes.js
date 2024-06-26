@@ -3,6 +3,17 @@ window.parent.postMessage({
 });
 
 window.addEventListener('message', function(event) {
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     console.log(111);
+    //   });
+    //   const event1 = new Event('DOMContentLoaded');
+
+    //   // Dispatch the event1
+    //   setTimeout(() => {
+    //     console.log(123);
+    //     document.dispatchEvent(event1);
+    //   }, 6000);
+
     if (!event.data) {
         return;
     }
@@ -11,7 +22,7 @@ window.addEventListener('message', function(event) {
         if (event.data.data) {
             document.querySelector('#gjs').innerHTML = event.data.data;
         }
-        reloadScript('js/init.js');
+        reloadScript('js/script.min.js');
         return;
     }
 
@@ -32,16 +43,38 @@ window.addEventListener('message', function(event) {
             storageManager: false,
             canvas: {
                 styles: [
-                    'css/plugins.css',
-                    'css/style.css',
-                    'https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800&display=swap',
-                    'https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap',
-                    'https://fonts.googleapis.com/css2?family=Kristi&display=swap'
+                    'css/bootstrap.css',
+                    'css/timer.css',
+                    'css/animations.css',
+                    'css/component.css',
+                    'css/slick.css',
+                    'css/slick-theme.css',
+                    'css/jquery.countdown.css',
+                    'css/gridlayout.css',
+                    'css/jquery.fancybox.css',
+                    'css/materialadmin.css',
+                    'css/font-awesome.css',
+                    'css/animate.css',
+                    'css/hover.css',
                 ],
                 scripts: [
-                    'js/jquery.js',
-                    'js/plugins.js',
-                    'js/init.js'
+                    'js/jquery-2.1.4.js',
+                    'js/bootstrap.js',
+                    'js/slick.js',
+                    'js/easyResponsiveTabs.js',
+                    'js/timer.js',
+                    'js/jquery.final-countdown.js',
+                    'js/jquery.dlmenu.js',
+                    'js/jquery.countdown.js',
+                    'js/jquery.masonarygrid.js',
+                    'js/jquery.fancybox.js',
+                    'js/modernizr.custom.js',
+                    'js/pagetransitions.js',
+                    'js/menu.js',
+                    'js/wow.js',
+                    'js/jquery.validate.min.js',
+                    'js/formValidation.js',
+                    'js/function.js',
                 ],
             }
         });
