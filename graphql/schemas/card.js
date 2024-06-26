@@ -5,7 +5,7 @@ export default gql`
     id: ID!
     userId: ID!
     themeId: ID!
-    config: String!
+    config: String
     name: String
   }
 
@@ -25,8 +25,8 @@ export default gql`
   }
 
   extend type Mutation {
-    createCard(userId: ID!, themeId: ID!, config: String!, name: String): Card @auth
-    updateCard(id: ID!, userId: ID, themeId: ID, config: String!, name: String): Card @auth
+    createCard(userId: ID!, themeId: ID!, config: String, name: String): Card @auth
+    updateCard(id: ID!, userId: ID, themeId: ID, config: String, name: String): Card @auth
     deleteCard(id: ID!): Card @auth
   }
 `;

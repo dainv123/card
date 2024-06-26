@@ -9,31 +9,17 @@ import { mutations } from '../../graphql/graphql';
 import validators from '../../validators/validators';
 import { Icon, Input, Button, Modal, Select } from 'antd';
 import { COLOR_BLACK_1 } from '../../constants/common';
-import {
-  NAME,
-  CONFIG,
-  CANCEL,
-  SUBMIT,
-  SELECT_THEME,
-  UPDATE_YOUR_CARD,
-  ADD_YOUR_CARD
-} from '../../constants/wording';
+import { NAME, CONFIG, CANCEL, SUBMIT, SELECT_THEME, UPDATE_YOUR_CARD, ADD_YOUR_CARD } from '../../constants/wording';
 
 const { Option } = Select;
-
 const { TextArea } = Input;
 
 const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel }) => {
   const user = useSelector(state => state.auth.user);
-
   const hiddenInnerSubmitFormRef = useRef(null);
-
   const [value, setValue] = useState({});
-
   const [isOpen, setIsOpen] = useState(false);
-
   const [CreateCard] = useMutation(mutations.CREATE_CARD);
-
   const [UpdateCard] = useMutation(mutations.UPDATE_CARD);
 
   const handleSubmitForm = async (values, actions) => {
@@ -137,7 +123,7 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
     >
       <Formik
         validateOnBlur={false}
-        validationSchema={validators.card.createCardSchema}
+        validationSchema={validators.card.cardSchema}
         onSubmit={(values, actions) => handleSubmitForm(values, actions)}
         enableReinitialize
         initialValues={{

@@ -104,7 +104,7 @@ export const DELETE_IMAGE = gql`
 `;
 
 export const CREATE_CARD = gql`
-  mutation CreateCard($userId: ID!, $themeId: ID!, $config: String!, $name: String) {
+  mutation CreateCard($userId: ID!, $themeId: ID!, $config: String, $name: String) {
     createCard(userId: $userId, themeId: $themeId, config: $config, name: $name) {
       userId
       themeId
@@ -115,7 +115,7 @@ export const CREATE_CARD = gql`
 `;
 
 export const UPDATE_CARD = gql`
-  mutation UpdateCard($id: ID!, $userId: ID, $themeId: ID, $config: String!, $name: String) {
+  mutation UpdateCard($id: ID!, $userId: ID, $themeId: ID, $config: String, $name: String) {
     updateCard(id: $id, userId: $userId, themeId: $themeId, config: $config, name: $name) {
       id
       config
