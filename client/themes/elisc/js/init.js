@@ -18,12 +18,11 @@ jQuery(document).ready(function () {
     elisc_tm_stickyy();
     elisc_tm_down();
     elisc_tm_location();
-    jQuery(window).on('load', function () {
-        elisc_tm_my_load();
-    });
+    elisc_tm_my_load();
     jQuery(window).on('resize', function () {
         elisc_tm_menu_closer();
     });
+    // initHeadline();
 });
 
 function elisc_tm_modalbox() {

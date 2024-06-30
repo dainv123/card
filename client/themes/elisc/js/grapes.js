@@ -7,15 +7,17 @@ window.addEventListener('message', function(event) {
         return;
     }
     
-    if (!event.data.loggedIn) {
-        if (event.data.data) {
-            document.querySelector('#gjs').innerHTML = event.data.data;
-        }
-        reloadScript('js/init.js');
-        return;
-    }
-
     if (event.data.type === 'internal-iframe-pass-inside') {
+        if (!event.data.loggedIn) {
+            if (event.data.data) {
+                document.querySelector('#gjs').innerHTML = event.data.data;
+            }
+            reloadScript('js/plugins.js');
+            reloadScript('js/init.js');
+
+            return;
+        }
+
         const editor = grapesjs.init({
             container: '#gjs', 
             plugins: ['grapesjs-preset-webpage', 'grapesjs-blocks-basic'], 
@@ -28,6 +30,12 @@ window.addEventListener('message', function(event) {
                 upload: false,
                 autoAdd: true,
                 dropzone: false,
+            },
+            storageManager: {
+                type: 'local', // Type of storage, e.g., 'local' for localStorage
+                autosave: true, // Enable auto save
+                autoload: true, // Enable auto load
+                stepsBeforeSave: 1 // Number of steps before triggering save
             },
             storageManager: false,
             canvas: {

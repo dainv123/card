@@ -556,9 +556,11 @@ body::-webkit-scrollbar-thumb {
 }
 
 .elisc_tm_sidebar .author .image img {
-    position: relative;
-    opacity: 0;
-    min-width: 100%
+    /* position: relative;
+    opacity: 0; */
+    width: 77px;
+    height: 77px;
+    object-fit: cover;
 }
 
 .elisc_tm_sidebar .author .main {
@@ -580,7 +582,7 @@ body::-webkit-scrollbar-thumb {
     bottom: -2px;
     left: -2px;
     right: -2px;
-    background-color: var(--blue-color);
+    /* background-color: var(--blue-color); */
     z-index: -1;
     border-radius: 100%
 }
@@ -3538,3 +3540,22 @@ body::-webkit-scrollbar-thumb {
         margin-bottom: 15px
     }
 }
+/* 
+[data-gjs-type="wrapper"] .hidden_details, 
+[data-gjs-type="wrapper"] .hidden_content_portfolio,
+[data-gjs-type="wrapper"] .elisc_tm_modalbox .hidden_content_portfolio
+[data-gjs-type="wrapper"] .elisc_tm_news .news_hidden_details,
+[data-gjs-type="wrapper"] .dodo_tm_all_wrap[data-magic-cursor=hide] .mouse-cursor,
+[data-gjs-type="wrapper"] .popup_image  {
+    display: inline-block;
+    opacity: 1;
+    visibility: visible;
+    position: unset;
+    background-color: var(--blue-color);
+    padding: 5px;
+    z-index: 0;
+}
+
+[data-gjs-type="wrapper"] .service_list ul li {
+    overflow: hidden;
+} */
