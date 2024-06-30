@@ -1,6 +1,4 @@
 node_modules
 *.log
-package-lock.json
-yarn.lock
 /client/constants/endpoint.js
 .env
