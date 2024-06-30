@@ -1,0 +1,36 @@
+[{
+  "_id": {
+    "$oid": "657aa2fc81a7fb7be0772f55"
+  },
+  "isVerified": false,
+  "role": "USER",
+  "email": "dain@gmail.com",
+  "username": "dain",
+  "name": "dai nguyen",
+  "password": "$2a$12$gtqANMaGz6ONA980D0X0.e6ZA4IaST9XrUiJGP.0zddfy/xm0ukAO",
+  "createdAt": {
+    "$date": "2023-12-14T06:38:52.789Z"
+  },
+  "updatedAt": {
+    "$date": "2023-12-14T06:38:52.789Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "657aa5a1ecd26b344cf3e724"
+  },
+  "isVerified": true,
+  "role": "USER",
+  "email": "dainv0402@gmail.com",
+  "username": "dain1",
+  "name": "dai nguuyen",
+  "password": "$2a$12$psfolHTli7waKd2xWST.8OxPQN2qHjaHEq/rNt2fwrHgj6DEp4XfC",
+  "createdAt": {
+    "$date": "2023-12-14T06:50:09.335Z"
+  },
+  "updatedAt": {
+    "$date": "2023-12-14T06:50:09.335Z"
+  },
+  "__v": 0
+}]
