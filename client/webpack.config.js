@@ -1,17 +1,12 @@
 const webpack = require('webpack');
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
-const htmlPlugin = new HtmlWebPackPlugin({
-  template: './public/index.html'
-});
-
-const outputDirectory = 'dist';
-
-module.exports = {
+module.exports = (env, argv) => ({
   entry: './index.js',
   output: {
-    path: path.resolve(__dirname, outputDirectory),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/'
   },
@@ -84,5 +79,12 @@ module.exports = {
       '/api': 'http://localhost:8080'
     }
   },
-  plugins: [new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/), htmlPlugin]
-};
+  plugins: [
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/), 
+    new HtmlWebPackPlugin({ template: './public/index.html' }),  
+    new Dotenv({
+      path: path.resolve(__dirname, '.env'),
+      systemvars: true,
+    }),
+  ]
+});

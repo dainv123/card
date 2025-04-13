@@ -13,3 +13,7 @@ I'm developing a web application using:
 The application will be deployed on Heroku once it's completed.
 
 ![export](https://i.imgur.com/MDrsXxw.png)
+
+
+- Build docker: 
+docker-compose up --build
