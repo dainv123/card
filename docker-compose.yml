@@ -25,24 +25,24 @@ services:
       - mongo
     restart: unless-stopped
 
-  client:
-    container_name: card-client
-    build:
-      context: ./client
-      args:
-        MODE: development
-      dockerfile: Dockerfile 
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./client:/app
-    command: npm run dev  
-    environment:
-      - CHOKIDAR_USEPOLLING=true  
-      - CLIENT_URI_1=http://localhost:3000
-      - SERVER_URI_2=http://localhost:8080
+  # client:
+  #   container_name: card-client
+  #   build:
+  #     context: ./client
+  #     args:
+  #       MODE: development
+  #     dockerfile: Dockerfile 
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./client:/app
+  #   command: npm run dev  
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true  
+  #     - CLIENT_URI_1=http://localhost:3000
+  #     - SERVER_URI_2=http://localhost:8080
 
-    restart: unless-stopped
+  #   restart: unless-stopped
 
   # client:
   #   container_name: card-client
