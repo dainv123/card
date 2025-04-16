@@ -7,7 +7,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - /root/mongo-data
+      - /root/mongo-data:/data/db
 
   server:
     container_name: card-app
