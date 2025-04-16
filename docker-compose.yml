@@ -63,6 +63,6 @@ services:
   #   command: npm run build  
   #   restart: unless-stopped
 
-volumes:
-  mongo-data:
-    driver: local
+# volumes:
+#   mongo-data:
+#     driver: local
