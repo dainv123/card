@@ -10,7 +10,7 @@ services:
       - /root/mongo-data:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=dainv123@card
+      - MONGO_INITDB_ROOT_PASSWORD=dainv123card
     restart: unless-stopped
 
   server:
