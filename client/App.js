@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from "react";
 import PropTypes from 'prop-types';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch, Route } from 'react-router-dom';
@@ -19,6 +19,8 @@ import DashboardPage from './pages/Dashboard/Dashboard';
 import ProfilePage from './pages/Profile/Profile';
 import PageNotFound from './pages/NotFound/NotFound';
 
+const BookApp = lazy(() => import("bookApp/App"));
+
 const App = props => {
   return (
     <ConnectedRouter history={props.history}>
@@ -28,6 +30,11 @@ const App = props => {
           <PrivateRoute exact path="/admin/profile" component={ProfilePage} />
           <GuestRoute exact path="/login" component={LoginPage} />
           <GuestRoute exact path="/register" component={RegisterPage} />
+          <Route path="/book">
+            <Suspense fallback={<div>Loading...</div>}>
+              <BookApp />
+            </Suspense>
+          </Route>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/about-me" component={AboutMePage} />
           <Route exact path="/theme" component={ThemePage} />
