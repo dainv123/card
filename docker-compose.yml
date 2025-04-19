@@ -1,17 +1,17 @@
 version: '3.8'
 
 services:
-  mongo:
-    image: mongo:4.4
-    container_name: mongodb
-    ports:
-      - "127.0.0.1:27017:27017"
-    volumes:
-      - /root/mongo-data:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=dainv123card
-    restart: unless-stopped
+  # mongo:
+  #   image: mongo:4.4
+  #   container_name: mongodb
+  #   ports:
+  #     - "127.0.0.1:27017:27017"
+  #   volumes:
+  #     - /root/mongo-data:/data/db
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=admin
+  #     - MONGO_INITDB_ROOT_PASSWORD=dainv123card
+  #   restart: unless-stopped
 
   server:
     container_name: card-app
@@ -25,8 +25,8 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    depends_on:
-      - mongo
+    # depends_on:
+    #   - mongo
     restart: unless-stopped
 
   # client:
