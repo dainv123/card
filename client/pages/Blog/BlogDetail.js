@@ -13,7 +13,7 @@ const BlogDetailPage = ({ loggedIn, user, ...rest }) => {
 
   const responseBlog = useQuery(!loggedIn ? queries.GET_PUBLIC_BLOG : queries.GET_BLOG, {
     variables: {
-      name: decodeURIComponent(rest.match.params.id || '')
+      slug: decodeURIComponent(rest.match.params.id || '')
     }
   });
 

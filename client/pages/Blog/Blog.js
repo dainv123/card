@@ -92,7 +92,7 @@ const BlogPage = () => {
                             </div>
                             <div className="article-content">
                               <h4>
-                                <a href={BLOG_URI + blog.name} target="_blank">{blog.name}</a>
+                                <a href={BLOG_URI + blog.slug} target="_blank">{blog.name}</a>
                               </h4>
                               <div className="meta">
                                 <span>{formatDate(blog.updatedAt)}</span> <span>{blog.trend}</span>
