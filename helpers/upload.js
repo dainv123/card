@@ -1,3 +1,4 @@
+require('dotenv').config();
 import multer from "multer";
 import { FILE_BUCKET } from "../constants/config";
 import { GridFsStorage } from "multer-gridfs-storage";

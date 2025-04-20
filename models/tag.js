@@ -4,7 +4,9 @@ const { Schema, model } = mongoose;
 
 const tagSchema = new Schema(
   {
-    name: String
+    name: String,
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   },
   {
     timestamps: true

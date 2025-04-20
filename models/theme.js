@@ -12,7 +12,9 @@ const themeSchema = new Schema(
         ref: 'Tag'
       }
     ],
-    image: String
+    image: String,
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   },
   {
     timestamps: true

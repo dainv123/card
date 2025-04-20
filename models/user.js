@@ -44,7 +44,9 @@ const userSchema = new Schema(
     role: {
       type: String,
       default: 'USER'
-    }
+    },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   },
   {
     timestamps: true

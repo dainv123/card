@@ -15,7 +15,9 @@ const cardSchema = new Schema(
       required: true
     },
     name: String,
-    config: String
+    config: String,
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   },
   {
     timestamps: true

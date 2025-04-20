@@ -69,7 +69,7 @@ const BlogPage = () => {
                               </div>
                             )}
                             <div className="article-img">
-                              <a href={BLOG_URI + blog.name} target="_blank">
+                              <a href={BLOG_URI + blog.slug} target="_blank">
                                 <img
                                   src={
                                     blog.image 
@@ -86,7 +86,7 @@ const BlogPage = () => {
                               </a>
                             </div>
                             <div className="article-link">
-                              <a href={BLOG_URI + blog.name} target="_blank">
+                              <a href={BLOG_URI + blog.slug} target="_blank">
                                 <i className="lnr lnr-arrow-right"></i>
                               </a>
                             </div>

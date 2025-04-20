@@ -16,10 +16,10 @@ export default {
       const query = {};
       if (args.id) {
         query._id = args.id;
-      } else if (args.name) {
-        query.name = args.name;
+      } else if (args.slug) {
+        query.slug = args.slug;
       } else {
-        throw new Error('Please provide either id or name for blog lookup.');
+        throw new Error('Please provide either id or slug for blog lookup.');
       }
 
       const blog = await Blog.findOne(query);
@@ -34,10 +34,10 @@ export default {
       const query = {};
       if (args.id) {
         query._id = args.id;
-      } else if (args.name) {
-        query.name = args.name;
+      } else if (args.slug) {
+        query.slug = args.slug;
       } else {
-        throw new Error('Please provide either id or name for blog lookup.');
+        throw new Error('Please provide either id or slug for blog lookup.');
       }
 
       const blog = await Blog.findOne(query);

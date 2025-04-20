@@ -75,9 +75,9 @@ module.exports = (env, argv) => ({
     port: 3000,
     open: true,
     historyApiFallback: true,
-    proxy: {
-      '/api': 'http://localhost:8080'
-    }
+    // proxy: {
+    //   '/api': 'http://localhost:8080'
+    // }
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/), 

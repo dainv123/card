@@ -139,10 +139,11 @@ export const GET_TAGS = gql`
 `;
 
 export const GET_BLOG = gql`
-  query GetBlog($id: ID, $name: String) {
-    blog(id: $id, name: $name) {
+  query GetBlog($id: ID, $slug: String) {
+    blog(id: $id, slug: $slug) {
       id
       name
+      slug
       trend
       introduction
       content
@@ -153,10 +154,11 @@ export const GET_BLOG = gql`
 `;
 
 export const GET_PUBLIC_BLOG = gql`
-  query GetPublicBlog($id: ID, $name: String) {
-    publicBlog(id: $id, name: $name) {
+  query GetPublicBlog($id: ID, $slug: String) {
+    publicBlog(id: $id, slug: $slug) {
       id
       name
+      slug
       trend
       introduction
       content
@@ -171,6 +173,7 @@ export const GET_BLOGS = gql`
     blogs {
       id
       name
+      slug
       trend
       introduction
       content
@@ -185,6 +188,7 @@ export const GET_PUBLIC_BLOGS = gql`
     publicBlogs {
       id
       name
+      slug
       trend
       introduction
       content

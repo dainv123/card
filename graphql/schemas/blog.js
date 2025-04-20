@@ -4,6 +4,7 @@ export default gql`
   type Blog {
     id: ID!
     name: String!
+    slug: String
     trend: String
     introduction: String
     content: String
@@ -12,8 +13,8 @@ export default gql`
   }
 
   extend type Query {
-    publicBlog(id: ID, name: String): Blog @guest
-    blog(id: ID, name: String): Blog @auth @hasRole
+    publicBlog(id: ID, slug: String): Blog @guest
+    blog(id: ID, slug: String): Blog @auth @hasRole
     publicBlogs: [Blog!]! @guest
     blogs: [Blog!]! @auth @hasRole
   }
