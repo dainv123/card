@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { Form, Formik, Field } from 'formik';
 import { Icon, Input, Button, Modal, Upload, Select } from 'antd';
 import { FormSelect } from '../FormSelect/FormSelect';
@@ -19,6 +19,7 @@ import {
   SUBMIT, 
   UPDATE_YOUR_THEME
 } from '../../constants/wording';
+import { FolderOutlined } from '@ant-design/icons'
 
 const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
@@ -156,7 +157,7 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
+            prefix={<IdcardOutlined style={{ color: COLOR_BLACK_1 }} />}
             name="name"
             placeholder={NAME}
             hasFeedback
@@ -164,7 +165,7 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
+            prefix={<FolderOutlined style={{ color: COLOR_BLACK_1 }} />}
             name="path"
             placeholder={PATH}
             hasFeedback
@@ -172,7 +173,7 @@ const ThemeModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
           <div className="ant-row ant-form-item">
             <Field
               component={ImageUpload}
-              prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
+              prefix={<FolderOutlined style={{ color: COLOR_BLACK_1 }} />}
               name="image"
               placeholder={IMAGE}
               showing={isOpen}

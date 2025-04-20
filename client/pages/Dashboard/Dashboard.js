@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { deleteFile } from '../../utils/uploadFile';
 import { mutations, queries } from '../../graphql/graphql';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/client';
 import { Layout, Row, Card, Table, Tag, Button, message } from 'antd';
 import { BLOG_URI, SERVER_URI, GET_FILE_URI } from '../../constants/endpoint';
 import { ADD_BLOG, ADD_CARD, ADD_IMAGE, ADD_TAG, ADD_THEME, BLOGS, CARDS, COPY_CLIPBOARD_ERROR, COPY_CLIPBOARD_OK, IMAGES, TAGS, THEMES } from '../../constants/wording';

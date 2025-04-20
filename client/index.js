@@ -1,26 +1,35 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
+import { BrowserRouter } from 'react-router-dom';
 
-import client from './config/createApolloClient';
-import configureStore, { history } from './config/configureStore';
+// Import cái HÀM tạo store
+import configureStoreFunction from './config/configureStore'; // Đổi tên import cho rõ ràng
 
-import App from './App';
+import client from './config/createApolloClient'; // Import client Apollo
+import App from './App'; // Import component App
 
-const store = configureStore();
+// --- BƯỚC SỬA LỖI: GỌI HÀM ĐÃ IMPORT ĐỂ TẠO RA ĐỐI TƯỢNG STORE THỰC TẾ ---
+const reduxStore = configureStoreFunction(); // Gọi hàm để lấy đối tượng store
+
 const Root = () => {
   return (
-    <Provider store={store}>
-      <Router>
-        <ApolloProvider client={client}>
-          <App history={history} />
-        </ApolloProvider>
-      </Router>
+    // --- SỬ DỤNG ĐỐI TƯỢNG STORE ĐÃ TẠO TRUYỀN VÀO PROP 'store' ---
+    <Provider store={reduxStore}>
+      <ApolloProvider client={client}>
+        {/*
+          BrowserRouter nên bọc các components sử dụng các hook/component của React Router.
+          Vị trí hiện tại (bên trong Provider và ApolloProvider) là đúng.
+        */}
+        <BrowserRouter>
+          <App /> {/* Component App chứa Routes */}
+        </BrowserRouter>
+      </ApolloProvider>
     </Provider>
   );
 };
 
-const rootElement = document.getElementById('root');
-ReactDOM.render(<Root />, rootElement);
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<Root />);

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
@@ -13,6 +13,9 @@ import { mutations } from '../../graphql/graphql';
 import { EMAIL, FORGOT_PASSWORD, INCORRECT_EMAIL_PASSWORD, LOGGED_IN_SUCCESSFULLY, LOG_IN, OR, PASSWORD, REGISTER_NOW, REMEMBER_ME } from '../../constants/wording';
 import _s from './LoginForm.less';
 import { COLOR_BLACK_1 } from '../../constants/common';
+import { MailOutlined } from '@ant-design/icons';
+import { LockOutlined } from '@ant-design/icons';
+import { LoginOutlined } from '@ant-design/icons';
 
 const LoginForm = props => {
   const [LogIn] = useMutation(mutations.LOG_IN);
@@ -43,7 +46,7 @@ const LoginForm = props => {
   return (
     <Card className={_s.LoginFormCard}>
       <p style={{ fontWeight: 'bold', fontSize: '1.05rem' }}>
-        <Icon style={{ paddingRight: '5px' }} type="login" /> {LOG_IN}
+        <LoginOutlined style={{ paddingRight: '5px' }} /> {LOG_IN}
       </p>
 
       <Formik
@@ -69,7 +72,7 @@ const LoginForm = props => {
                 <Field
                   InputType={Input}
                   component={FormInputField}
-                  prefix={<Icon type="mail" style={{ color: COLOR_BLACK_1 }} />}
+                  prefix={<MailOutlined style={{ color: COLOR_BLACK_1 }} />}
                   name="email"
                   placeholder={EMAIL}
                   hideErrorMessage={true}
@@ -77,7 +80,7 @@ const LoginForm = props => {
                 <Field
                   InputType={Input}
                   component={FormInputField}
-                  prefix={<Icon type="lock" style={{ color: COLOR_BLACK_1 }} />}
+                  prefix={<LockOutlined style={{ color: COLOR_BLACK_1 }} />}
                   name="password"
                   placeholder={PASSWORD}
                   type="password"

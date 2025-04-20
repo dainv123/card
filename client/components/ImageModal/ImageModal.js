@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { Form, Formik, Field } from 'formik';
 import { Icon, Button, Modal, Upload } from 'antd';
+import { FolderOutlined } from '@ant-design/icons'
 import { mutations } from '../../graphql/graphql';
 import { ImageUpload } from '../ImageUpload/ImageUpload';
 import { uploadFile, deleteFile } from '../../utils/uploadFile';
@@ -122,7 +123,7 @@ const ImageModal = ({ data = {}, tags = [], isModalOpen, handleOk, handleCancel 
           <div className="ant-row ant-form-item">
             <Field
               component={ImageUpload}
-              prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
+              prefix={<FolderOutlined style={{ color: COLOR_BLACK_1 }} />}
               name="image"
               placeholder={IMAGE}
               showing={isOpen}

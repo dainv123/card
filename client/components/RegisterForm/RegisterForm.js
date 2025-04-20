@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { Formik, Field } from 'formik';
 import { Form, Icon, Input, Button, Checkbox, Card, Avatar } from 'antd';
@@ -10,6 +10,11 @@ import EmailSent from '../EmailSent/EmailSent';
 import _s from './RegisterForm.less';
 import { AGREE_LOGIN, ALREADY_HAVE_ACCOUNT, CONFIRM_PASSWORD, EMAIL, EMAIL_HAS_ALREADY, LOG_IN, NAME, PASSWORD, REGISTER, USERNAME, USERNAME_HAS_ALREADY } from '../../constants/wording';
 import { COLOR_BLACK_1 } from '../../constants/common';
+import { UserAddOutlined } from '@ant-design/icons';
+import { IdcardOutlined } from '@ant-design/icons';
+import { MailOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
+import { LockOutlined } from '@ant-design/icons';
 
 const RegisterForm = props => {
   const [registeredEmail, setRegisteredEmail] = useState();
@@ -47,7 +52,7 @@ const RegisterForm = props => {
     return (
       <Card className={_s.RegisterFormCard}>
         <p style={{ fontWeight: 'bold', fontSize: '1.05rem', textAlign: 'center' }}>
-          <Icon style={{ paddingRight: '5px' }} type="user-add" /> {REGISTER}
+          <UserAddOutlined style={{ paddingRight: '5px' }} /> {REGISTER}
         </p>
         <Formik
           initialValues={{
@@ -69,7 +74,7 @@ const RegisterForm = props => {
                 <Field
                   InputType={Input}
                   component={FormInputField}
-                  prefix={<Icon type="user" style={{ color: COLOR_BLACK_1 }} />}
+                  prefix={<UserOutlined style={{ color: COLOR_BLACK_1 }} />}
                   name="username"
                   placeholder={USERNAME}
                   hasFeedback
@@ -77,7 +82,7 @@ const RegisterForm = props => {
                 <Field
                   InputType={Input}
                   component={FormInputField}
-                  prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
+                  prefix={<IdcardOutlined style={{ color: COLOR_BLACK_1 }} />}
                   name="name"
                   placeholder={NAME}
                   hasFeedback
@@ -85,7 +90,7 @@ const RegisterForm = props => {
                 <Field
                   InputType={Input}
                   component={FormInputField}
-                  prefix={<Icon type="mail" style={{ color: COLOR_BLACK_1 }} />}
+                  prefix={<MailOutlined style={{ color: COLOR_BLACK_1 }} />}
                   name="email"
                   placeholder={EMAIL}
                   hasFeedback
@@ -93,7 +98,7 @@ const RegisterForm = props => {
                 <Field
                   InputType={Input.Password}
                   component={FormInputField}
-                  prefix={<Icon type="lock" style={{ color: COLOR_BLACK_1 }} />}
+                  prefix={<LockOutlined style={{ color: COLOR_BLACK_1 }} />}
                   name="password"
                   placeholder={PASSWORD}
                   hasFeedback
@@ -101,7 +106,7 @@ const RegisterForm = props => {
                 <Field
                   InputType={Input.Password}
                   component={FormInputField}
-                  prefix={<Icon type="lock" style={{ color: COLOR_BLACK_1 }} />}
+                  prefix={<LockOutlined style={{ color: COLOR_BLACK_1 }} />}
                   name="confirmPassword"
                   placeholder={CONFIRM_PASSWORD}
                   hasFeedback

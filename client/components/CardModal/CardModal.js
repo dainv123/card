@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form, Formik, Field } from 'formik';
@@ -10,6 +10,8 @@ import validators from '../../validators/validators';
 import { Icon, Input, Button, Modal, Select } from 'antd';
 import { COLOR_BLACK_1 } from '../../constants/common';
 import { NAME, CONFIG, CANCEL, SUBMIT, SELECT_THEME, UPDATE_YOUR_CARD, ADD_YOUR_CARD } from '../../constants/wording';
+import { IdcardOutlined } from '@ant-design/icons';
+import { FolderOutlined } from '@ant-design/icons'
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -140,7 +142,7 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
+            prefix={<IdcardOutlined style={{ color: COLOR_BLACK_1 }} />}
             name="name"
             onChange={handleNameChange}
             placeholder={NAME}
@@ -162,7 +164,7 @@ const CardModal = ({ data = {}, themes = [], isModalOpen, handleOk, handleCancel
           <Field
             InputType={TextArea}
             component={FormInputField}
-            prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
+            prefix={<FolderOutlined style={{ color: COLOR_BLACK_1 }} />}
             name="config"
             placeholder={CONFIG}
             hasFeedback

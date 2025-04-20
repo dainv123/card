@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { Form, Formik, Field } from 'formik';
 import { Icon, Input, Button, Modal } from 'antd';
 import { FormInputField } from '../FormInputField/FormInputField';
@@ -13,6 +13,7 @@ import {
   SUBMIT, 
   UPDATE_YOUR_TAG 
 } from '../../constants/wording';
+import { IdcardOutlined } from '@ant-design/icons';
 
 const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
   const hiddenInnerSubmitFormRef = useRef(null);
@@ -114,7 +115,7 @@ const TagModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
+            prefix={<IdcardOutlined style={{ color: COLOR_BLACK_1 }} />}
             name="name"
             placeholder={NAME}
             hasFeedback

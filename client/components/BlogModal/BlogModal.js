@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import { Link } from 'react-router-dom';
 import { Form, Formik, Field } from 'formik';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { mutations } from '../../graphql/graphql';
 import validators from '../../validators/validators';
 import { QuillInput } from '../QuillInput/QuillInput';
@@ -22,6 +22,7 @@ import {
   UPDATE_YOUR_BLOG,
   ADD_YOUR_BLOG
 } from '../../constants/wording';
+import { FolderOutlined } from '@ant-design/icons'
 
 const { TextArea } = Input;
 
@@ -174,7 +175,7 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
+            prefix={<IdcardOutlined style={{ color: COLOR_BLACK_1 }} />}
             name="name"
             placeholder={NAME}
             hasFeedback
@@ -182,7 +183,7 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
+            prefix={<FolderOutlined style={{ color: COLOR_BLACK_1 }} />}
             name="trend"
             placeholder={TREND}
             hasFeedback
@@ -190,7 +191,7 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
           <Field
             InputType={Input}
             component={FormInputField}
-            prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
+            prefix={<FolderOutlined style={{ color: COLOR_BLACK_1 }} />}
             name="introduction"
             placeholder={INTRODUCTION}
             hasFeedback
@@ -199,7 +200,7 @@ const BlogModal = ({ data = {}, isModalOpen, handleOk, handleCancel }) => {
             <Field
               showing={isOpen}
               component={ImageUpload}
-              prefix={<Icon type="folder" style={{ color: COLOR_BLACK_1 }} />}
+              prefix={<FolderOutlined style={{ color: COLOR_BLACK_1 }} />}
               name="image"
               placeholder={IMAGE}
               hasFeedback

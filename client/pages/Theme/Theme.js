@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Layout } from 'antd';
 import { NavLink } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { useSelector } from 'react-redux';
 import { queries } from '../../graphql/graphql';
 import PublicLayout from '../../components/Layouts/PublicLayout';

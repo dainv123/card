@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { mutations } from '../../graphql/graphql';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Formik, Field } from 'formik';
 import { Layout, Icon, Input, Button, Row, Card, message } from 'antd';
@@ -11,6 +11,9 @@ import { FormInputField } from '../../components/FormInputField/FormInputField';
 import { EDIT, EMAIL, NAME, PROFILE, SAVE, SUBMIT, UNDO, UPDATE_USER_SUCCESSFULLy, USER_NAME } from '../../constants/wording';
 import _s from './Profile.less';
 import { COLOR_BLACK_1 } from '../../constants/common';
+import { UserAddOutlined } from '@ant-design/icons';
+import { IdcardOutlined } from '@ant-design/icons';
+import { MailOutlined } from '@ant-design/icons';
 
 const ProfilePage = ({ data = {} }) => {
   const user = useSelector(state => state.auth.user);
@@ -77,7 +80,7 @@ const ProfilePage = ({ data = {} }) => {
         <div className={_s.container}>
           <Card className={_s.RegisterFormCard}>
             <p style={{ fontWeight: 'bold', fontSize: '1.05rem', textAlign: 'center' }}>
-              <Icon style={{ paddingRight: '5px' }} type="user-add" /> 
+              <UserAddOutlined style={{ paddingRight: '5px' }} />
               {PROFILE}
             </p>
             <Row>
@@ -100,7 +103,7 @@ const ProfilePage = ({ data = {} }) => {
                   <Field
                     InputType={Input}
                     component={FormInputField}
-                    prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
+                    prefix={<IdcardOutlined style={{ color: COLOR_BLACK_1 }} />}
                     name="name"
                     placeholder={NAME}
                     disabled={!isEdit}
@@ -109,7 +112,7 @@ const ProfilePage = ({ data = {} }) => {
                   <Field
                     InputType={Input}
                     component={FormInputField}
-                    prefix={<Icon type="idcard" style={{ color: COLOR_BLACK_1 }} />}
+                    prefix={<IdcardOutlined style={{ color: COLOR_BLACK_1 }} />}
                     name="username"
                     placeholder={USER_NAME}
                     disabled={!isEdit}
@@ -118,7 +121,7 @@ const ProfilePage = ({ data = {} }) => {
                   <Field
                     InputType={Input}
                     component={FormInputField}
-                    prefix={<Icon type="mail" style={{ color: COLOR_BLACK_1 }} />}
+                    prefix={<MailOutlined style={{ color: COLOR_BLACK_1 }} />}
                     name="email"
                     placeholder={EMAIL}
                     disabled={!isEdit}

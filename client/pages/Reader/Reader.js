@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { queries, mutations } from '../../graphql/graphql';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/client';
 import { Spin, Icon, Avatar, message } from 'antd';
 import { Route, Redirect } from 'react-router-dom';
 import EditorModal from '../../components/EditorModal/EditorModal';

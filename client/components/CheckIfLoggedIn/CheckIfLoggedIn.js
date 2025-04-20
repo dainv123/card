@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { mutations } from '../../graphql/graphql';

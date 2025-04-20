@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { queries } from '../../graphql/graphql';
 import PropTypes from 'prop-types';
 import PublicLayout from '../../components/Layouts/PublicLayout';

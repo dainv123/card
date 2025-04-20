@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { mutations } from '../../graphql/graphql';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { Layout } from 'antd';
 import { NavLink } from 'react-router-dom';
 import { message as toast } from 'antd';
